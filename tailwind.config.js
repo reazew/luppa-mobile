@@ -81,6 +81,11 @@ module.exports = {
           500: '#00439c',
         },
       },
+      borderRadius: {
+        '4xl': '32px',
+        '5xl': '64px',
+        inherit: 'inherit',
+      },
     },
   },
   plugins: [],
