@@ -120,7 +120,7 @@ const FormMessage = React.forwardRef<Text, FormMessageProps>(
     return (
       <Text
         ref={ref}
-        className={cn('mt-1 text-xs text-red-300', className)}
+        className={cn('mt-1 text-xs leading-none text-red-300', className)}
         style={style}
         {...props}>
         {body}

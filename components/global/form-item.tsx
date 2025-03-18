@@ -1,3 +1,4 @@
+import { SelectField, type Option } from 'components/global/select-field'
 import {
   FormControl,
   FormLabel,
@@ -10,7 +11,6 @@ import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import { View } from 'react-native'
 
 import { Input } from '../ui/input'
-import { Select, SelectOption } from '../ui/select'
 
 type FormFieldType = 'input' | 'select' | 'file' | 'image'
 
@@ -27,7 +27,7 @@ interface FormItemProps<T extends FieldValues> {
   className?: string
   error?: boolean
   disabled?: boolean
-  options?: SelectOption[]
+  options?: Option[]
   imagePreviewSize?: { width: number; height: number }
   maxFiles?: number
 }
@@ -55,26 +55,23 @@ const RenderInput = <T extends FieldValues>({
             iconSide={iconSide}
             error={error}
             editable={!disabled}
-            {...field}
+            value={field.value}
+            onChangeText={field.onChange}
+            onBlur={field.onBlur}
           />
         </FormControl>
       )
 
     case 'select':
       return (
-        <FormControl>
-          <Select
-            placeholder={placeholder}
-            options={options || []}
-            hasSearch={selectHasSearch}
-            error={error}
-            disabled={disabled}
-            value={field.value}
-            onValueChange={field.onChange}
-          />
-        </FormControl>
+        <SelectField
+          field={field}
+          options={options}
+          placeholder={placeholder}
+          error={error}
+          disabled={disabled}
+        />
       )
-
     default:
       return null
   }
@@ -84,11 +81,11 @@ export const FormItem = <T extends FieldValues>(props: FormItemProps<T>) => {
   const { label, hideSupportiveText = false, className } = props
 
   return (
-    <OriginalFormItem className={cn('mb-4 flex-1 gap-2', className)}>
+    <OriginalFormItem className={cn('mb-4 flex w-full flex-1 justify-start gap-2', className)}>
       {label && <FormLabel className="leading-none">{label}</FormLabel>}
       <RenderInput {...props} />
       {!hideSupportiveText && (
-        <View className="mt-0 h-3">
+        <View className="mt-0 h-4">
           <FormMessage />
         </View>
       )}

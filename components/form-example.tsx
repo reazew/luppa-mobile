@@ -41,7 +41,7 @@ export const ExampleForm = () => {
 
   return (
     <Form {...form}>
-      <View className="h-fit flex-1 gap-4 p-4">
+      <View className="flex-1 items-center gap-4 border border-red-300 p-4">
         <FormField
           control={form.control}
           name="name"
@@ -53,7 +53,23 @@ export const ExampleForm = () => {
               fieldType="input"
               label="Nome"
               placeholder="Digite aqui"
-              className="border border-red-300"
+            />
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem
+              field={field}
+              fieldType="select"
+              label="Categoria"
+              placeholder="Selecione"
+              options={[
+                { value: '1', label: 'Categoria 1' },
+                { value: '2', label: 'Categoria 2' },
+                { value: '3', label: 'Categoria 3' },
+              ]}
             />
           )}
         />

@@ -95,7 +95,7 @@ const buttonConfig = {
 }
 
 const buttonVariants = cva(
-  'group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-5xl text-sm font-semibold ring-offset-white transition-colors focus-visible:outline-none disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  'flex-1 group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-5xl text-sm font-semibold ring-offset-white transition-colors focus-visible:outline-none disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: Object.fromEntries(
@@ -188,7 +188,7 @@ const ButtonRoot = React.forwardRef<PressableProps, ButtonRootProps>(
           isLoading ? (
             <ActivityIndicator color={loadingIndicatorColor} />
           ) : (
-            <View className="flex-row items-center justify-center gap-2">
+            <View className="min-w-[158px] flex-1 flex-row items-center justify-center gap-2">
               {React.Children.map(children, (child) => renderChild(child, pressed))}
             </View>
           )
