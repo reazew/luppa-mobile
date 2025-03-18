@@ -85,7 +85,7 @@ interface FormLabelProps extends TextProps {
 const FormLabel = React.forwardRef<Text, FormLabelProps>(({ className, ...props }, ref) => {
   const { error } = useFormField()
 
-  return <Label ref={ref} className={cn(error && 'text-red-500', className)} {...props} />
+  return <Label ref={ref} className={cn(error && 'text-red-300', className)} {...props} />
 })
 
 const FormControl = React.forwardRef<View, ViewProps>(({ ...props }, ref) => {
@@ -99,7 +99,7 @@ interface FormDescriptionProps extends TextProps {
 const FormDescription = React.forwardRef<Text, FormDescriptionProps>(
   ({ className, style, ...props }, ref) => {
     return (
-      <Text ref={ref} className={cn('text-xs text-gray-500', className)} style={style} {...props} />
+      <Text ref={ref} className={cn('text-xs text-black-60', className)} style={style} {...props} />
     )
   }
 )
@@ -120,7 +120,7 @@ const FormMessage = React.forwardRef<Text, FormMessageProps>(
     return (
       <Text
         ref={ref}
-        className={cn('mt-1 text-xs text-red-500', className)}
+        className={cn('mt-1 text-xs text-red-300', className)}
         style={style}
         {...props}>
         {body}

@@ -8,52 +8,51 @@ export interface InputProps extends Omit<TextInputProps, 'className'> {
   iconSide?: 'left' | 'right'
   className?: string
   error?: boolean
+  value?: string
+  onChangeText?: (text: string) => void
 }
 
 const Input = React.forwardRef<TextInput, InputProps>(
-  ({ icon: Icon, iconSide = 'left', placeholder = '', className, error, ...props }, ref) => {
+  (
+    {
+      icon: Icon,
+      iconSide = 'left',
+      placeholder = '',
+      className,
+      error,
+      value,
+      onChangeText,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <View className={cn('relative', className)}>
+      <View style={{ flex: 1 }} className={cn('rounded-5xl relative', className)}>
         {Icon && iconSide === 'left' && (
           <View className="absolute left-3 top-2.5 z-10">
-            <Icon
-              size={20}
-              className={cn(
-                'text-gray-900',
-                error ? 'text-red-500' : '',
-                props.editable === false ? 'text-gray-400' : ''
-              )}
-            />
+            <Icon size={20} color={props.editable === false ? '#666666' : '#757575'} />
           </View>
         )}
-
         <TextInput
           ref={ref}
           placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
           className={cn(
-            'h-10 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-base text-gray-900',
-            'placeholder:text-gray-400',
-            'focus:border-blue-500',
+            'rounded-5xl h-10 w-[152px] min-w-[152px] border border-transparent bg-black-700 px-4 pb-1.5 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+            'placeholder:text-black-100',
+            'focus:border-yellow-300',
             Icon && iconSide === 'left' && 'pl-10',
             Icon && iconSide === 'right' && 'pr-10',
-            error && 'border-red-500',
-            props.editable === false && 'border-gray-200 bg-gray-100 text-gray-400',
+            error && 'border-red-300',
+            props.editable === false && 'bg-black-500 placeholder:text-black-200',
             className
           )}
-          placeholderTextColor="#9CA3AF"
           {...props}
         />
-
         {Icon && iconSide === 'right' && (
           <View className="absolute right-3 top-2.5 z-10">
-            <Icon
-              size={20}
-              className={cn(
-                'text-gray-900',
-                error ? 'text-red-500' : '',
-                props.editable === false ? 'text-gray-400' : ''
-              )}
-            />
+            <Icon size={20} color={props.editable === false ? '#666666' : '#757575'} />
           </View>
         )}
       </View>

@@ -1,10 +1,16 @@
-import { Button } from 'components/ui/button'
-import { File } from 'lucide-react-native'
-import { ScrollView, Text, View } from 'react-native'
+import { ExampleForm } from 'components/form'
+import { ScrollView, View } from 'react-native'
 
 export default function Home() {
   return (
     <ScrollView contentContainerStyle={{ gap: 10 }}>
+      <View className="flex flex-1 flex-col items-center justify-center gap-10 bg-transparent py-10">
+        <ExampleForm />
+      </View>
+      {/* <View className="flex flex-1 flex-col items-center justify-center gap-10 bg-transparent py-10">
+        <Input editable={false} icon={User} iconSide="left" placeholder="Placeholder" />
+        <Input icon={User} error iconSide="right" placeholder="Placeholder" />
+      </View>
       <View className="flex-1 flex-col items-center justify-center gap-10 bg-black-900 py-10">
         <View className="flex-col items-center justify-center gap-4">
           <Text className="text-xl font-bold text-white">Disable</Text>
@@ -164,7 +170,7 @@ export default function Home() {
             </Button.Icon>
           </Button>
         </View>
-      </View>
+      </View> */}
     </ScrollView>
   )
 }
