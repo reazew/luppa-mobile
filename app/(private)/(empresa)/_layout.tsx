@@ -1,9 +1,10 @@
-import { Stack } from 'expo-router'
+import { Tabs } from 'expo-router'
 
-export default function CompanyLayout() {
+export default function PrivateLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+    <Tabs>
+      <Tabs.Screen name="(cliente)" options={{ headerShown: false }} />
+      <Tabs.Screen name="(empresa)" options={{ headerShown: false }} />
+    </Tabs>
   )
 }

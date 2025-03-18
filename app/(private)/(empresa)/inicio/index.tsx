@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native'
 
-export default function ClientScreen() {
+export default function CompanyScreen() {
   return (
     <View>
-      <Text>Client Screen</Text>
+      <Text>Inicio empresa</Text>
     </View>
   )
 }

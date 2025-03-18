@@ -1,5 +1,9 @@
-import { Stack } from 'expo-router'
+import { Tabs } from 'expo-router'
 
 export default function PublicLayout() {
-  return <Stack />
+  return (
+    <Tabs>
+      <Tabs.Screen name="index" options={{ headerShown: false }} />
+    </Tabs>
+  )
 }
