@@ -5,15 +5,14 @@ import {
   FormItem as OriginalFormItem,
 } from 'components/ui/form'
 import { cn } from 'lib/util'
-import { Icon, type LucideIcon } from 'lucide-react-native'
+import { type LucideIcon } from 'lucide-react-native'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import { View } from 'react-native'
 
-import { FileInput, FileUploader, FileUploaderContent, FileUploaderItem } from '../ui/file-upload'
 import { Input } from '../ui/input'
 import { Select, SelectOption } from '../ui/select'
 
-type FormFieldType = 'input' | 'select' | 'file'
+type FormFieldType = 'input' | 'select' | 'file' | 'image'
 
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
@@ -29,6 +28,8 @@ interface FormItemProps<T extends FieldValues> {
   error?: boolean
   disabled?: boolean
   options?: SelectOption[]
+  imagePreviewSize?: { width: number; height: number }
+  maxFiles?: number
 }
 
 const RenderInput = <T extends FieldValues>({
@@ -41,6 +42,8 @@ const RenderInput = <T extends FieldValues>({
   selectHasSearch,
   error,
   disabled,
+  imagePreviewSize = { width: 80, height: 80 },
+  maxFiles = 1,
 }: FormItemProps<T>) => {
   switch (fieldType) {
     case 'input':
@@ -52,9 +55,7 @@ const RenderInput = <T extends FieldValues>({
             iconSide={iconSide}
             error={error}
             editable={!disabled}
-            value={field.value}
-            onChangeText={(text) => field.onChange(text)}
-            onBlur={field.onBlur}
+            {...field}
           />
         </FormControl>
       )
@@ -74,33 +75,6 @@ const RenderInput = <T extends FieldValues>({
         </FormControl>
       )
 
-    case 'file':
-      return (
-        <FormControl>
-          <FileUploader
-            value={field.value}
-            onValueChange={field.onChange}
-            maxFiles={1}
-            orientation="vertical">
-            <FileUploaderContent>
-              {field.value?.map((file: any, index: number) => (
-                <FileUploaderItem key={index} index={index} fileName={file.name} />
-              ))}
-              <FileInput onSelect={(files) => field.onChange(files)} className="w-full">
-                <View
-                  className={cn(
-                    'flex-row items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-4',
-                    error && 'border-red-300'
-                  )}>
-                  {icon && <Icon size={24} className="mr-2 text-gray-400" iconNode={[]} />}
-                  <FormLabel>{placeholder || 'Click to upload file'}</FormLabel>
-                </View>
-              </FileInput>
-            </FileUploaderContent>
-          </FileUploader>
-        </FormControl>
-      )
-
     default:
       return null
   }
@@ -110,10 +84,14 @@ export const FormItem = <T extends FieldValues>(props: FormItemProps<T>) => {
   const { label, hideSupportiveText = false, className } = props
 
   return (
-    <OriginalFormItem className={cn('mb-4', className)}>
-      {label && <FormLabel>{label}</FormLabel>}
+    <OriginalFormItem className={cn('mb-4 flex-1 gap-2', className)}>
+      {label && <FormLabel className="leading-none">{label}</FormLabel>}
       <RenderInput {...props} />
-      {!hideSupportiveText && <FormMessage />}
+      {!hideSupportiveText && (
+        <View className="mt-0 h-3">
+          <FormMessage />
+        </View>
+      )}
     </OriginalFormItem>
   )
 }

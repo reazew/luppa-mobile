@@ -3,7 +3,7 @@ import { cn } from 'lib/util'
 import * as React from 'react'
 import { Text, TextProps } from 'react-native'
 
-const labelVariants = cva('text-sm font-medium text-gray-900')
+const labelVariants = cva('text-sm font-bold text-black-0')
 
 export interface LabelProps extends TextProps, VariantProps<typeof labelVariants> {
   className?: string

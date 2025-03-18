@@ -1,12 +1,12 @@
-import { ExampleForm } from 'components/form'
-import { ScrollView, View } from 'react-native'
+import { ExampleForm } from 'components/form-example'
+import { ScrollView } from 'react-native'
 
 export default function Home() {
   return (
-    <ScrollView contentContainerStyle={{ gap: 10 }}>
-      <View className="flex flex-1 flex-col items-center justify-center gap-10 bg-transparent py-10">
-        <ExampleForm />
-      </View>
+    <ScrollView
+      className="flex-1 bg-black-500"
+      contentContainerClassName="flex-col items-center justify-center gap-10 py-10">
+      <ExampleForm />
       {/* <View className="flex flex-1 flex-col items-center justify-center gap-10 bg-transparent py-10">
         <Input editable={false} icon={User} iconSide="left" placeholder="Placeholder" />
         <Input icon={User} error iconSide="right" placeholder="Placeholder" />

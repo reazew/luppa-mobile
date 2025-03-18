@@ -30,7 +30,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
       <View style={{ flex: 1 }} className={cn('rounded-5xl relative', className)}>
         {Icon && iconSide === 'left' && (
           <View className="absolute left-3 top-2.5 z-10">
-            <Icon size={20} color={props.editable === false ? '#666666' : '#757575'} />
+            <Icon size={16} color={props.editable === false ? '#666666' : '#757575'} />
           </View>
         )}
         <TextInput
