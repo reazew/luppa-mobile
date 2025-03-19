@@ -19,7 +19,6 @@ export default function ClientLayout() {
       screenOptions={(props) => {
         return {
           headerShown: false,
-          headerShadowVisible: false,
           tabBarShowLabel: false,
           tabBarInactiveTintColor: '#B0B0B0',
           tabBarStyle: {

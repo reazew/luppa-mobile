@@ -8,6 +8,9 @@ export default function Login() {
       <Button onPress={() => router.push('/(private)/(cliente)/inicio')}>
         <Button.Text>Area do cliente</Button.Text>
       </Button>
+      <Button onPress={() => router.push('/(private)/(empresa)/inicio')}>
+        <Button.Text>Area da empresa</Button.Text>
+      </Button>
     </View>
   )
 }
