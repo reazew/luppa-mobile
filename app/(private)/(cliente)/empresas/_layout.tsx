@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router'
 
-export default function CompanyLayout() {
+export default function ClientCompaniesLayout() {
   return <Stack />
 }
