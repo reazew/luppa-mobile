@@ -5,13 +5,12 @@ import Constants from 'expo-constants'
 import { router } from 'expo-router'
 import { cn } from 'lib/util'
 import { ImageBackground, Platform, View } from 'react-native'
-
 const statusBarHeight = Constants.statusBarHeight
 
-export default function Login() {
+export default function IndexScreen() {
   return (
     <ImageBackground
-      source={require('../../assets/images/background-1.png')}
+      source={require('../../assets/images/login-screen-start.png')}
       className={cn(
         'flex-1 px-12',
         Platform.OS === 'ios' ? `pb-[${statusBarHeight + 20}px]` : `pb-[${statusBarHeight + 20}px]`
@@ -42,7 +41,7 @@ export default function Login() {
               Continue com o Google
             </Text>
           </Button>
-          <Button variant="outline" onPress={() => router.push('/(private)/(empresa)/inicio')}>
+          <Button variant="outline" onPress={() => router.push('/(public)/onboarding')}>
             <Button.Text>Continue sem logar</Button.Text>
           </Button>
         </View>

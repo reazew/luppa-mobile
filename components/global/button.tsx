@@ -188,7 +188,7 @@ const ButtonRoot = React.forwardRef<PressableProps, ButtonRootProps>(
           isLoading ? (
             <ActivityIndicator color={loadingIndicatorColor} />
           ) : (
-            <View className="min-w-[158px] flex-1 flex-row items-center justify-center gap-2">
+            <View className="flex-1 flex-row items-center justify-center gap-2">
               {React.Children.map(children, (child) => renderChild(child, pressed))}
             </View>
           )
