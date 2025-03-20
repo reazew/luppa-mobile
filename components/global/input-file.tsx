@@ -1,4 +1,4 @@
-import { Button } from 'components/ui/button'
+import { Button } from 'components/global/button'
 import { FileInput, FileUploader } from 'components/ui/file-upload'
 import { Input } from 'components/ui/input'
 import { cn } from 'lib/util'

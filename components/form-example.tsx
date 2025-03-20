@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
-import { Button } from 'components/ui/button'
 import { Form, FormField } from 'components/ui/form'
 import { File } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
