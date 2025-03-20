@@ -1,4 +1,4 @@
-import { Logo } from 'assets/images/svg'
+import { ShopIcon, VerifiedCheckIcon, WalletIcon } from 'assets/images/svg'
 import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
 import { router } from 'expo-router'
@@ -81,15 +81,15 @@ export const FreeRegistrationStep = ({ setStepOnboarding }: { setStepOnboarding:
     <ImageBackground
       source={require('../../assets/images/login-step-1.png')}
       resizeMode="cover"
-      className="flex-1 px-12">
+      className="flex-1 px-8">
       <View
         className={cn(
           'flex-1 items-center justify-center gap-10 pt-10',
           Platform.OS === 'ios' ? `pb-20` : `pb-20`
         )}>
-        <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
-          <Logo width={64} height={64} />
-          <Text size="lg" weight="regular" className="mt-2 text-center text-white">
+        <View className="mb-10 w-full max-w-[364px] flex-1 items-start justify-end gap-6">
+          <WalletIcon width={64} height={64} />
+          <Text size="huge-2" weight="regular" className="mt-2">
             Cadastro 100% gratuito: sem taxas ocultas, sem compromisso
           </Text>
         </View>
@@ -111,15 +111,15 @@ export const ImmediateAccessStep = ({ setStepOnboarding }: { setStepOnboarding: 
     <ImageBackground
       source={require('../../assets/images/login-step-2.png')}
       resizeMode="cover"
-      className="flex-1 px-12">
+      className="flex-1 px-8">
       <View
         className={cn(
           'flex-1 items-center justify-center gap-10 pt-10',
           Platform.OS === 'ios' ? `pb-20` : `pb-20`
         )}>
-        <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
-          <Logo width={64} height={64} />
-          <Text size="lg" weight="regular" className="mt-2 text-center text-white">
+        <View className="mb-10 w-full max-w-[364px] flex-1 items-start justify-end gap-6">
+          <ShopIcon width={64} height={64} />
+          <Text size="huge-2" weight="regular" className="mt-2">
             Acesso imediato a uma rede de serviços e benefícios exclusivos
           </Text>
         </View>
@@ -141,15 +141,15 @@ export const SecurePlatformStep = () => {
     <ImageBackground
       source={require('../../assets/images/login-step-3.png')}
       resizeMode="cover"
-      className="flex-1 px-12">
+      className="flex-1 px-8">
       <View
         className={cn(
           'flex-1 items-center justify-center gap-10 pt-10',
           Platform.OS === 'ios' ? `pb-20` : `pb-20`
         )}>
-        <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
-          <Logo width={64} height={64} />
-          <Text size="lg" weight="regular" className="mt-2 text-center text-white">
+        <View className="mb-10 w-full max-w-[364px] flex-1 items-start justify-end gap-6">
+          <VerifiedCheckIcon width={64} height={64} />
+          <Text size="huge-2" weight="regular" className="mt-2">
             Plataforma segura em parceria com os maiores bancos e meios de pagamento do país
           </Text>
         </View>

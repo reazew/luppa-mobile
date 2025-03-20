@@ -12,7 +12,7 @@ export default function IndexScreen() {
     <ImageBackground
       source={require('../../assets/images/login-screen-start.png')}
       className={cn(
-        'flex-1 px-12',
+        'flex-1 px-8',
         Platform.OS === 'ios' ? `pb-[${statusBarHeight + 20}px]` : `pb-[${statusBarHeight + 20}px]`
       )}>
       <View
@@ -30,7 +30,7 @@ export default function IndexScreen() {
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
-          <Button onPress={() => router.push('/(private)/(cliente)/inicio')}>
+          <Button onPress={() => router.push('/(public)/onboarding')}>
             <Button.Text>Continue com E-mail</Button.Text>
           </Button>
           <Button onPress={() => router.push('/(private)/(empresa)/inicio')} className="bg-black-0">
@@ -41,7 +41,7 @@ export default function IndexScreen() {
               Continue com o Google
             </Text>
           </Button>
-          <Button variant="outline" onPress={() => router.push('/(public)/onboarding')}>
+          <Button variant="outline" onPress={() => router.push('/(private)/(cliente)/inicio')}>
             <Button.Text>Continue sem logar</Button.Text>
           </Button>
         </View>
