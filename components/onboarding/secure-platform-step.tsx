@@ -1,0 +1,33 @@
+import { VerifiedCheckIcon } from 'assets/images/svg'
+import { Button } from 'components/global/button'
+import { Text } from 'components/global/text'
+import { router } from 'expo-router'
+import { cn } from 'lib/util'
+import { ImageBackground, Platform, View } from 'react-native'
+
+export const SecurePlatformStep = () => {
+  return (
+    <ImageBackground
+      source={require('../../assets/images/onboading-step-3.png')}
+      resizeMode="cover"
+      className="flex-1 px-8">
+      <View
+        className={cn(
+          'flex-1 items-center justify-center gap-10 pt-10',
+          Platform.OS === 'ios' ? `pb-20` : `pb-20`
+        )}>
+        <View className="mb-10 w-full max-w-[364px] flex-1 items-start justify-end gap-6">
+          <VerifiedCheckIcon width={64} height={64} />
+          <Text size="huge-2" weight="regular" className="mt-2">
+            Plataforma segura em parceria com os maiores bancos e meios de pagamento do país
+          </Text>
+        </View>
+        <View className="w-full items-center justify-center gap-4">
+          <Button onPress={() => router.push('/(public)/cadastrar')} className="max-w-[200px]">
+            <Button.Text>Cadastrar</Button.Text>
+          </Button>
+        </View>
+      </View>
+    </ImageBackground>
+  )
+}

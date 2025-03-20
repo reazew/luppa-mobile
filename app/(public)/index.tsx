@@ -10,7 +10,7 @@ const statusBarHeight = Constants.statusBarHeight
 export default function IndexScreen() {
   return (
     <ImageBackground
-      source={require('../../assets/images/login-screen-start.png')}
+      source={require('../../assets/images/onboading-screen-start.png')}
       className={cn(
         'flex-1 px-8',
         Platform.OS === 'ios' ? `pb-[${statusBarHeight + 20}px]` : `pb-[${statusBarHeight + 20}px]`
@@ -31,7 +31,7 @@ export default function IndexScreen() {
         </View>
         <View className="w-full items-center justify-center gap-4">
           <Button onPress={() => router.push('/(public)/onboarding')}>
-            <Button.Text>Continue com E-mail</Button.Text>
+            <Button.Text>Continue com e-mail</Button.Text>
           </Button>
           <Button onPress={() => router.push('/(private)/(empresa)/inicio')} className="bg-black-0">
             <Button.Icon>
