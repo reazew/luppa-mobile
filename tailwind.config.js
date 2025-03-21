@@ -80,6 +80,7 @@ module.exports = {
           400: '#004db3',
           500: '#00439c',
         },
+        background: '#242424',
       },
       borderRadius: {
         '4xl': '32px',

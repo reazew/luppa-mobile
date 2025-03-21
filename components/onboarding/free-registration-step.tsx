@@ -1,21 +1,16 @@
 import { WalletIcon } from 'assets/images/svg'
 import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
-import { cn } from 'lib/util'
 import { CircleArrowRight } from 'lucide-react-native'
-import { ImageBackground, Platform, View } from 'react-native'
+import { ImageBackground, View } from 'react-native'
 
 export const FreeRegistrationStep = ({ setStepOnboarding }: { setStepOnboarding: () => void }) => {
   return (
     <ImageBackground
       source={require('../../assets/images/onboading-step-1.png')}
       resizeMode="cover"
-      className="flex-1 px-8">
-      <View
-        className={cn(
-          'flex-1 items-center justify-center gap-10 pt-10',
-          Platform.OS === 'ios' ? `pb-20` : `pb-20`
-        )}>
+      className="flex-1 px-6">
+      <View className="flex-1 items-center justify-center gap-10 pb-[66px] pt-10">
         <View className="mb-10 w-full max-w-[364px] flex-1 items-start justify-end gap-6">
           <WalletIcon width={64} height={64} />
           <Text size="huge-2" weight="regular" className="mt-2">

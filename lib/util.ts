@@ -1,4 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
+import Constants from 'expo-constants'
+import { Dimensions } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,3 +16,7 @@ export function findByName(name: string, list: any[]) {
   const found = list.find((item) => item.value === name)
   return found ?? null
 }
+
+export const statusBarHeight = Constants.statusBarHeight
+export const bottomBarHeight = 34
+export const screenHeight = Dimensions.get('window').height

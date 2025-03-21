@@ -11,8 +11,9 @@ import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import { View } from 'react-native'
 
 import { Input } from '../ui/input'
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 
-type FormFieldType = 'input' | 'select' | 'file' | 'image'
+type FormFieldType = 'input' | 'select' | 'file' | 'image' | 'toggle-group'
 
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
@@ -30,6 +31,13 @@ interface FormItemProps<T extends FieldValues> {
   options?: Option[]
   imagePreviewSize?: { width: number; height: number }
   maxFiles?: number
+  toggleType?: 'single' | 'multiple'
+  toggleOptions?: {
+    label: string
+    value: string
+    description: string
+    variant?: 'client' | 'shop'
+  }[]
 }
 
 const RenderInput = <T extends FieldValues>({
@@ -44,6 +52,8 @@ const RenderInput = <T extends FieldValues>({
   disabled,
   imagePreviewSize = { width: 80, height: 80 },
   maxFiles = 1,
+  toggleType = 'single',
+  toggleOptions,
 }: FormItemProps<T>) => {
   switch (fieldType) {
     case 'input':
@@ -72,6 +82,28 @@ const RenderInput = <T extends FieldValues>({
           disabled={disabled}
         />
       )
+
+    case 'toggle-group':
+      return (
+        <FormControl>
+          <ToggleGroup
+            type={toggleType}
+            value={field.value}
+            onValueChange={field.onChange}
+            className="flex-row">
+            {toggleOptions?.map((option) => (
+              <ToggleGroupItem
+                key={option.value}
+                value={option.value}
+                label={option.label}
+                description={option.description ?? ''}
+                variant={option.variant}
+              />
+            ))}
+          </ToggleGroup>
+        </FormControl>
+      )
+
     default:
       return null
   }

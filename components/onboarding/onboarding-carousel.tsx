@@ -1,7 +1,7 @@
 import { FreeRegistrationStep } from 'components/onboarding/free-registration-step'
 import { ImmediateAccessStep } from 'components/onboarding/immediate-access-step'
 import { SecurePlatformStep } from 'components/onboarding/secure-platform-step'
-import { cn } from 'lib/util'
+import { bottomBarHeight, cn } from 'lib/util'
 import { useCallback, useRef, useState } from 'react'
 import { Platform, View, useWindowDimensions } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
@@ -44,7 +44,11 @@ export default function Onboarding() {
   )
 
   return (
-    <View className="flex-1 bg-black-600">
+    <View
+      className={cn(
+        'flex-1 bg-background',
+        Platform.OS === 'ios' ? `pb-[${bottomBarHeight + 32}px]` : `pb-8`
+      )}>
       <Carousel
         ref={carouselRef}
         loop={false}
@@ -56,7 +60,11 @@ export default function Onboarding() {
         defaultIndex={activeIndex}
         enabled={false}
       />
-      <View className={cn('absolute bottom-20 w-full', Platform.OS === 'ios' ? `pb-20` : `pb-14`)}>
+      <View
+        className={cn(
+          'absolute bottom-20 w-full',
+          Platform.OS === 'ios' ? `pb-[${bottomBarHeight + 32}px]` : `pb-[42px]`
+        )}>
         <View className="flex-row justify-center gap-4">
           {slides.map((_, index) => (
             <View
