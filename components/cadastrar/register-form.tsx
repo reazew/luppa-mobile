@@ -28,7 +28,7 @@ export const RegisterForm = () => {
         style={{
           flex: 1,
           paddingTop: statusBarHeight,
-          paddingBottom: Platform.OS === 'ios' ? bottomBarHeight + 32 : bottomBarHeight + 32,
+          paddingBottom: Platform.OS === 'ios' ? bottomBarHeight + 32 : bottomBarHeight + 10,
         }}
         className="flex-1">
         <View className="flex-row justify-center gap-2 px-6 py-8">

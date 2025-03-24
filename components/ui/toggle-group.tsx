@@ -1,4 +1,15 @@
-import { ClientActiveIcon, ClientIcon, ShopActiveIcon, ShopIcon } from 'assets/images/svg'
+import {
+  ClientActiveIcon,
+  ClientIcon,
+  CreditCardActiveIcon,
+  CreditCardIcon,
+  DebitCardActiveIcon,
+  DebitCardIcon,
+  PixActiveIcon,
+  PixIcon,
+  ShopActiveIcon,
+  ShopIcon,
+} from 'assets/images/svg'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { Text } from 'components/global/text'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -59,7 +70,7 @@ interface ToggleGroupItemProps extends ViewProps {
   className?: string
   label: string
   description: string
-  variant?: 'client' | 'company'
+  variant?: 'client' | 'company' | 'pix' | 'credit-card' | 'debit-card'
 }
 const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
   ({ className, variant = 'client', children, value, label, description, ...props }, ref) => {
@@ -67,24 +78,45 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
     const isSelected = context.value === value
 
     const getIcon = () => {
-      if (variant === 'client') {
-        return isSelected ? (
-          <ClientActiveIcon width={64} height={64} />
-        ) : (
-          <ClientIcon width={64} height={64} />
-        )
+      switch (variant) {
+        case 'client':
+          return isSelected ? (
+            <ClientActiveIcon width={64} height={64} />
+          ) : (
+            <ClientIcon width={64} height={64} />
+          )
+        case 'company':
+          return isSelected ? (
+            <ShopActiveIcon width={64} height={64} />
+          ) : (
+            <ShopIcon width={64} height={64} />
+          )
+        case 'pix':
+          return isSelected ? (
+            <PixActiveIcon width={64} height={64} />
+          ) : (
+            <PixIcon width={64} height={64} />
+          )
+        case 'credit-card':
+          return isSelected ? (
+            <CreditCardActiveIcon width={64} height={64} />
+          ) : (
+            <CreditCardIcon width={64} height={64} />
+          )
+        case 'debit-card':
+          return isSelected ? (
+            <DebitCardActiveIcon width={64} height={64} />
+          ) : (
+            <DebitCardIcon width={64} height={64} />
+          )
+        default:
+          return null
       }
-      return isSelected ? (
-        <ShopActiveIcon width={64} height={64} />
-      ) : (
-        <ShopIcon width={64} height={64} />
-      )
     }
-
     return (
       <Pressable
         onPress={() => context.onValueChange?.(value)}
-        style={{ overflow: 'hidden' }}
+        style={{ overflow: 'hidden', maxHeight: 133 }}
         className={cn(
           toggleVariants({
             variant: context.variant,
@@ -94,30 +126,67 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
           className
         )}
         {...props}>
-        <LinearGradient
-          colors={isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={{ flex: 1, borderRadius: 32, padding: 1, width: '100%', height: '100%' }}>
-          <View
-            ref={ref}
-            style={{ flex: 1, width: '100%' }}
-            className="items-center justify-center gap-4 rounded-4xl bg-background p-6">
-            {getIcon()}
-            <Text
-              size="huge-2"
-              weight="bold"
-              className={cn('text-black-50', isSelected && 'text-black-0')}>
-              {label}
-            </Text>
-            <Text
-              size="lg"
-              weight="regular"
-              className={cn('text-center text-black-50', isSelected && 'text-black-0')}>
-              {description}
-            </Text>
-          </View>
-        </LinearGradient>
+        {variant === 'client' || variant === 'company' ? (
+          <LinearGradient
+            colors={isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ flex: 1, borderRadius: 32, padding: 1, width: '100%', height: '100%' }}>
+            <View
+              ref={ref}
+              style={{ flex: 1, width: '100%' }}
+              className="items-center justify-center gap-4 rounded-4xl bg-background p-6">
+              {getIcon()}
+              <View className="items-center justify-center gap-4">
+                <Text
+                  size="huge-2"
+                  weight="bold"
+                  className={cn('text-black-50', isSelected && 'text-black-0')}>
+                  {label}
+                </Text>
+                <Text
+                  size="lg"
+                  weight="regular"
+                  className={cn('text-center text-black-50', isSelected && 'text-black-0')}>
+                  {description}
+                </Text>
+              </View>
+            </View>
+          </LinearGradient>
+        ) : variant === 'pix' || variant === 'credit-card' || variant === 'debit-card' ? (
+          <LinearGradient
+            colors={isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              flex: 1,
+              borderRadius: 32,
+              padding: 1,
+              width: '100%',
+              height: '100%',
+            }}>
+            <View
+              ref={ref}
+              style={{ flex: 1, width: '100%' }}
+              className="flex-row items-center justify-center gap-4 rounded-4xl bg-background p-6">
+              {getIcon()}
+              <View className="max-w-[220px] gap-4">
+                <Text
+                  size="huge-2"
+                  weight="bold"
+                  className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
+                  {label}
+                </Text>
+                <Text
+                  size="lg"
+                  weight="regular"
+                  className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
+                  {description}
+                </Text>
+              </View>
+            </View>
+          </LinearGradient>
+        ) : null}
       </Pressable>
     )
   }
