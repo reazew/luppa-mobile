@@ -45,12 +45,7 @@ export const InputFile = <T extends FieldValues>({
       ) : (
         <View className="flex-row items-center gap-2">
           <View className="flex-1">
-            <Input
-              editable={false}
-              icon={Icon}
-              placeholder={placeholder}
-              value={hasFile ? field.value[0]?.name : ''}
-            />
+            <Input editable={false} icon={Icon} placeholder={placeholder} value={hasFile ? field.value[0]?.name : ''} />
           </View>
 
           <View>

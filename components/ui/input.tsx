@@ -3,7 +3,7 @@ import { cn } from 'lib/util'
 import type { LucideIcon } from 'lucide-react-native'
 import { cssInterop } from 'nativewind'
 import * as React from 'react'
-import { StyleSheet, TextInput, TextInputProps, View } from 'react-native'
+import { TextInput, TextInputProps, View } from 'react-native'
 import { MaskedTextInput } from 'react-native-mask-text'
 
 export interface InputProps extends Omit<TextInputProps, 'className'> {
@@ -36,7 +36,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             value={value}
             onChangeText={(text: string) => onChangeText?.(text)}
             className={cn(
-              'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 pb-1.5 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+              'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base leading-none text-black-0 focus:bg-black-600 disabled:bg-black-500',
               'placeholder:text-black-100',
               'focus:border-yellow-300',
               Icon && iconSide === 'left' && 'pl-10',
@@ -56,7 +56,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             onChangeText={onChangeText}
             style={{ flex: 1 }}
             className={cn(
-              'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 pb-1.5 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+              'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base leading-none text-black-0 focus:bg-black-600 disabled:bg-black-500',
               'placeholder:text-black-100',
               'focus:border-yellow-300',
               Icon && iconSide === 'left' && 'pl-10',

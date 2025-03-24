@@ -18,6 +18,7 @@
     "@types/lodash": "^4.17.16",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "expo": "^52.0.39",
     "expo-constants": "~17.0.8",
     "expo-document-picker": "~13.0.3",
@@ -42,6 +43,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-svg": "^15.8.0",
     "react-native-svg-transformer": "^1.5.0",
+    "react-native-ui-datepicker": "^3.1.2",
     "tailwind-merge": "^3.0.2",
     "zod": "^3.24.2"
   },

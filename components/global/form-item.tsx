@@ -1,14 +1,18 @@
 import { SelectField, type Option } from 'components/global/select-field'
 import { FormLabel, FormMessage, FormItem as OriginalFormItem } from 'components/ui/form'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { cn } from 'lib/util'
 import { type LucideIcon } from 'lucide-react-native'
+import { useState } from 'react'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import { View } from 'react-native'
 
+import { DatePicker } from '../ui/date-picker'
 import { Input } from '../ui/input'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 
-type FormFieldType = 'input' | 'select' | 'file' | 'image' | 'toggle-group'
+type FormFieldType = 'input' | 'select' | 'file' | 'image' | 'toggle-group' | 'date-picker'
 
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
@@ -35,6 +39,7 @@ interface FormItemProps<T extends FieldValues> {
     icon?: 'client' | 'company' | 'pix' | 'credit-card' | 'debit-card'
   }[]
   mask?: string
+  dateFormat?: string
 }
 
 const RenderInput = <T extends FieldValues>({
@@ -53,7 +58,10 @@ const RenderInput = <T extends FieldValues>({
   toggleOptions,
   displayVariant = 'default',
   mask,
+  dateFormat = 'dd/MM/yyyy',
 }: FormItemProps<T>) => {
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+
   switch (fieldType) {
     case 'input':
       return (
@@ -90,6 +98,29 @@ const RenderInput = <T extends FieldValues>({
             />
           ))}
         </ToggleGroup>
+      )
+
+    case 'date-picker':
+      return (
+        <>
+          <Input
+            placeholder={placeholder}
+            error={error}
+            editable={false}
+            value={field.value ? format(new Date(field.value), dateFormat, { locale: ptBR }) : ''}
+            onPressIn={() => !disabled && setIsDatePickerOpen(true)}
+          />
+          <DatePicker
+            value={field.value ? new Date(field.value) : undefined}
+            onChange={(date) => {
+              field.onChange(date)
+              setIsDatePickerOpen(false)
+            }}
+            isOpen={isDatePickerOpen}
+            onClose={() => setIsDatePickerOpen(false)}
+            maxDate={new Date()}
+          />
+        </>
       )
 
     default:

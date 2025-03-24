@@ -54,6 +54,18 @@ export const BasicInformationStep = ({ form, setStepForm }: BasicInformationProp
               />
             )}
           />
+          <FormField
+            control={form.control}
+            name="birthDate"
+            render={({ field }) => (
+              <FormItem
+                field={field}
+                fieldType="date-picker"
+                label="Aniversário"
+                placeholder="Selecione a data do seu aniversário"
+              />
+            )}
+          />
         </View>
       </Form>
       <View className="flex w-full flex-row items-center justify-between gap-2">

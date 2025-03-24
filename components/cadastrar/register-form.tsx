@@ -6,31 +6,32 @@ import { RegistrationCompleted } from 'components/cadastrar/registration-complet
 import { Form } from 'components/ui/form'
 import { bottomBarHeight, statusBarHeight } from 'lib/util'
 import { isUndefined } from 'lodash'
-import { MOCKED_USERS } from 'mock/users'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Platform, ScrollView, View } from 'react-native'
 import { RegisterInfer, registerSchema } from 'schemas/register'
 
 export const RegisterForm = () => {
-  const [stepForm, setStepForm] = useState<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>('clientOrCompany')
+  const [stepForm, setStepForm] = useState<
+    'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'
+  >('clientOrCompany')
 
   const steps = ['clientOrCompany', 'basicInformation', 'paymentMethods', 'registrationCompleted']
   const currentStepIndex = steps.indexOf(stepForm)
 
-  const userData = MOCKED_USERS[0]
+  // const userData = MOCKED_USERS[0]
 
   const form = useForm<RegisterInfer>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: userData.name,
-      email: userData.email,
+      name: '',
+      email: '',
       type: '',
-      phone: userData.phone,
-      city: userData.city,
-      uf: userData.uf,
-      birthDate: userData.birthDate || '',
-      imageFile: !isUndefined(userData.avatarUrl) ? [new File([], userData.avatarUrl)] : null,
+      phone: '',
+      city: '',
+      uf: '',
+      birthDate: '',
+      imageFile: !isUndefined('') ? [new File([], '')] : null,
     },
   })
 
@@ -54,7 +55,10 @@ export const RegisterForm = () => {
           className="flex-1">
           <View className="flex-row justify-center gap-2 px-6 py-8">
             {steps.map((_, index) => (
-              <View key={index} className={`h-[8px] flex-1 rounded-full ${index <= currentStepIndex ? 'bg-yellow-300' : 'bg-black-500'}`} />
+              <View
+                key={index}
+                className={`h-[8px] flex-1 rounded-full ${index <= currentStepIndex ? 'bg-yellow-300' : 'bg-black-500'}`}
+              />
             ))}
           </View>
           {stepForm === 'clientOrCompany' && <ClientOrCompany form={form} setStepForm={setStepForm} />}
