@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const registerSchema = z.object({
-  type: z.enum(['client', 'company']),
+  type: z.enum(['client', 'company', '']),
   paymentMethod: z.enum(['pix', 'credit-card', 'debit-card']),
   imageFile: z.array(z.instanceof(File)).nullish(),
   imageUrl: z.string().nullish(),

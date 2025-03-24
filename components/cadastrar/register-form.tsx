@@ -25,7 +25,7 @@ export const RegisterForm = () => {
     defaultValues: {
       name: userData.name,
       email: userData.email,
-      type: userData.type as 'client' | 'company' | undefined,
+      type: '',
       phone: userData.phone,
       city: userData.city,
       uf: userData.uf,

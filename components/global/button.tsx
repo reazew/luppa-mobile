@@ -10,12 +10,12 @@ const buttonConfig = {
       button: 'bg-yellow-300 active:bg-yellow-100 disabled:bg-black-700',
       text: {
         enabled: 'text-black-900 group-active:text-black-900',
-        disabled: 'text-black-500',
+        disabled: 'text-black-50',
       },
       icon: {
         base: '#000000',
         pressed: '#000000',
-        disabled: '#737373',
+        disabled: '#BFBFBF',
       },
     },
     outline: {

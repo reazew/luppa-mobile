@@ -10,7 +10,9 @@ import type { RegisterInfer } from 'schemas/register'
 
 interface ClientOrCompanyProps {
   form: UseFormReturn<RegisterInfer>
-  setStepForm: Dispatch<SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>>
+  setStepForm: Dispatch<
+    SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>
+  >
 }
 
 export const ClientOrCompany = ({ form, setStepForm }: ClientOrCompanyProps) => {

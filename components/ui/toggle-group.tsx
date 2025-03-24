@@ -77,7 +77,7 @@ interface ToggleGroupItemProps extends ViewProps {
 }
 
 const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
-  ({ className, icon = 'client', children, value, label, description, ...props }, ref) => {
+  ({ className, icon = '', children, value, label, description, ...props }, ref) => {
     const context = React.useContext(ToggleGroupContext)
     const isSelected = context.value === value
     const variant = context.displayVariant || 'default'
@@ -91,7 +91,11 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
         case 'pix':
           return isSelected ? <PixActiveIcon width={64} height={64} /> : <PixIcon width={64} height={64} />
         case 'credit-card':
-          return isSelected ? <CreditCardActiveIcon width={64} height={64} /> : <CreditCardIcon width={64} height={64} />
+          return isSelected ? (
+            <CreditCardActiveIcon width={64} height={64} />
+          ) : (
+            <CreditCardIcon width={64} height={64} />
+          )
         case 'debit-card':
           return isSelected ? <DebitCardActiveIcon width={64} height={64} /> : <DebitCardIcon width={64} height={64} />
         default:
@@ -122,14 +126,28 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
             colors={isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
-            style={{ flex: 1, borderRadius: 32, padding: 1, minWidth: 364 }}>
-            <View ref={ref} style={{ flex: 1 }} className="items-center justify-center gap-4 rounded-4xl bg-background p-6">
+            style={{
+              flex: 1,
+              borderRadius: 32,
+              padding: 1,
+              minWidth: 364,
+              minHeight: 250,
+              height: '100%',
+              width: '100%',
+            }}>
+            <View
+              ref={ref}
+              style={{ flex: 1 }}
+              className="items-center justify-center gap-4 rounded-4xl bg-background p-6">
               {getIcon()}
               <View className="items-center justify-center gap-4">
                 <Text size="huge-2" weight="bold" className={cn('text-black-50', isSelected && 'text-black-0')}>
                   {label}
                 </Text>
-                <Text size="lg" weight="regular" className={cn('text-center text-black-50', isSelected && 'text-black-0')}>
+                <Text
+                  size="lg"
+                  weight="regular"
+                  className={cn('text-center text-black-50', isSelected && 'text-black-0')}>
                   {description}
                 </Text>
               </View>
@@ -145,14 +163,26 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
               borderRadius: 32,
               padding: 1,
               minWidth: 364,
+              minHeight: 133,
+              height: '100%',
+              width: '100%',
             }}>
-            <View ref={ref} style={{ flex: 1 }} className="flex-row items-center justify-center gap-4 rounded-4xl bg-background p-6">
+            <View
+              ref={ref}
+              style={{ flex: 1 }}
+              className="flex-row items-center justify-center gap-4 rounded-4xl bg-background p-6">
               {getIcon()}
               <View className="max-w-[236px] gap-4">
-                <Text size="huge-2" weight="bold" className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
+                <Text
+                  size="huge-2"
+                  weight="bold"
+                  className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
                   {label}
                 </Text>
-                <Text size="lg" weight="regular" className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
+                <Text
+                  size="lg"
+                  weight="regular"
+                  className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
                   {description}
                 </Text>
               </View>

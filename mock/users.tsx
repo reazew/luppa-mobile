@@ -1,8 +1,8 @@
 export const MOCKED_USERS = [
   {
     id: 1,
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: 'Gabriel Sathler',
+    email: 'gabriel@email.com',
     password: '123456',
     confirmPassword: '123456',
     phone: '1234567890',

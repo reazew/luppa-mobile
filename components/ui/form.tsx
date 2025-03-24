@@ -17,7 +17,7 @@ const FormField = <TFieldValues extends FieldValues = FieldValues, TName extends
 }: ControllerProps<TFieldValues, TName>) => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
-      <View style={{ flex: 1, flexGrow: 1, width: '100%', height: '100%' }}>
+      <View>
         <Controller {...props} />
       </View>
     </FormFieldContext.Provider>
