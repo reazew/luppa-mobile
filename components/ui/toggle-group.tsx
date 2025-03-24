@@ -116,7 +116,12 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
     return (
       <Pressable
         onPress={() => context.onValueChange?.(value)}
-        style={{ overflow: 'hidden', maxHeight: 133 }}
+        style={{
+          overflow: 'hidden',
+          ...(variant === 'pix' || variant === 'credit-card' || variant === 'debit-card'
+            ? { maxHeight: 133 }
+            : {}),
+        }}
         className={cn(
           toggleVariants({
             variant: context.variant,
