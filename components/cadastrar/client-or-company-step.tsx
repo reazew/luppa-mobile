@@ -1,52 +1,60 @@
 import { Button } from 'components/global/button'
+import { FormItem } from 'components/global/form-item'
 import { Text } from 'components/global/text'
-import { ToggleGroup, ToggleGroupItem } from 'components/ui/toggle-group'
+import { Form, FormField } from 'components/ui/form'
 import { CircleArrowRight } from 'lucide-react-native'
-import React, { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
+import type { UseFormReturn } from 'react-hook-form'
 import { View } from 'react-native'
+import type { RegisterInfer } from 'schemas/register'
 
 interface ClientOrCompanyProps {
-  setStepForm: Dispatch<
-    SetStateAction<
-      'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'
-    >
-  >
+  form: UseFormReturn<RegisterInfer>
+  setStepForm: Dispatch<SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>>
 }
 
-export const ClientOrCompany = ({ setStepForm }: ClientOrCompanyProps) => {
-  const [value, setValue] = React.useState('a')
-
+export const ClientOrCompany = ({ form, setStepForm }: ClientOrCompanyProps) => {
   return (
     <View
       style={{
         flex: 1,
       }}
-      className="flex-1 items-center justify-between gap-8 px-6">
+      className="items-center justify-between gap-[32px] px-6">
       <Text size="huge-2" weight="bold" className="w-full text-left">
         Nos conte sobre você
       </Text>
-      <View className="w-full flex-1 gap-8">
-        <ToggleGroup type="single" value={value} onValueChange={setValue}>
-          <ToggleGroupItem
-            value="client"
-            label="Sou cliente"
-            variant="client"
-            description="Quero ter acesso a uma rede de serviços e benefícios exclusivos."
-          />
-          <ToggleGroupItem
-            value="company"
-            label="Sou empresa"
-            variant="company"
-            description="Quero uma plataforma segura e confiável para facilitar e impulsionar negócios"
-          />
-        </ToggleGroup>
-        <Button onPress={() => setStepForm('basicInformation')} className="mx-auto max-w-[200px]">
-          <Button.Text>Avançar</Button.Text>
-          <Button.Icon>
-            <CircleArrowRight size={16} />
-          </Button.Icon>
-        </Button>
-      </View>
+      <Form {...form}>
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem
+              field={field}
+              fieldType="toggle-group"
+              toggleOptions={[
+                {
+                  label: 'Sou cliente',
+                  value: 'client',
+                  icon: 'client',
+                  description: 'Quero ter acesso a uma rede de serviços e benefícios exclusivos.',
+                },
+                {
+                  label: 'Tenho um Negócio',
+                  value: 'company',
+                  icon: 'company',
+                  description: 'Quero uma plataforma segura e confiável para facilitar e impulsionar negócios',
+                },
+              ]}
+            />
+          )}
+        />
+      </Form>
+      <Button onPress={() => setStepForm('basicInformation')} className="mx-auto max-w-[200px]">
+        <Button.Text>Avançar</Button.Text>
+        <Button.Icon>
+          <CircleArrowRight size={16} />
+        </Button.Icon>
+      </Button>
     </View>
   )
 }

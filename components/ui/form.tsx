@@ -1,36 +1,25 @@
 import { Label } from 'components/ui/label'
 import { cn } from 'lib/util'
 import * as React from 'react'
-import {
-  Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
-  FormProvider,
-  useFormContext,
-} from 'react-hook-form'
+import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from 'react-hook-form'
 import { Text, TextProps, View, ViewProps } from 'react-native'
 
 const Form = FormProvider
 
-type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
+type FormFieldContextValue<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
   name: TName
 }
 
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
 
-const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
+const FormField = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller {...props} />
+      <View style={{ flex: 1, flexGrow: 1, width: '100%', height: '100%' }}>
+        <Controller {...props} />
+      </View>
     </FormFieldContext.Provider>
   )
 }
@@ -89,45 +78,35 @@ const FormLabel = React.forwardRef<Text, FormLabelProps>(({ className, ...props 
 })
 
 const FormControl = React.forwardRef<View, ViewProps>(({ ...props }, ref) => {
-  return <View ref={ref} {...props} />
+  return <View ref={ref} style={{ flex: 1, flexGrow: 1 }} {...props} />
 })
 
 interface FormDescriptionProps extends TextProps {
   className?: string
 }
 
-const FormDescription = React.forwardRef<Text, FormDescriptionProps>(
-  ({ className, style, ...props }, ref) => {
-    return (
-      <Text ref={ref} className={cn('text-xs text-black-60', className)} style={style} {...props} />
-    )
-  }
-)
+const FormDescription = React.forwardRef<Text, FormDescriptionProps>(({ className, style, ...props }, ref) => {
+  return <Text ref={ref} className={cn('text-xs text-black-60', className)} style={style} {...props} />
+})
 
 interface FormMessageProps extends TextProps {
   className?: string
 }
 
-const FormMessage = React.forwardRef<Text, FormMessageProps>(
-  ({ className, children, style, ...props }, ref) => {
-    const { error } = useFormField()
-    const body = error ? String(error?.message) : children
+const FormMessage = React.forwardRef<Text, FormMessageProps>(({ className, children, style, ...props }, ref) => {
+  const { error } = useFormField()
+  const body = error ? String(error?.message) : children
 
-    if (!body) {
-      return null
-    }
-
-    return (
-      <Text
-        ref={ref}
-        className={cn('mt-1 text-xs leading-none text-red-300', className)}
-        style={style}
-        {...props}>
-        {body}
-      </Text>
-    )
+  if (!body) {
+    return null
   }
-)
+
+  return (
+    <Text ref={ref} className={cn('mt-1 text-xs leading-none text-red-300', className)} style={style} {...props}>
+      {body}
+    </Text>
+  )
+})
 
 // Add display names
 FormItem.displayName = 'FormItem'
@@ -136,13 +115,4 @@ FormControl.displayName = 'FormControl'
 FormDescription.displayName = 'FormDescription'
 FormMessage.displayName = 'FormMessage'
 
-export {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-}
+export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField }

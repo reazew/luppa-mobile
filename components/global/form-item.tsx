@@ -1,10 +1,5 @@
 import { SelectField, type Option } from 'components/global/select-field'
-import {
-  FormControl,
-  FormLabel,
-  FormMessage,
-  FormItem as OriginalFormItem,
-} from 'components/ui/form'
+import { FormControl, FormLabel, FormMessage, FormItem as OriginalFormItem } from 'components/ui/form'
 import { cn } from 'lib/util'
 import { type LucideIcon } from 'lucide-react-native'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
@@ -32,11 +27,12 @@ interface FormItemProps<T extends FieldValues> {
   imagePreviewSize?: { width: number; height: number }
   maxFiles?: number
   toggleType?: 'single' | 'multiple'
+  displayVariant?: 'default' | 'row'
   toggleOptions?: {
     label: string
     value: string
     description: string
-    variant?: 'client' | 'shop'
+    icon?: 'client' | 'company' | 'pix' | 'credit-card' | 'debit-card'
   }[]
 }
 
@@ -54,6 +50,7 @@ const RenderInput = <T extends FieldValues>({
   maxFiles = 1,
   toggleType = 'single',
   toggleOptions,
+  displayVariant = 'default',
 }: FormItemProps<T>) => {
   switch (fieldType) {
     case 'input':
@@ -73,35 +70,15 @@ const RenderInput = <T extends FieldValues>({
       )
 
     case 'select':
-      return (
-        <SelectField
-          field={field}
-          options={options}
-          placeholder={placeholder}
-          error={error}
-          disabled={disabled}
-        />
-      )
+      return <SelectField field={field} options={options} placeholder={placeholder} error={error} disabled={disabled} />
 
     case 'toggle-group':
       return (
-        <FormControl>
-          <ToggleGroup
-            type={toggleType}
-            value={field.value}
-            onValueChange={field.onChange}
-            className="flex-row">
-            {toggleOptions?.map((option) => (
-              <ToggleGroupItem
-                key={option.value}
-                value={option.value}
-                label={option.label}
-                description={option.description ?? ''}
-                variant={option.variant}
-              />
-            ))}
-          </ToggleGroup>
-        </FormControl>
+        <ToggleGroup type={toggleType} value={field.value} onValueChange={field.onChange} displayVariant={displayVariant}>
+          {toggleOptions?.map((option) => (
+            <ToggleGroupItem key={option.value} value={option.value} label={option.label} description={option.description ?? ''} icon={option.icon} />
+          ))}
+        </ToggleGroup>
       )
 
     default:
@@ -110,13 +87,13 @@ const RenderInput = <T extends FieldValues>({
 }
 
 export const FormItem = <T extends FieldValues>(props: FormItemProps<T>) => {
-  const { label, hideSupportiveText = false, className } = props
+  const { label, hideSupportiveText = false, className, fieldType } = props
 
   return (
-    <OriginalFormItem className={cn('mb-4 flex w-full flex-1 justify-start gap-2', className)}>
+    <OriginalFormItem style={{ flex: 1, flexGrow: 1 }} className={cn('mb-4 flex w-full flex-1 justify-start gap-2', className)}>
       {label && <FormLabel className="leading-none">{label}</FormLabel>}
       <RenderInput {...props} />
-      {!hideSupportiveText && (
+      {!hideSupportiveText && fieldType !== 'toggle-group' && (
         <View className="mt-0 h-4">
           <FormMessage />
         </View>

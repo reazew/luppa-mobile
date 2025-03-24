@@ -4,16 +4,15 @@ import { ToggleGroup, ToggleGroupItem } from 'components/ui/toggle-group'
 import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import type { Dispatch, SetStateAction } from 'react'
 import React from 'react'
+import type { UseFormReturn } from 'react-hook-form'
 import { View } from 'react-native'
+import type { RegisterInfer } from 'schemas/register'
 
 interface PaymentMethodsProps {
-  setStepForm: Dispatch<
-    SetStateAction<
-      'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'
-    >
-  >
+  form: UseFormReturn<RegisterInfer>
+  setStepForm: Dispatch<SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>>
 }
-export const PaymentMethodsStep = ({ setStepForm }: PaymentMethodsProps) => {
+export const PaymentMethodsStep = ({ form, setStepForm }: PaymentMethodsProps) => {
   const [value, setValue] = React.useState('a')
   return (
     <View
@@ -25,23 +24,18 @@ export const PaymentMethodsStep = ({ setStepForm }: PaymentMethodsProps) => {
         Métodos de pagamento
       </Text>
       <View className="w-full flex-1 gap-8">
-        <ToggleGroup type="single" value={value} onValueChange={setValue}>
-          <ToggleGroupItem
-            value="pix"
-            label="Pix"
-            variant="pix"
-            description="Conecte com seu banco através da nossa ferramenta"
-          />
+        <ToggleGroup displayVariant="row" type="single" value={value} onValueChange={setValue}>
+          <ToggleGroupItem value="pix" label="Pix" icon="pix" description="Conecte com seu banco através da nossa ferramenta" />
           <ToggleGroupItem
             value="creditCard"
             label="Cartão de crédito"
-            variant="credit-card"
+            icon="credit-card"
             description="Conecte com seu banco através da nossa ferramenta"
           />
           <ToggleGroupItem
             value="debitCard"
             label="Cartão de débito"
-            variant="debit-card"
+            icon="debit-card"
             description="Conecte com seu banco através da nossa ferramenta"
           />
         </ToggleGroup>

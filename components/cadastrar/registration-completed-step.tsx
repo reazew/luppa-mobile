@@ -2,16 +2,20 @@ import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
 import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import type { Dispatch, SetStateAction } from 'react'
+import type { UseFormReturn } from 'react-hook-form'
 import { Alert, View } from 'react-native'
+import type { RegisterInfer } from 'schemas/register'
 
 interface RegistrationCompletedProps {
-  setStepForm: Dispatch<
-    SetStateAction<
-      'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'
-    >
-  >
+  form: UseFormReturn<RegisterInfer>
+  setStepForm: Dispatch<SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>>
 }
-export const RegistrationCompleted = ({ setStepForm }: RegistrationCompletedProps) => {
+
+const handleSubmit = (form: UseFormReturn<RegisterInfer>) => {
+  console.log(form.getValues())
+}
+
+export const RegistrationCompleted = ({ form, setStepForm }: RegistrationCompletedProps) => {
   return (
     <View className="flex-1 items-center justify-between px-6">
       <Text>RegistrationCompleted</Text>
@@ -23,6 +27,7 @@ export const RegistrationCompleted = ({ setStepForm }: RegistrationCompletedProp
         </Button>
         <Button
           onPress={() => {
+            handleSubmit(form)
             Alert.alert('Completed!', 'It should complete the user registration.')
           }}
           className="max-w-[200px]">

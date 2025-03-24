@@ -19,18 +19,9 @@ export interface SelectFieldProps<T extends FieldValues> {
   disabled?: boolean
 }
 
-export const SelectField = <T extends FieldValues>({
-  field,
-  options,
-  placeholder,
-  error,
-  disabled,
-}: SelectFieldProps<T>) => {
+export const SelectField = <T extends FieldValues>({ field, options, placeholder, error, disabled }: SelectFieldProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
-  const selectedOption = useMemo(
-    () => options?.find((opt) => opt.value === field.value),
-    [field.value, options]
-  )
+  const selectedOption = useMemo(() => options?.find((opt) => opt.value === field.value), [field.value, options])
 
   return (
     <FormControl>
@@ -49,11 +40,7 @@ export const SelectField = <T extends FieldValues>({
             <Text className={cn('text-black-0', !selectedOption?.label && 'text-black-100')}>
               {selectedOption?.label || placeholder || 'Selecione'}
             </Text>
-            <ChevronDown
-              size={20}
-              color={disabled ? '#666666' : '#757575'}
-              className={cn('transition-transform', isOpen && 'rotate-180')}
-            />
+            <ChevronDown size={20} color={disabled ? '#666666' : '#757575'} className={cn('transition-transform', isOpen && 'rotate-180')} />
           </View>
         </Pressable>
 
@@ -66,10 +53,7 @@ export const SelectField = <T extends FieldValues>({
                   field.onChange(option.value)
                   setIsOpen(false)
                 }}
-                className={cn(
-                  'rounded-lg p-2',
-                  field.value === option.value ? 'bg-black-600' : 'hover:bg-black-600'
-                )}>
+                className={cn('rounded-lg p-2', field.value === option.value ? 'bg-black-600' : 'hover:bg-black-600')}>
                 <Text className="text-black-0">{option.label}</Text>
               </Pressable>
             ))}
