@@ -8,7 +8,9 @@ import type { RegisterInfer } from 'schemas/register'
 
 interface RegistrationCompletedProps {
   form: UseFormReturn<RegisterInfer>
-  setStepForm: Dispatch<SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>>
+  setStepForm: Dispatch<
+    SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>
+  >
 }
 
 const handleSubmit = (form: UseFormReturn<RegisterInfer>) => {
@@ -17,8 +19,14 @@ const handleSubmit = (form: UseFormReturn<RegisterInfer>) => {
 
 export const RegistrationCompleted = ({ form, setStepForm }: RegistrationCompletedProps) => {
   return (
-    <View className="flex-1 items-center justify-between px-6">
-      <Text>RegistrationCompleted</Text>
+    <View
+      style={{
+        flex: 1,
+      }}
+      className="flex-1 items-center justify-between gap-8 px-6">
+      <Text size="huge-2" weight="bold" className="w-full text-left">
+        Cadastro concluído com sucesso!
+      </Text>
       <View className="flex w-full flex-row items-center justify-between gap-2">
         <Button variant="ghost" size="icon" onPress={() => setStepForm('paymentMethods')}>
           <Button.Icon>

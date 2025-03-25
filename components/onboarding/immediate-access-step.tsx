@@ -1,4 +1,4 @@
-import { ShopActiveIcon } from 'assets/images/svg'
+import { ShopActiveIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
 import { CircleArrowRight } from 'lucide-react-native'

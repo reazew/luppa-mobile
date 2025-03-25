@@ -1,4 +1,4 @@
-// import { GoogleLogo, Logo } from 'assets/images/svg'
+// import { GoogleLogo, Logo } from 'assets/icons'
 // import { Button } from 'components/global/button'
 // import { Text } from 'components/global/text'
 // import { router } from 'expo-router'

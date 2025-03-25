@@ -10,7 +10,9 @@ import type { RegisterInfer } from 'schemas/register'
 
 interface PaymentMethodsProps {
   form: UseFormReturn<RegisterInfer>
-  setStepForm: Dispatch<SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>>
+  setStepForm: Dispatch<
+    SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>
+  >
 }
 export const PaymentMethodsStep = ({ form, setStepForm }: PaymentMethodsProps) => {
   const [value, setValue] = React.useState('a')
@@ -25,7 +27,12 @@ export const PaymentMethodsStep = ({ form, setStepForm }: PaymentMethodsProps) =
       </Text>
       <View className="w-full flex-1 gap-8">
         <ToggleGroup displayVariant="row" type="single" value={value} onValueChange={setValue}>
-          <ToggleGroupItem value="pix" label="Pix" icon="pix" description="Conecte com seu banco através da nossa ferramenta" />
+          <ToggleGroupItem
+            value="pix"
+            label="Pix"
+            icon="pix"
+            description="Conecte com seu banco através da nossa ferramenta"
+          />
           <ToggleGroupItem
             value="creditCard"
             label="Cartão de crédito"

@@ -1,5 +1,6 @@
 import { SelectField, type Option } from 'components/global/select-field'
 import { FormLabel, FormMessage, FormItem as OriginalFormItem } from 'components/ui/form'
+import { InputImagePicker } from 'components/ui/input-image-picker'
 import { MaskedInput } from 'components/ui/masked-input'
 import { cn } from 'lib/util'
 import { type LucideIcon } from 'lucide-react-native'
@@ -9,7 +10,7 @@ import { View } from 'react-native'
 import { Input } from '../ui/input'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 
-type FormFieldType = 'input' | 'masked-input' | 'select' | 'file' | 'image' | 'toggle-group' | 'date-picker'
+type FormFieldType = 'input' | 'masked-input' | 'select' | 'image-picker' | 'toggle-group'
 
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
@@ -72,6 +73,7 @@ const RenderInput = <T extends FieldValues>({
   maskType,
   maskOptions,
   keyboardType,
+  imagePreviewSize,
 }: FormItemProps<T>) => {
   switch (fieldType) {
     case 'input':
@@ -127,6 +129,18 @@ const RenderInput = <T extends FieldValues>({
             />
           ))}
         </ToggleGroup>
+      )
+
+    case 'image-picker':
+      return (
+        <InputImagePicker
+          value={field.value}
+          onChange={field.onChange}
+          onBlur={field.onBlur}
+          error={error}
+          disabled={disabled}
+          previewSize={imagePreviewSize}
+        />
       )
 
     default:

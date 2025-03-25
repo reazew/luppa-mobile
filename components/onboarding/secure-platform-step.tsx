@@ -1,4 +1,4 @@
-import { VerifiedCheckIcon } from 'assets/images/svg'
+import { VerifiedCheckIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
 import { router } from 'expo-router'

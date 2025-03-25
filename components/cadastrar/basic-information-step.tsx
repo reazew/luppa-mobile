@@ -29,6 +29,13 @@ export const BasicInformationStep = ({ form, setStepForm }: BasicInformationProp
         <View className="w-full flex-1 justify-start ">
           <FormField
             control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem field={field} fieldType="image-picker" imagePreviewSize={{ width: 128, height: 128 }} />
+            )}
+          />
+          <FormField
+            control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem field={field} fieldType="input" label="Nome" placeholder="Digite seu nome" />

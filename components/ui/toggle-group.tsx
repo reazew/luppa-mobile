@@ -9,7 +9,7 @@ import {
   PixIcon,
   ShopActiveIcon,
   ShopIcon,
-} from 'assets/images/svg'
+} from 'assets/icons'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { Text } from 'components/global/text'
 import { FormControl } from 'components/ui/form'

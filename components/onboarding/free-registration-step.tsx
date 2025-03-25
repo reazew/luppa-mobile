@@ -1,4 +1,4 @@
-import { WalletIcon } from 'assets/images/svg'
+import { WalletIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
 import { CircleArrowRight } from 'lucide-react-native'
