@@ -6,13 +6,19 @@ import { Text, TextProps, View, ViewProps } from 'react-native'
 
 const Form = FormProvider
 
-type FormFieldContextValue<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> = {
+type FormFieldContextValue<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = {
   name: TName
 }
 
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
 
-const FormField = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({
+const FormField = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
   return (
@@ -108,7 +114,6 @@ const FormMessage = React.forwardRef<Text, FormMessageProps>(({ className, child
   )
 })
 
-// Add display names
 FormItem.displayName = 'FormItem'
 FormLabel.displayName = 'FormLabel'
 FormControl.displayName = 'FormControl'

@@ -1,18 +1,15 @@
 import { SelectField, type Option } from 'components/global/select-field'
 import { FormLabel, FormMessage, FormItem as OriginalFormItem } from 'components/ui/form'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { MaskedInput } from 'components/ui/masked-input'
 import { cn } from 'lib/util'
 import { type LucideIcon } from 'lucide-react-native'
-import { useState } from 'react'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import { View } from 'react-native'
 
-import { DatePicker } from '../ui/date-picker'
 import { Input } from '../ui/input'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 
-type FormFieldType = 'input' | 'select' | 'file' | 'image' | 'toggle-group' | 'date-picker'
+type FormFieldType = 'input' | 'masked-input' | 'select' | 'file' | 'image' | 'toggle-group' | 'date-picker'
 
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
@@ -39,7 +36,24 @@ interface FormItemProps<T extends FieldValues> {
     icon?: 'client' | 'company' | 'pix' | 'credit-card' | 'debit-card'
   }[]
   mask?: string
-  dateFormat?: string
+  maskType?: 'date' | 'time' | 'currency'
+  maskOptions?: {
+    format?: string
+  } & Record<string, any>
+  keyboardType?:
+    | 'default'
+    | 'ascii-capable'
+    | 'decimal-pad'
+    | 'name-phone-pad'
+    | 'number-pad'
+    | 'numbers-and-punctuation'
+    | 'numeric'
+    | 'phone-pad'
+    | 'email-address'
+    | 'visible-password'
+    | 'twitter'
+    | 'url'
+    | 'web-search'
 }
 
 const RenderInput = <T extends FieldValues>({
@@ -49,19 +63,16 @@ const RenderInput = <T extends FieldValues>({
   icon,
   iconSide,
   placeholder,
-  selectHasSearch,
   error,
   disabled,
-  imagePreviewSize = { width: 80, height: 80 },
-  maxFiles = 1,
   toggleType = 'single',
   toggleOptions,
   displayVariant = 'default',
   mask,
-  dateFormat = 'dd/MM/yyyy',
+  maskType,
+  maskOptions,
+  keyboardType,
 }: FormItemProps<T>) => {
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-
   switch (fieldType) {
     case 'input':
       return (
@@ -70,11 +81,29 @@ const RenderInput = <T extends FieldValues>({
           icon={icon}
           iconSide={iconSide}
           error={error}
-          mask={mask}
           editable={!disabled}
           value={field.value}
           onChangeText={field.onChange}
           onBlur={field.onBlur}
+        />
+      )
+
+    // []: Verificar se o masked-input está funcionando
+    case 'masked-input':
+      return (
+        <MaskedInput
+          placeholder={placeholder}
+          icon={icon}
+          iconSide={iconSide}
+          error={error}
+          editable={!disabled}
+          value={field.value}
+          onChangeText={field.onChange}
+          onBlur={field.onBlur}
+          mask={mask ?? ''}
+          type={maskType}
+          options={maskOptions}
+          keyboardType={keyboardType}
         />
       )
 
@@ -98,29 +127,6 @@ const RenderInput = <T extends FieldValues>({
             />
           ))}
         </ToggleGroup>
-      )
-
-    case 'date-picker':
-      return (
-        <>
-          <Input
-            placeholder={placeholder}
-            error={error}
-            editable={false}
-            value={field.value ? format(new Date(field.value), dateFormat, { locale: ptBR }) : ''}
-            onPressIn={() => !disabled && setIsDatePickerOpen(true)}
-          />
-          <DatePicker
-            value={field.value ? new Date(field.value) : undefined}
-            onChange={(date) => {
-              field.onChange(date)
-              setIsDatePickerOpen(false)
-            }}
-            isOpen={isDatePickerOpen}
-            onClose={() => setIsDatePickerOpen(false)}
-            maxDate={new Date()}
-          />
-        </>
       )
 
     default:

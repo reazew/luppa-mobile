@@ -1,9 +1,8 @@
 import { FormControl } from 'components/ui/form'
 import { cn } from 'lib/util'
 import type { LucideIcon } from 'lucide-react-native'
-import { cssInterop } from 'nativewind'
 import * as React from 'react'
-import { Platform, TextInput, TextInputProps, View } from 'react-native'
+import { Platform, TextInput, View, type TextInputProps } from 'react-native'
 import { MaskedTextInput } from 'react-native-mask-text'
 
 interface BaseInputProps extends Omit<TextInputProps, 'className'> {
@@ -14,13 +13,28 @@ interface BaseInputProps extends Omit<TextInputProps, 'className'> {
   value?: string
 }
 
-export interface InputProps extends BaseInputProps {
-  onChangeText?: (text: string) => void
+export interface MaskedInputProps extends BaseInputProps {
+  onChangeText?: (text: string, rawText?: string) => void
+  mask: string
+  type?: 'date' | 'time' | 'currency'
+  keyboardType?:
+    | 'default'
+    | 'ascii-capable'
+    | 'decimal-pad'
+    | 'name-phone-pad'
+    | 'number-pad'
+    | 'numbers-and-punctuation'
+    | 'numeric'
+    | 'phone-pad'
+    | 'email-address'
+    | 'visible-password'
+    | 'twitter'
+    | 'url'
+    | 'web-search'
+  options?: {
+    format?: string
+  } & Record<string, any>
 }
-
-cssInterop(MaskedTextInput, {
-  className: 'style',
-})
 
 const IconWrapper = ({ Icon, side, editable }: { Icon: LucideIcon; side: 'left' | 'right'; editable?: boolean }) => (
   <View className={`absolute ${side === 'left' ? 'left-3' : 'right-3'} top-2.5 z-10`}>
@@ -28,16 +42,32 @@ const IconWrapper = ({ Icon, side, editable }: { Icon: LucideIcon; side: 'left' 
   </View>
 )
 
-const Input = React.forwardRef<TextInput, InputProps>(
-  ({ icon: Icon, iconSide = 'left', placeholder = '', className, error, value, onChangeText, ...props }, ref) => {
+const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
+  (
+    {
+      icon: Icon,
+      iconSide = 'left',
+      placeholder = '',
+      className,
+      error,
+      value,
+      onChangeText,
+      mask,
+      type = 'text',
+      options,
+      keyboardType = 'default',
+      ...props
+    },
+    ref
+  ) => {
     return (
       <FormControl className={cn('relative min-w-[152px] rounded-5xl', className)}>
         {Icon && iconSide === 'left' && <IconWrapper Icon={Icon} side="left" editable={props.editable} />}
-        <TextInput
+        <MaskedTextInput
           ref={ref}
           placeholder={placeholder}
           value={value}
-          onChangeText={onChangeText}
+          onChangeText={(text: string) => onChangeText?.(text)}
           className={cn(
             Platform.OS === 'ios' && 'pb-1.5 leading-none',
             'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
@@ -48,6 +78,11 @@ const Input = React.forwardRef<TextInput, InputProps>(
             error && 'border-red-300',
             props.editable === false && 'bg-black-500 placeholder:text-black-200'
           )}
+          placeholderTextColor="#737373"
+          type={type}
+          mask={mask}
+          options={options}
+          keyboardType={keyboardType}
           {...props}
         />
         {Icon && iconSide === 'right' && <IconWrapper Icon={Icon} side="right" editable={props.editable} />}
@@ -56,6 +91,5 @@ const Input = React.forwardRef<TextInput, InputProps>(
   }
 )
 
-Input.displayName = 'Input'
-
-export { Input }
+MaskedInput.displayName = 'MaskedInput'
+export { MaskedInput }

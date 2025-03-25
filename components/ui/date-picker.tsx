@@ -1,7 +1,6 @@
-import { ptBR } from 'date-fns/locale'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { useState } from 'react'
-import { Modal, Pressable, View } from 'react-native'
-import DateTimePicker, { DateType, useDefaultClassNames } from 'react-native-ui-datepicker'
+import { Modal, Platform, Pressable } from 'react-native'
 
 interface DatePickerProps {
   value?: Date
@@ -13,37 +12,47 @@ interface DatePickerProps {
 }
 
 export function DatePicker({ value, onChange, isOpen, onClose, minDate, maxDate }: DatePickerProps) {
-  const [selected, setSelected] = useState<DateType>(value)
-  const defaultClassNames = useDefaultClassNames()
+  const [selectedDate, setSelectedDate] = useState<Date>(value || new Date())
 
-  return (
-    <Modal visible={isOpen} transparent animationType="fade">
-      <Pressable className="bg-black/50 flex-1" onPress={onClose}>
-        <View className="mt-auto bg-yellow-300 p-4">
-          <DateTimePicker
-            mode="single"
-            date={selected}
-            onChange={({ date }) => {
-              if (date) {
-                const newDate = date instanceof Date ? date : new Date(date as string)
-                setSelected(date)
-                onChange(newDate)
-                onClose()
-              }
-            }}
-            minDate={minDate}
-            maxDate={maxDate}
-            locale={ptBR.code}
-            classNames={{
-              ...defaultClassNames,
-              day: 'w-10 h-10 items-center justify-center rounded-full',
-              today: 'border border-amber-500',
-              selected: 'bg-amber-500 border-amber-500',
-              selected_label: 'text-white font-bold',
-            }}
-          />
-        </View>
-      </Pressable>
-    </Modal>
-  )
+  if (Platform.OS === 'ios') {
+    return (
+      <Modal visible={isOpen} transparent animationType="fade">
+        <Pressable className="bg-black/50 flex-1 justify-end" onPress={onClose}>
+          <Pressable className="bg-white p-4">
+            <DateTimePicker
+              value={selectedDate}
+              mode="date"
+              display="spinner"
+              onChange={(event, date) => {
+                if (event.type !== 'dismissed' && date) {
+                  setSelectedDate(date)
+                  onChange(date)
+                }
+              }}
+              minimumDate={minDate}
+              maximumDate={maxDate}
+              locale="pt-BR"
+            />
+          </Pressable>
+        </Pressable>
+      </Modal>
+    )
+  }
+
+  return isOpen ? (
+    <DateTimePicker
+      value={selectedDate}
+      mode="date"
+      display="default"
+      onChange={(event, date) => {
+        onClose()
+        if (event.type === 'set' && date) {
+          setSelectedDate(date)
+          onChange(date)
+        }
+      }}
+      minimumDate={minDate}
+      maximumDate={maxDate}
+    />
+  ) : null
 }

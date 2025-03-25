@@ -47,10 +47,11 @@ export const BasicInformationStep = ({ form, setStepForm }: BasicInformationProp
             render={({ field }) => (
               <FormItem
                 field={field}
-                fieldType="input"
+                fieldType="masked-input"
                 label="Telefone"
                 placeholder="Digite seu telefone"
                 mask="(99) 99999-9999"
+                keyboardType="phone-pad"
               />
             )}
           />
@@ -60,9 +61,17 @@ export const BasicInformationStep = ({ form, setStepForm }: BasicInformationProp
             render={({ field }) => (
               <FormItem
                 field={field}
-                fieldType="date-picker"
+                fieldType="masked-input"
                 label="Aniversário"
-                placeholder="Selecione a data do seu aniversário"
+                maskType="date"
+                mask="99/99"
+                maskOptions={{
+                  dateFormat: 'DD/MM',
+                  maxDate: new Date(),
+                  minDate: new Date(1900, 0, 1),
+                }}
+                placeholder="Dia/Mês"
+                keyboardType="numeric"
               />
             )}
           />
