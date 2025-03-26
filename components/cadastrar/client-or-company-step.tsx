@@ -1,26 +1,30 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { CircleArrowRight } from 'lucide-react-native'
 import { Dispatch, SetStateAction } from 'react'
-import type { UseFormReturn } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
-import type { RegisterInfer } from 'schemas/register'
+import type { clientOrCompanyInfer } from 'schemas/register'
 import { clientOrCompanySchema } from 'schemas/register'
 
 interface ClientOrCompanyProps {
-  form: UseFormReturn<RegisterInfer>
   setStepForm: Dispatch<
     SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>
   >
 }
 
-export const ClientOrCompany = ({ form, setStepForm }: ClientOrCompanyProps) => {
-  const onSubmit = () => {
-    const formData = form.getValues()
+export const ClientOrCompany = ({ setStepForm }: ClientOrCompanyProps) => {
+  const form = useForm<clientOrCompanyInfer>({
+    resolver: zodResolver(clientOrCompanySchema),
+  })
 
-    const result = clientOrCompanySchema.safeParse(formData)
+  const { handleSubmit } = form
+
+  function handleNextStep(data: clientOrCompanyInfer) {
+    const result = clientOrCompanySchema.safeParse(data)
 
     if (result.success) {
       setStepForm('basicInformation')
@@ -63,11 +67,12 @@ export const ClientOrCompany = ({ form, setStepForm }: ClientOrCompanyProps) => 
                   description: 'Quero uma plataforma segura e confiável para facilitar e impulsionar negócios',
                 },
               ]}
+              className="text-center"
             />
           )}
         />
       </Form>
-      <Button onPress={onSubmit} className="mx-auto max-w-[200px]">
+      <Button onPress={handleSubmit(handleNextStep)} className="mx-auto max-w-[200px]">
         <Button.Text>Avançar</Button.Text>
         <Button.Icon>
           <CircleArrowRight size={16} />

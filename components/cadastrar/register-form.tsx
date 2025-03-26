@@ -24,9 +24,9 @@ export const RegisterForm = () => {
   const form = useForm<RegisterInfer>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
+      type: '',
       name: '',
       email: '',
-      type: '',
       phone: '',
       birthDate: '',
       imageFile: !isUndefined('') ? [new File([], '')] : null,
@@ -63,7 +63,7 @@ export const RegisterForm = () => {
                 />
               ))}
             </View>
-            {stepForm === 'clientOrCompany' && <ClientOrCompany form={form} setStepForm={setStepForm} />}
+            {stepForm === 'clientOrCompany' && <ClientOrCompany setStepForm={setStepForm} />}
             {stepForm === 'basicInformation' && <BasicInformationStep form={form} setStepForm={setStepForm} />}
             {stepForm === 'paymentMethods' && <PaymentMethodsStep form={form} setStepForm={setStepForm} />}
             {stepForm === 'registrationCompleted' && <RegistrationCompleted form={form} setStepForm={setStepForm} />}

@@ -85,11 +85,7 @@ export default function ClientLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? (
-                  <SearchActiveIcon />
-                ) : (
-                  <Search color="#B0B0B0" className="flex-1" />
-                )}
+                {props.focused ? <SearchActiveIcon /> : <Search color="#B0B0B0" className="flex-1" />}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )

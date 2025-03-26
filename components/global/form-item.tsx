@@ -61,6 +61,7 @@ interface FormItemProps<T extends FieldValues> {
     | 'web-search'
   onSubmitEditing?: () => void
   ref?: RefObject<TextInput>
+  onValueSelect?: () => void
 }
 
 const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref) => {
@@ -82,6 +83,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref)
     keyboardType,
     imagePreviewSize,
     onSubmitEditing,
+    onValueSelect,
   } = props
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
@@ -130,7 +132,12 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref)
         <ToggleGroup
           type={toggleType}
           value={field.value || ''}
-          onValueChange={field.onChange}
+          onValueChange={(value) => {
+            field.onChange(value)
+            if (onValueSelect) {
+              setTimeout(onValueSelect, 100)
+            }
+          }}
           displayVariant={displayVariant}>
           {toggleOptions?.map((option) => (
             <ToggleGroupItem
@@ -190,13 +197,13 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref)
 })
 
 export const FormItem = React.forwardRef<TextInput, FormItemProps<any>>((props, ref) => {
-  const { label, hideSupportiveText = false, className, fieldType } = props
+  const { label, hideSupportiveText = false, className } = props
 
   return (
     <OriginalFormItem className={cn('mb-4 w-full justify-start gap-2', className)}>
       {label && <FormLabel className="leading-none">{label}</FormLabel>}
       <RenderInput {...props} ref={ref} />
-      {!hideSupportiveText && fieldType !== 'toggle-group' && (
+      {!hideSupportiveText && (
         <View className="mt-0 h-4">
           <FormMessage />
         </View>

@@ -5,7 +5,7 @@ import { router } from 'expo-router'
 import { bottomBarHeight, cn, statusBarHeight } from 'lib/util'
 import { ImageBackground, Platform, View } from 'react-native'
 
-export default function IndexScreen() {
+export default function PublicScreen() {
   return (
     <ImageBackground
       source={require('../../assets/images/onboading-screen-start.png')}
@@ -24,10 +24,10 @@ export default function IndexScreen() {
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
-          <Button onPress={() => router.push('/(public)/cadastrar')}>
+          <Button onPress={() => router.push('/(public)/(cadastrar)')}>
             <Button.Text>Continue com e-mail</Button.Text>
           </Button>
-          <Button onPress={() => router.push('/(private)/(empresa)/inicio')} className="bg-black-0">
+          <Button onPress={() => router.navigate('/(private)/(empresa)/inicio')} className="bg-black-0">
             <Button.Icon>
               <GoogleLogo width={16} height={16} />
             </Button.Icon>

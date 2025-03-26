@@ -1,9 +1,4 @@
-import {
-  EllipseActiveIcon,
-  HouseActiveIcon,
-  StoreActiveIcon,
-  UsersRoundActiveIcon,
-} from 'assets/icons'
+import { EllipseActiveIcon, HouseActiveIcon, StoreActiveIcon, UsersRoundActiveIcon } from 'assets/icons'
 import Constants from 'expo-constants'
 import { Tabs } from 'expo-router'
 import { House, Store, UsersRound } from 'lucide-react-native'
@@ -39,11 +34,7 @@ export default function CompanyLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? (
-                  <UsersRoundActiveIcon />
-                ) : (
-                  <UsersRound color="#B0B0B0" className="flex-1" />
-                )}
+                {props.focused ? <UsersRoundActiveIcon /> : <UsersRound color="#B0B0B0" className="flex-1" />}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )

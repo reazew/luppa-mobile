@@ -20,3 +20,5 @@ export const registerSchema = z.object({
 })
 
 export type RegisterInfer = z.infer<typeof registerSchema>
+
+export type clientOrCompanyInfer = z.infer<typeof clientOrCompanySchema>
