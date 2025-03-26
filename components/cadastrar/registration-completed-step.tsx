@@ -1,5 +1,7 @@
+import { ConfettiIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
+import { router } from 'expo-router'
 import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import type { Dispatch, SetStateAction } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
@@ -14,7 +16,11 @@ interface RegistrationCompletedProps {
 }
 
 const handleSubmit = (form: UseFormReturn<RegisterInfer>) => {
-  console.log(form.getValues())
+  const formValues = form.getValues()
+  console.log('Form Values:', formValues)
+  console.log('Form State:', form.formState)
+  console.log('Form Errors:', form.formState.errors)
+  console.log('Is Form Valid?', form.formState.isValid)
 }
 
 export const RegistrationCompleted = ({ form, setStepForm }: RegistrationCompletedProps) => {
@@ -27,6 +33,16 @@ export const RegistrationCompleted = ({ form, setStepForm }: RegistrationComplet
       <Text size="huge-2" weight="bold" className="w-full text-left">
         Cadastro concluído com sucesso!
       </Text>
+      <View className="w-full flex-1 items-center justify-center gap-8">
+        <ConfettiIcon />
+        <Text size="huge-3" weight="bold" className="text-center">
+          Parabéns!
+        </Text>
+        <Text size="md" weight="regular" className="mt-2 text-center text-white">
+          Você já pode aproveitar todos os benefícios de usar a Luppa!
+        </Text>
+      </View>
+
       <View className="flex w-full flex-row items-center justify-between gap-2">
         <Button variant="ghost" size="icon" onPress={() => setStepForm('paymentMethods')}>
           <Button.Icon>
@@ -37,6 +53,7 @@ export const RegistrationCompleted = ({ form, setStepForm }: RegistrationComplet
           onPress={() => {
             handleSubmit(form)
             Alert.alert('Completed!', 'It should complete the user registration.')
+            router.push('/(private)/(cliente)/inicio')
           }}
           className="max-w-[200px]">
           <Button.Text>Concluir</Button.Text>

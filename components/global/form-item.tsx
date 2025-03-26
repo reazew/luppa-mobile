@@ -1,16 +1,20 @@
 import { SelectField, type Option } from 'components/global/select-field'
+import { DatePicker } from 'components/ui/date-picker'
 import { FormLabel, FormMessage, FormItem as OriginalFormItem } from 'components/ui/form'
 import { InputImagePicker } from 'components/ui/input-image-picker'
 import { MaskedInput } from 'components/ui/masked-input'
+import { format } from 'date-fns'
 import { cn } from 'lib/util'
 import { type LucideIcon } from 'lucide-react-native'
+import type { RefObject } from 'react'
+import React, { useState } from 'react'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
-import { View } from 'react-native'
+import { TouchableOpacity, View, type TextInput } from 'react-native'
 
 import { Input } from '../ui/input'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 
-type FormFieldType = 'input' | 'masked-input' | 'select' | 'image-picker' | 'toggle-group'
+type FormFieldType = 'input' | 'masked-input' | 'select' | 'image-picker' | 'toggle-group' | 'birth-date'
 
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
@@ -55,30 +59,37 @@ interface FormItemProps<T extends FieldValues> {
     | 'twitter'
     | 'url'
     | 'web-search'
+  onSubmitEditing?: () => void
+  ref?: RefObject<TextInput>
 }
 
-const RenderInput = <T extends FieldValues>({
-  fieldType,
-  field,
-  options,
-  icon,
-  iconSide,
-  placeholder,
-  error,
-  disabled,
-  toggleType = 'single',
-  toggleOptions,
-  displayVariant = 'default',
-  mask,
-  maskType,
-  maskOptions,
-  keyboardType,
-  imagePreviewSize,
-}: FormItemProps<T>) => {
+const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref) => {
+  const {
+    fieldType,
+    field,
+    options,
+    icon,
+    iconSide,
+    placeholder,
+    error,
+    disabled,
+    toggleType = 'single',
+    toggleOptions,
+    displayVariant = 'default',
+    mask,
+    maskType,
+    maskOptions,
+    keyboardType,
+    imagePreviewSize,
+    onSubmitEditing,
+  } = props
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+
   switch (fieldType) {
     case 'input':
       return (
         <Input
+          ref={ref}
           placeholder={placeholder}
           icon={icon}
           iconSide={iconSide}
@@ -87,6 +98,7 @@ const RenderInput = <T extends FieldValues>({
           value={field.value}
           onChangeText={field.onChange}
           onBlur={field.onBlur}
+          onSubmitEditing={onSubmitEditing}
         />
       )
 
@@ -94,6 +106,7 @@ const RenderInput = <T extends FieldValues>({
     case 'masked-input':
       return (
         <MaskedInput
+          ref={ref}
           placeholder={placeholder}
           icon={icon}
           iconSide={iconSide}
@@ -143,18 +156,46 @@ const RenderInput = <T extends FieldValues>({
         />
       )
 
+    case 'birth-date':
+      return (
+        <View className="relative">
+          <TouchableOpacity activeOpacity={0.7} onPress={() => setIsDatePickerOpen(true)}>
+            <Input
+              pointerEvents="none"
+              className="pointer-events-none"
+              placeholder={placeholder}
+              icon={icon}
+              iconSide={iconSide}
+              error={error}
+              value={field.value ? format(new Date(field.value), 'dd/MM') : ''}
+            />
+          </TouchableOpacity>
+
+          <View className="absolute -left-2 top-0 pt-14">
+            <DatePicker
+              value={field.value ? new Date(field.value) : undefined}
+              onChange={(date) => {
+                field.onChange(date)
+              }}
+              isOpen={isDatePickerOpen}
+              onClose={() => setIsDatePickerOpen(false)}
+            />
+          </View>
+        </View>
+      )
+
     default:
       return null
   }
-}
+})
 
-export const FormItem = <T extends FieldValues>(props: FormItemProps<T>) => {
+export const FormItem = React.forwardRef<TextInput, FormItemProps<any>>((props, ref) => {
   const { label, hideSupportiveText = false, className, fieldType } = props
 
   return (
     <OriginalFormItem className={cn('mb-4 w-full justify-start gap-2', className)}>
       {label && <FormLabel className="leading-none">{label}</FormLabel>}
-      <RenderInput {...props} />
+      <RenderInput {...props} ref={ref} />
       {!hideSupportiveText && fieldType !== 'toggle-group' && (
         <View className="mt-0 h-4">
           <FormMessage />
@@ -162,4 +203,7 @@ export const FormItem = <T extends FieldValues>(props: FormItemProps<T>) => {
       )}
     </OriginalFormItem>
   )
-}
+})
+
+FormItem.displayName = 'FormItem'
+RenderInput.displayName = 'RenderInput'

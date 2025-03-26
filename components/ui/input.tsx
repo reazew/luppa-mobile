@@ -1,10 +1,8 @@
 import { FormControl } from 'components/ui/form'
 import { cn } from 'lib/util'
 import type { LucideIcon } from 'lucide-react-native'
-import { cssInterop } from 'nativewind'
 import * as React from 'react'
 import { Platform, TextInput, TextInputProps, View } from 'react-native'
-import { MaskedTextInput } from 'react-native-mask-text'
 
 interface BaseInputProps extends Omit<TextInputProps, 'className'> {
   icon?: LucideIcon
@@ -16,11 +14,8 @@ interface BaseInputProps extends Omit<TextInputProps, 'className'> {
 
 export interface InputProps extends BaseInputProps {
   onChangeText?: (text: string) => void
+  onSubmitEditing?: () => void
 }
-
-cssInterop(MaskedTextInput, {
-  className: 'style',
-})
 
 const IconWrapper = ({ Icon, side, editable }: { Icon: LucideIcon; side: 'left' | 'right'; editable?: boolean }) => (
   <View className={`absolute ${side === 'left' ? 'left-3' : 'right-3'} top-2.5 z-10`}>
@@ -29,7 +24,20 @@ const IconWrapper = ({ Icon, side, editable }: { Icon: LucideIcon; side: 'left' 
 )
 
 const Input = React.forwardRef<TextInput, InputProps>(
-  ({ icon: Icon, iconSide = 'left', placeholder = '', className, error, value, onChangeText, ...props }, ref) => {
+  (
+    {
+      icon: Icon,
+      iconSide = 'left',
+      placeholder = '',
+      className,
+      error,
+      value,
+      onChangeText,
+      onSubmitEditing,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <FormControl className={cn('relative min-w-[152px] rounded-5xl', className)}>
         {Icon && iconSide === 'left' && <IconWrapper Icon={Icon} side="left" editable={props.editable} />}
@@ -38,6 +46,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
+          onSubmitEditing={onSubmitEditing}
           className={cn(
             Platform.OS === 'ios' && 'pb-1.5 leading-none',
             'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',

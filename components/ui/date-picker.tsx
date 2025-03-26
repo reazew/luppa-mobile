@@ -1,6 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { useState } from 'react'
-import { Modal, Platform, Pressable } from 'react-native'
+import { Platform } from 'react-native'
 
 interface DatePickerProps {
   value?: Date
@@ -14,45 +14,33 @@ interface DatePickerProps {
 export function DatePicker({ value, onChange, isOpen, onClose, minDate, maxDate }: DatePickerProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(value || new Date())
 
-  if (Platform.OS === 'ios') {
-    return (
-      <Modal visible={isOpen} transparent animationType="fade">
-        <Pressable className="bg-black/50 flex-1 justify-end" onPress={onClose}>
-          <Pressable className="bg-white p-4">
-            <DateTimePicker
-              value={selectedDate}
-              mode="date"
-              display="spinner"
-              onChange={(event, date) => {
-                if (event.type !== 'dismissed' && date) {
-                  setSelectedDate(date)
-                  onChange(date)
-                }
-              }}
-              minimumDate={minDate}
-              maximumDate={maxDate}
-              locale="pt-BR"
-            />
-          </Pressable>
-        </Pressable>
-      </Modal>
-    )
+  const handleChange = (event: any, date?: Date) => {
+    if (Platform.OS === 'android') {
+      onClose()
+    }
+
+    if (event.type === 'set' && date) {
+      setSelectedDate(date)
+      onChange(date)
+      if (Platform.OS === 'ios') {
+        onClose()
+      }
+    } else if (event.type === 'dismissed') {
+      onClose()
+    }
   }
 
-  return isOpen ? (
+  if (!isOpen) return null
+
+  return (
     <DateTimePicker
       value={selectedDate}
       mode="date"
       display="default"
-      onChange={(event, date) => {
-        onClose()
-        if (event.type === 'set' && date) {
-          setSelectedDate(date)
-          onChange(date)
-        }
-      }}
+      onChange={handleChange}
       minimumDate={minDate}
       maximumDate={maxDate}
+      locale="pt-BR"
     />
-  ) : null
+  )
 }

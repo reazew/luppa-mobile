@@ -55,7 +55,7 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync()
 
         if (!permissionResult.granted) {
-          alert('You need to enable camera permissions to take a photo')
+          alert('Você precisa permitir o acesso à câmera para tirar uma foto')
           return
         }
 

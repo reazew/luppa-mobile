@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
 import { View } from 'react-native'
 import type { RegisterInfer } from 'schemas/register'
+import { clientOrCompanySchema } from 'schemas/register'
 
 interface ClientOrCompanyProps {
   form: UseFormReturn<RegisterInfer>
@@ -16,6 +17,21 @@ interface ClientOrCompanyProps {
 }
 
 export const ClientOrCompany = ({ form, setStepForm }: ClientOrCompanyProps) => {
+  const onSubmit = () => {
+    const formData = form.getValues()
+
+    const result = clientOrCompanySchema.safeParse(formData)
+
+    if (result.success) {
+      setStepForm('basicInformation')
+    } else {
+      form.setError('type', {
+        type: 'required',
+        message: 'Por favor, selecione um tipo de cadastro',
+      })
+    }
+  }
+
   return (
     <View
       style={{
@@ -51,7 +67,7 @@ export const ClientOrCompany = ({ form, setStepForm }: ClientOrCompanyProps) => 
           )}
         />
       </Form>
-      <Button onPress={() => setStepForm('basicInformation')} className="mx-auto max-w-[200px]">
+      <Button onPress={onSubmit} className="mx-auto max-w-[200px]">
         <Button.Text>Avançar</Button.Text>
         <Button.Icon>
           <CircleArrowRight size={16} />

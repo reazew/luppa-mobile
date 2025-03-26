@@ -8,7 +8,7 @@ import { bottomBarHeight, statusBarHeight } from 'lib/util'
 import { isUndefined } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Platform, ScrollView, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'
 import { RegisterInfer, registerSchema } from 'schemas/register'
 
 export const RegisterForm = () => {
@@ -28,8 +28,6 @@ export const RegisterForm = () => {
       email: '',
       type: '',
       phone: '',
-      city: '',
-      uf: '',
       birthDate: '',
       imageFile: !isUndefined('') ? [new File([], '')] : null,
     },
@@ -37,36 +35,41 @@ export const RegisterForm = () => {
 
   return (
     <Form {...form}>
-      <ScrollView
-        className="bg-background"
-        alwaysBounceVertical={false}
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-        style={{
-          flex: 1,
-        }}>
-        <View
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        className="flex-1">
+        <ScrollView
+          className="bg-background"
+          alwaysBounceVertical={false}
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}
           style={{
             flex: 1,
-            paddingTop: statusBarHeight,
-            paddingBottom: Platform.OS === 'ios' ? bottomBarHeight + 32 : bottomBarHeight + 10,
-          }}
-          className="flex-1">
-          <View className="flex-row justify-center gap-2 px-6 py-8">
-            {steps.map((_, index) => (
-              <View
-                key={index}
-                className={`h-[8px] flex-1 rounded-full ${index <= currentStepIndex ? 'bg-yellow-300' : 'bg-black-500'}`}
-              />
-            ))}
+          }}>
+          <View
+            style={{
+              flex: 1,
+              paddingTop: statusBarHeight,
+              paddingBottom: Platform.OS === 'ios' ? bottomBarHeight + 32 : bottomBarHeight + 10,
+            }}
+            className="flex-1">
+            <View className="flex-row justify-center gap-2 px-6 py-8">
+              {steps.map((_, index) => (
+                <View
+                  key={index}
+                  className={`h-[8px] flex-1 rounded-full ${index <= currentStepIndex ? 'bg-yellow-300' : 'bg-black-500'}`}
+                />
+              ))}
+            </View>
+            {stepForm === 'clientOrCompany' && <ClientOrCompany form={form} setStepForm={setStepForm} />}
+            {stepForm === 'basicInformation' && <BasicInformationStep form={form} setStepForm={setStepForm} />}
+            {stepForm === 'paymentMethods' && <PaymentMethodsStep form={form} setStepForm={setStepForm} />}
+            {stepForm === 'registrationCompleted' && <RegistrationCompleted form={form} setStepForm={setStepForm} />}
           </View>
-          {stepForm === 'clientOrCompany' && <ClientOrCompany form={form} setStepForm={setStepForm} />}
-          {stepForm === 'basicInformation' && <BasicInformationStep form={form} setStepForm={setStepForm} />}
-          {stepForm === 'paymentMethods' && <PaymentMethodsStep form={form} setStepForm={setStepForm} />}
-          {stepForm === 'registrationCompleted' && <RegistrationCompleted form={form} setStepForm={setStepForm} />}
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Form>
   )
 }

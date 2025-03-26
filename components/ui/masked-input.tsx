@@ -1,9 +1,14 @@
 import { FormControl } from 'components/ui/form'
 import { cn } from 'lib/util'
 import type { LucideIcon } from 'lucide-react-native'
+import { cssInterop } from 'nativewind'
 import * as React from 'react'
 import { Platform, TextInput, View, type TextInputProps } from 'react-native'
 import { MaskedTextInput } from 'react-native-mask-text'
+
+cssInterop(MaskedTextInput, {
+  className: 'style',
+})
 
 interface BaseInputProps extends Omit<TextInputProps, 'className'> {
   icon?: LucideIcon

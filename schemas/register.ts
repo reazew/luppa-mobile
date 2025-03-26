@@ -1,5 +1,11 @@
 import { z } from 'zod'
 
+export const clientOrCompanySchema = z.object({
+  type: z.enum(['client', 'company'], {
+    required_error: 'Por favor, selecione um tipo de cadastro',
+  }),
+})
+
 export const registerSchema = z.object({
   type: z.enum(['client', 'company', '']),
   paymentMethod: z.enum(['pix', 'credit-card', 'debit-card']),
@@ -10,8 +16,6 @@ export const registerSchema = z.object({
   password: z.string().min(8),
   confirmPassword: z.string().min(8),
   phone: z.string().min(11),
-  city: z.string().min(1),
-  uf: z.string().min(2),
   birthDate: z.string().min(1),
 })
 
