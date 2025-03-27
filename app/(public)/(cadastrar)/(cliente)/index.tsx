@@ -5,14 +5,35 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
-import type { RegisterClientFormProps } from 'context/register-client-context'
+import { router } from 'expo-router'
 import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import { useRef } from 'react'
-import { useFormContext } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
+import type { RegisterInfer } from 'schemas/register'
+import { useStepStore } from 'store/useStepStore'
 
-export default function FormStepBasicInformation() {
-  const form = useFormContext<RegisterClientFormProps>()
+export default function RegisterClientForm() {
+  const { nextStep } = useStepStore()
+
+  const handleBack = () => {
+    router.back()
+  }
+
+  const handleNext = () => {
+    router.push('/form-step-payment-methods')
+    nextStep()
+  }
+
+  const form = useForm<RegisterInfer>({
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      birthDate: '',
+      imageFile: null,
+    },
+  })
 
   const emailRef = useRef<TextInput>(null)
   const phoneRef = useRef<TextInput>(null)
@@ -21,9 +42,9 @@ export default function FormStepBasicInformation() {
   return (
     <KeyboardView>
       <ScrollView>
-        <Container className="items-center justify-between gap-[32px] px-6">
-          <Text size="huge-2" weight="bold" className="w-full text-left">
-            Nos conte sobre você
+        <Container hasHeader className="items-center justify-between px-6">
+          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
+            Informações básicas
           </Text>
           <Form {...form}>
             <View className="w-full flex-1 justify-start ">
@@ -87,21 +108,12 @@ export default function FormStepBasicInformation() {
             </View>
           </Form>
           <View className="flex w-full flex-row items-center justify-between gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onPress={() => {
-                /* Handle back navigation */
-              }}>
+            <Button variant="ghost" size="icon" onPress={handleBack}>
               <Button.Icon>
                 <MoveLeft size={16} />
               </Button.Icon>
             </Button>
-            <Button
-              onPress={() => {
-                /* Handle next step */
-              }}
-              className="max-w-[200px]">
+            <Button onPress={handleNext} className="max-w-[200px]">
               <Button.Text>Avançar</Button.Text>
               <Button.Icon>
                 <ArrowRight size={16} />

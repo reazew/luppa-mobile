@@ -111,7 +111,7 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
             )}
           </View>
 
-          <View className="flex-1 gap-4">
+          <View className="flex-1 items-center gap-4">
             <Button onPress={pickImage} variant="outline" className="min-w-[152px]">
               <Button.Icon>
                 <ImageIcon size={16} />

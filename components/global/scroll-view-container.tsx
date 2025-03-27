@@ -1,5 +1,5 @@
-import { cn } from 'lib/util';
-import { ScrollView as RNScrollView } from 'react-native';
+import { cn } from 'lib/util'
+import { ScrollView as RNScrollView } from 'react-native'
 
 export const ScrollView = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (

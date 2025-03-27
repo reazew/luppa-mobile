@@ -2,16 +2,20 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { FormItem } from 'components/global/form-item'
+import { KeyboardView } from 'components/global/keyboard-view'
+import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { CircleArrowRight } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import type { clientOrCompanyInfer } from 'schemas/register'
 import { clientOrCompanySchema } from 'schemas/register'
+import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterIndexScreen() {
+  const { nextStep } = useStepStore()
+
   const form = useForm<clientOrCompanyInfer>({
     resolver: zodResolver(clientOrCompanySchema),
   })
@@ -26,27 +30,19 @@ export default function RegisterIndexScreen() {
       })
     }
 
-    const routes = {
-      client: '/(public)/(cadastrar)/(cliente)/form-step-basic-information',
-      company: '/(public)/(cadastrar)/(empresa)/form-step-about-legal-guardian',
-    } as const
-
-    router.push(routes[result.data.type])
+    nextStep()
+    if (result.data.type === 'client') {
+      router.navigate('/(public)/(cadastrar)/(cliente)')
+    } else {
+      router.navigate('/(public)/(cadastrar)/(empresa)')
+    }
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-      <ScrollView
-        className="bg-background"
-        alwaysBounceVertical={false}
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-        style={{
-          flex: 1,
-        }}>
-        <Container className="items-center justify-between gap-[32px] px-6">
-          <Text size="huge-2" weight="bold" className="w-full text-left">
+    <KeyboardView>
+      <ScrollView>
+        <Container hasHeader className="items-center justify-between px-6">
+          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
             Nos conte sobre você
           </Text>
           <Form {...form}>
@@ -75,7 +71,11 @@ export default function RegisterIndexScreen() {
               )}
             />
           </Form>
-          <Button onPress={() => handleNextStep(form.getValues())} className="mx-auto max-w-[200px]">
+          <Button
+            onPress={() => {
+              handleNextStep(form.getValues())
+            }}
+            className="mx-auto max-w-[200px]">
             <Button.Text>Avançar</Button.Text>
             <Button.Icon>
               <CircleArrowRight size={16} />
@@ -83,6 +83,6 @@ export default function RegisterIndexScreen() {
           </Button>
         </Container>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardView>
   )
 }

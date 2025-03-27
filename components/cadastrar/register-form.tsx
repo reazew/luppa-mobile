@@ -24,7 +24,6 @@ export const RegisterForm = () => {
   const form = useForm<RegisterInfer>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      type: '',
       name: '',
       email: '',
       phone: '',
