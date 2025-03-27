@@ -23,7 +23,7 @@ export default function RegisterLayout() {
         header: () => <Steps currentStepIndex={currentStep} />,
         animationTypeForReplace: 'pop',
         presentation: 'transparentModal',
-        animation: 'slide_from_right',
+        animation: 'none',
       }}>
       <Stack.Screen name="(cliente)" />
       <Stack.Screen name="(empresa)" />

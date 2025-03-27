@@ -134,9 +134,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref)
           value={field.value || ''}
           onValueChange={(value) => {
             field.onChange(value)
-            if (onValueSelect) {
-              setTimeout(onValueSelect, 100)
-            }
+            onValueSelect?.()
           }}
           displayVariant={displayVariant}>
           {toggleOptions?.map((option) => (
@@ -178,7 +176,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref)
             />
           </TouchableOpacity>
 
-          <View className="absolute -left-2 top-0 pt-14">
+          <View className="absolute -left-2 top-0 pt-[45px]">
             <DatePicker
               value={field.value ? new Date(field.value) : undefined}
               onChange={(date) => {
