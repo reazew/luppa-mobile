@@ -1,10 +1,10 @@
-import { Text } from 'components/global/text'
+import { Button } from 'components/global/button'
 import { FormControl } from 'components/ui/form'
 import * as DocumentPicker from 'expo-document-picker'
 import { cn } from 'lib/util'
-import type { LucideIcon } from 'lucide-react-native'
+import { Trash, Upload, type LucideIcon } from 'lucide-react-native'
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 
 import { Input } from './input'
 
@@ -54,39 +54,34 @@ export const DocumentPickerInput = React.forwardRef<View, DocumentPickerInputPro
         <View className="flex-row gap-4">
           <View className="flex-1">
             <Input
+              pointerEvents="none"
               placeholder={placeholder}
               icon={icon}
               iconSide={iconSide}
               error={error}
-              editable={false}
               value={selectedFileName}
-              pointerEvents="none"
             />
           </View>
           <View className="flex-row gap-2">
             {value && !value.canceled ? (
-              <TouchableOpacity
-                activeOpacity={0.7}
+              <Button
                 onPress={() => {
                   onChange?.(null)
                   onBlur?.()
                 }}
-                className="items-center justify-center rounded-md border border-black-500 px-3 py-2"
+                size="icon"
+                variant="destructive"
                 disabled={disabled}>
-                <Text size="sm" className="text-black-0">
-                  Delete
-                </Text>
-              </TouchableOpacity>
+                <Button.Icon>
+                  <Trash size={16} />
+                </Button.Icon>
+              </Button>
             ) : (
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={pickDocument}
-                className="items-center justify-center rounded-md border border-black-500 px-3 py-2"
-                disabled={disabled}>
-                <Text size="sm" className="text-black-0">
-                  Select file
-                </Text>
-              </TouchableOpacity>
+              <Button onPress={pickDocument} disabled={disabled} size="icon">
+                <Button.Icon>
+                  <Upload size={16} />
+                </Button.Icon>
+              </Button>
             )}
           </View>
         </View>

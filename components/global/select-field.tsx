@@ -27,7 +27,10 @@ export const SelectField = <T extends FieldValues>({
   disabled,
 }: SelectFieldProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
-  const selectedOption = useMemo(() => options?.find((opt) => opt.value === field.value), [field.value, options])
+  const selectedOption = useMemo(
+    () => options?.find((opt) => opt.value === field.value),
+    [field.value, options]
+  )
 
   return (
     <FormControl>
@@ -43,7 +46,11 @@ export const SelectField = <T extends FieldValues>({
             disabled && 'bg-black-500 placeholder:text-black-200'
           )}>
           <View className="flex-1 flex-row items-center justify-between">
-            <Text className={cn('text-black-0', !selectedOption?.label && 'text-black-100')}>
+            <Text
+              className={cn(
+                'text-black-0',
+                !selectedOption?.label && 'text-black-100'
+              )}>
               {selectedOption?.label || placeholder || 'Selecione'}
             </Text>
             <ChevronDown
@@ -63,7 +70,12 @@ export const SelectField = <T extends FieldValues>({
                   field.onChange(option.value)
                   setIsOpen(false)
                 }}
-                className={cn('rounded-lg p-2', field.value === option.value ? 'bg-black-600' : 'hover:bg-black-600')}>
+                className={cn(
+                  'rounded-lg p-2',
+                  field.value === option.value
+                    ? 'bg-black-600'
+                    : 'hover:bg-black-600'
+                )}>
                 <Text className="text-black-0">{option.label}</Text>
               </Pressable>
             ))}

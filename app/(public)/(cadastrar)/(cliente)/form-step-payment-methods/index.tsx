@@ -1,4 +1,8 @@
-import { CreditCardActiveIcon, DebitCardActiveIcon, PixActiveIcon } from 'assets/icons'
+import {
+  CreditCardActiveIcon,
+  DebitCardActiveIcon,
+  PixActiveIcon,
+} from 'assets/icons'
 import { PaymentMethod } from 'components/cadastrar/payment-method'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
@@ -26,7 +30,10 @@ export default function FormStepPaymentMethods() {
     <KeyboardView>
       <ScrollView>
         <Container hasHeader className="items-center justify-between px-6">
-          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
+          <Text
+            size="huge-2"
+            weight="bold"
+            className="w-full pb-[32px] text-left">
             Nos conte sobre você
           </Text>
           <View className="w-full flex-1 gap-8">

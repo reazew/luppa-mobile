@@ -1,16 +1,26 @@
-import { CreditCardActiveIcon, DebitCardActiveIcon, PixActiveIcon } from 'assets/icons'
-import { PaymentMethod } from 'components/cadastrar/payment-method'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ShopIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
+import { FormItem } from 'components/global/form-item'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
+import DropdownComponent from 'components/ui/dropdown-input'
+import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { ArrowRight, MoveLeft } from 'lucide-react-native'
-import { View } from 'react-native'
+import { getCityOptions, getStateOptions } from 'mock/cities'
+import { useRef } from 'react'
+import { useForm } from 'react-hook-form'
+import { TextInput, View } from 'react-native'
+import {
+  registerCompanySchema,
+  type RegisterCompanyInfer,
+} from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
-export default function FormStepPaymentMethods() {
+export default function RegisterCompanyForm() {
   const { nextStep } = useStepStore()
 
   const handleBack = () => {
@@ -18,34 +28,151 @@ export default function FormStepPaymentMethods() {
   }
 
   const handleNext = () => {
-    router.push('/form-step-registration-completed')
     nextStep()
   }
+
+  const form = useForm<RegisterCompanyInfer>({
+    resolver: zodResolver(registerCompanySchema),
+    defaultValues: {
+      nameCompany: '',
+      cnpj: '',
+      email: '',
+      phone: '',
+      address: '',
+      segment: 'Pizzaria',
+      city: '',
+      uf: '',
+      imageFile: null,
+    },
+  })
+
+  const emailRef = useRef<TextInput>(null)
+  const phoneRef = useRef<TextInput>(null)
+  const birthDateRef = useRef<TextInput>(null)
 
   return (
     <KeyboardView>
       <ScrollView>
         <Container hasHeader className="items-center justify-between px-6">
-          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
-            Informações sobre o seu negócio
+          <Text
+            size="huge-2"
+            weight="bold"
+            className="w-full pb-[32px] text-left">
+            Informações sobre o responsável legal
           </Text>
-          <View className="w-full flex-1 gap-8">
-            <PaymentMethod
-              label="Pix"
-              description="Conecte com seu banco através da nossa ferramenta"
-              icon={<PixActiveIcon />}
-            />
-            <PaymentMethod
-              label="Cartão de crédito"
-              description="Conecte com seu banco através da nossa ferramenta"
-              icon={<CreditCardActiveIcon />}
-            />
-            <PaymentMethod
-              label="Cartão de débito"
-              description="Conecte com seu banco através da nossa ferramenta"
-              icon={<DebitCardActiveIcon />}
-            />
-          </View>
+          <Form {...form}>
+            <View className="w-full flex-1 justify-start ">
+              <FormField
+                control={form.control}
+                name="imageFile"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="image-picker"
+                    placeholderIcon={
+                      <ShopIcon width={64} height={64} fill="#757575" />
+                    }
+                    imagePreviewSize={{ width: 128, height: 128 }}
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nameCompany"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="input"
+                    label="Nome Fantasia"
+                    placeholder="Digite nome do negócio"
+                    onSubmitEditing={() => emailRef.current?.focus()}
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="cnpj"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="masked-input"
+                    label="CNPJ"
+                    placeholder="Digite o CNPJ"
+                    mask="99.999.999/9999-99"
+                    keyboardType="phone-pad"
+                    ref={phoneRef}
+                    onSubmitEditing={() => birthDateRef.current?.focus()}
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="segment"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="select"
+                    label="Segmento"
+                    placeholder="Selecione o segmento"
+                    options={[
+                      { label: 'Pizzaria', value: 'Pizzaria' },
+                      { label: 'Padaria', value: 'Padaria' },
+                      { label: 'Lanchonete', value: 'Lanchonete' },
+                      { label: 'Bar', value: 'Bar' },
+                      { label: 'Outros', value: 'Outros' },
+                    ]}
+                    ref={emailRef}
+                    onSubmitEditing={() => phoneRef.current?.focus()}
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="masked-input"
+                    label="Telefone"
+                    placeholder="Digite seu telefone"
+                    mask="(99) 99999-9999"
+                    keyboardType="phone-pad"
+                    ref={phoneRef}
+                    onSubmitEditing={() => birthDateRef.current?.focus()}
+                  />
+                )}
+              />
+              <FormField
+                name="city"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="select"
+                    label="Cidade"
+                    placeholder="Selecione"
+                    options={getCityOptions()}
+                    className="w-full"
+                  />
+                )}
+              />
+              <FormField
+                name="uf"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="select"
+                    label="Estado"
+                    placeholder="Selecione"
+                    options={getStateOptions()}
+                    className="w-full"
+                  />
+                )}
+              />
+              <DropdownComponent />
+            </View>
+          </Form>
           <View className="flex w-full flex-row items-center justify-between gap-2">
             <Button variant="ghost" size="icon" onPress={handleBack}>
               <Button.Icon>

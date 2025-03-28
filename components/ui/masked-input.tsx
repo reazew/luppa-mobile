@@ -41,9 +41,21 @@ export interface MaskedInputProps extends BaseInputProps {
   } & Record<string, any>
 }
 
-const IconWrapper = ({ Icon, side, editable }: { Icon: LucideIcon; side: 'left' | 'right'; editable?: boolean }) => (
-  <View className={`absolute ${side === 'left' ? 'left-3' : 'right-3'} top-2.5 z-10`}>
-    <Icon size={side === 'right' ? 20 : 16} color={editable === false ? '#666666' : '#757575'} />
+const IconWrapper = ({
+  Icon,
+  side,
+  editable,
+}: {
+  Icon: LucideIcon
+  side: 'left' | 'right'
+  editable?: boolean
+}) => (
+  <View
+    className={`absolute ${side === 'left' ? 'left-3' : 'right-3'} top-2.5 z-10`}>
+    <Icon
+      size={side === 'right' ? 20 : 16}
+      color={editable === false ? '#666666' : '#757575'}
+    />
   </View>
 )
 
@@ -66,8 +78,11 @@ const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
     ref
   ) => {
     return (
-      <FormControl className={cn('relative min-w-[152px] rounded-5xl', className)}>
-        {Icon && iconSide === 'left' && <IconWrapper Icon={Icon} side="left" editable={props.editable} />}
+      <FormControl
+        className={cn('relative min-w-[152px] rounded-5xl', className)}>
+        {Icon && iconSide === 'left' && (
+          <IconWrapper Icon={Icon} side="left" editable={props.editable} />
+        )}
         <MaskedTextInput
           ref={ref}
           placeholder={placeholder}
@@ -81,7 +96,8 @@ const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
             Icon && iconSide === 'left' && 'pl-10',
             Icon && iconSide === 'right' && 'pr-10',
             error && 'border-red-300',
-            props.editable === false && 'bg-black-500 placeholder:text-black-200'
+            props.editable === false &&
+              'bg-black-500 placeholder:text-black-200'
           )}
           placeholderTextColor="#737373"
           type={type}
@@ -90,7 +106,9 @@ const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
           keyboardType={keyboardType}
           {...props}
         />
-        {Icon && iconSide === 'right' && <IconWrapper Icon={Icon} side="right" editable={props.editable} />}
+        {Icon && iconSide === 'right' && (
+          <IconWrapper Icon={Icon} side="right" editable={props.editable} />
+        )}
       </FormControl>
     )
   }

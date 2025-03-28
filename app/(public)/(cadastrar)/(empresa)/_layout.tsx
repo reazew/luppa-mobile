@@ -29,7 +29,7 @@ export default function RegisterCompanyLayout() {
           previousStep()
         },
       }}>
-      <Stack.Screen name="form-step-about-legal-guardian" />
+      <Stack.Screen name="form-step-about-business" />
     </Stack>
   )
 }

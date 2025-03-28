@@ -7,14 +7,17 @@ import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
-import { ArrowRight, MoveLeft } from 'lucide-react-native'
+import { ArrowRight, FileIcon, MoveLeft } from 'lucide-react-native'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
-import { registerCompanySchema, type RegisterCompanyInfer } from 'schemas/register'
+import {
+  registerLegalResponsibleSchema,
+  type RegisterLegalResponsibleInfer,
+} from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
-export default function RegisterCompanyForm() {
+export default function RegisterLegalGuardianForm() {
   const { nextStep } = useStepStore()
 
   const handleBack = () => {
@@ -22,19 +25,19 @@ export default function RegisterCompanyForm() {
   }
 
   const handleNext = () => {
-    router.push('/form-step-payment-methods')
+    router.push('/form-step-about-business')
     nextStep()
   }
 
-  const form = useForm<RegisterCompanyInfer>({
-    resolver: zodResolver(registerCompanySchema),
+  const form = useForm<RegisterLegalResponsibleInfer>({
+    resolver: zodResolver(registerLegalResponsibleSchema),
     defaultValues: {
       name: '',
       cpf: '',
       email: '',
       phone: '',
       birthDate: '',
-      imageFile: null,
+      document: null,
     },
   })
 
@@ -46,7 +49,10 @@ export default function RegisterCompanyForm() {
     <KeyboardView>
       <ScrollView>
         <Container hasHeader className="items-center justify-between px-6">
-          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
+          <Text
+            size="huge-2"
+            weight="bold"
+            className="w-full pb-[32px] text-left">
             Informações sobre o responsável legal
           </Text>
           <Form {...form}>
@@ -110,7 +116,23 @@ export default function RegisterCompanyForm() {
                   />
                 )}
               />
-              {/* [] Create file-input */}
+              <FormField
+                control={form.control}
+                name="document"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="document-picker"
+                    label="Foto do Documento de Identificação"
+                    placeholder="Selecione o documento"
+                    icon={FileIcon}
+                    documentPickerOptions={{
+                      type: ['application/pdf'],
+                      multiple: false,
+                    }}
+                  />
+                )}
+              />
             </View>
           </Form>
           <View className="flex w-full flex-row items-center justify-between gap-2">

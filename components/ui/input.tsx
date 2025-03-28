@@ -17,9 +17,23 @@ export interface InputProps extends BaseInputProps {
   onSubmitEditing?: () => void
 }
 
-const IconWrapper = ({ Icon, side, editable }: { Icon: LucideIcon; side: 'left' | 'right'; editable?: boolean }) => (
-  <View className={`absolute ${side === 'left' ? 'left-3' : 'right-3'} top-2.5 z-10`}>
-    <Icon size={side === 'right' ? 20 : 16} color={editable === false ? '#666666' : '#757575'} />
+const IconWrapper = ({
+  Icon,
+  side,
+  editable,
+  hasValue,
+}: {
+  Icon: LucideIcon
+  side: 'left' | 'right'
+  editable?: boolean
+  hasValue?: boolean
+}) => (
+  <View
+    className={`absolute ${side === 'left' ? 'left-4' : 'right-2'} top-1/2 z-10 -translate-y-1/2`}>
+    <Icon
+      size={side === 'right' ? 20 : 16}
+      color={hasValue ? '#FFFFFF' : editable === false ? '#666666' : '#757575'}
+    />
   </View>
 )
 
@@ -39,8 +53,16 @@ const Input = React.forwardRef<TextInput, InputProps>(
     ref
   ) => {
     return (
-      <FormControl className={cn('relative min-w-[152px] rounded-5xl', className)}>
-        {Icon && iconSide === 'left' && <IconWrapper Icon={Icon} side="left" editable={props.editable} />}
+      <FormControl
+        className={cn('relative min-w-[152px] rounded-5xl', className)}>
+        {Icon && iconSide === 'left' && (
+          <IconWrapper
+            Icon={Icon}
+            side="left"
+            editable={props.editable}
+            hasValue={!!value}
+          />
+        )}
         <TextInput
           ref={ref}
           placeholder={placeholder}
@@ -48,18 +70,26 @@ const Input = React.forwardRef<TextInput, InputProps>(
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
           className={cn(
-            Platform.OS === 'ios' && 'pb-1.5 leading-none',
+            Platform.OS === 'ios' && 'pb-[3px] leading-none',
             'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
             'placeholder:text-black-100',
             'focus:border-yellow-300',
             Icon && iconSide === 'left' && 'pl-10',
             Icon && iconSide === 'right' && 'pr-10',
             error && 'border-red-300',
-            props.editable === false && 'bg-black-500 placeholder:text-black-200'
+            props.editable === false &&
+              'bg-black-500 placeholder:text-black-200'
           )}
           {...props}
         />
-        {Icon && iconSide === 'right' && <IconWrapper Icon={Icon} side="right" editable={props.editable} />}
+        {Icon && iconSide === 'right' && (
+          <IconWrapper
+            Icon={Icon}
+            side="right"
+            editable={props.editable}
+            hasValue={!!value}
+          />
+        )}
       </FormControl>
     )
   }
