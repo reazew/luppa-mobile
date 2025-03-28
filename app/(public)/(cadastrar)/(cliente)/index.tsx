@@ -10,7 +10,7 @@ import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
-import type { RegisterInfer } from 'schemas/register'
+import type { RegisterClientInfer } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterClientForm() {
@@ -25,7 +25,7 @@ export default function RegisterClientForm() {
     nextStep()
   }
 
-  const form = useForm<RegisterInfer>({
+  const form = useForm<RegisterClientInfer>({
     defaultValues: {
       name: '',
       email: '',

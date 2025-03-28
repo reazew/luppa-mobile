@@ -6,16 +6,16 @@ import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import type { Dispatch, SetStateAction } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
 import { Alert, View } from 'react-native'
-import type { RegisterInfer } from 'schemas/register'
+import type { RegisterClientInfer } from 'schemas/register'
 
 interface RegistrationCompletedProps {
-  form: UseFormReturn<RegisterInfer>
+  form: UseFormReturn<RegisterClientInfer>
   setStepForm: Dispatch<
     SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>
   >
 }
 
-const handleSubmit = (form: UseFormReturn<RegisterInfer>) => {
+const handleSubmit = (form: UseFormReturn<RegisterClientInfer>) => {
   const formValues = form.getValues()
   console.log('Form Values:', formValues)
   console.log('Form State:', form.formState)

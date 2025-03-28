@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { FormItem } from 'components/global/form-item'
@@ -10,7 +11,7 @@ import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
-import type { RegisterInfer } from 'schemas/register'
+import { registerCompanySchema, type RegisterCompanyInfer } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterCompanyForm() {
@@ -21,13 +22,15 @@ export default function RegisterCompanyForm() {
   }
 
   const handleNext = () => {
-    router.push('/form-step-about-legal-guardian')
+    router.push('/form-step-payment-methods')
     nextStep()
   }
 
-  const form = useForm<RegisterInfer>({
+  const form = useForm<RegisterCompanyInfer>({
+    resolver: zodResolver(registerCompanySchema),
     defaultValues: {
       name: '',
+      cpf: '',
       email: '',
       phone: '',
       birthDate: '',
@@ -50,21 +53,30 @@ export default function RegisterCompanyForm() {
             <View className="w-full flex-1 justify-start ">
               <FormField
                 control={form.control}
-                name="imageFile"
-                render={({ field }) => (
-                  <FormItem field={field} fieldType="image-picker" imagePreviewSize={{ width: 128, height: 128 }} />
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem
                     field={field}
                     fieldType="input"
-                    label="Nome"
+                    label="Nome completo"
                     placeholder="Digite seu nome"
                     onSubmitEditing={() => emailRef.current?.focus()}
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="cpf"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="masked-input"
+                    label="CPF"
+                    placeholder="Digite seu CPF"
+                    mask="999.999.999-99"
+                    keyboardType="phone-pad"
+                    ref={phoneRef}
+                    onSubmitEditing={() => birthDateRef.current?.focus()}
                   />
                 )}
               />
@@ -98,13 +110,7 @@ export default function RegisterCompanyForm() {
                   />
                 )}
               />
-              <FormField
-                control={form.control}
-                name="birthDate"
-                render={({ field }) => (
-                  <FormItem field={field} fieldType="birth-date" label="Aniversário" placeholder="Dia/Mês" />
-                )}
-              />
+              {/* [] Create file-input */}
             </View>
           </Form>
           <View className="flex w-full flex-row items-center justify-between gap-2">

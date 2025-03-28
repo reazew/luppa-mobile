@@ -9,7 +9,7 @@ import { isUndefined } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'
-import { RegisterInfer, registerSchema } from 'schemas/register'
+import { RegisterClientInfer, registerSchema } from 'schemas/register'
 
 export const RegisterForm = () => {
   const [stepForm, setStepForm] = useState<
@@ -21,7 +21,7 @@ export const RegisterForm = () => {
 
   // const userData = MOCKED_USERS[0]
 
-  const form = useForm<RegisterInfer>({
+  const form = useForm<RegisterClientInfer>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       name: '',

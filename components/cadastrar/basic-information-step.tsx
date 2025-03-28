@@ -6,10 +6,10 @@ import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import { useRef, type Dispatch, type SetStateAction } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
 import { KeyboardAvoidingView, ScrollView, View, type TextInput } from 'react-native'
-import type { RegisterInfer } from 'schemas/register'
+import type { RegisterClientInfer } from 'schemas/register'
 
 interface BasicInformationProps {
-  form: UseFormReturn<RegisterInfer>
+  form: UseFormReturn<RegisterClientInfer>
   setStepForm: Dispatch<
     SetStateAction<'clientOrCompany' | 'basicInformation' | 'paymentMethods' | 'registrationCompleted'>
   >
