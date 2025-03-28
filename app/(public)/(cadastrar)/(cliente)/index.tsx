@@ -7,13 +7,19 @@ import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { ArrowRight, MoveLeft } from 'lucide-react-native'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
 import type { RegisterClientInfer } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterClientForm() {
+  const resetStep = useStepStore((state) => state.resetStep)
+
+  useEffect(() => {
+    resetStep()
+  }, [])
+
   const { nextStep } = useStepStore()
 
   const handleBack = () => {

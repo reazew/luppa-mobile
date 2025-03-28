@@ -41,7 +41,7 @@ export default function RegisterIndexScreen() {
   return (
     <KeyboardView>
       <ScrollView>
-        <Container hasHeader className="items-center justify-between px-6">
+        <Container className="items-center justify-between px-6">
           <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
             Nos conte sobre você
           </Text>
