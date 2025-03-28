@@ -1,5 +1,6 @@
 import { SelectField, type Option } from 'components/global/select-field'
 import { DatePicker } from 'components/ui/date-picker'
+import { DocumentPickerInput } from 'components/ui/document-picker-input'
 import { FormLabel, FormMessage, FormItem as OriginalFormItem } from 'components/ui/form'
 import { InputImagePicker } from 'components/ui/input-image-picker'
 import { MaskedInput } from 'components/ui/masked-input'
@@ -14,7 +15,14 @@ import { TouchableOpacity, View, type TextInput } from 'react-native'
 import { Input } from '../ui/input'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 
-type FormFieldType = 'input' | 'masked-input' | 'select' | 'image-picker' | 'toggle-group' | 'birth-date'
+type FormFieldType =
+  | 'input'
+  | 'masked-input'
+  | 'select'
+  | 'image-picker'
+  | 'toggle-group'
+  | 'birth-date'
+  | 'document-picker'
 
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
@@ -40,6 +48,11 @@ interface FormItemProps<T extends FieldValues> {
     description: string
     icon?: 'client' | 'company' | 'pix' | 'credit-card' | 'debit-card'
   }[]
+  documentPickerOptions?: {
+    type?: string[]
+    multiple?: boolean
+    copyToCacheDirectory?: boolean
+  }
   mask?: string
   maskType?: 'date' | 'time' | 'currency'
   maskOptions?: {
@@ -84,6 +97,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref)
     imagePreviewSize,
     onSubmitEditing,
     onValueSelect,
+    documentPickerOptions,
   } = props
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
@@ -187,6 +201,21 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref)
             />
           </View>
         </View>
+      )
+
+    case 'document-picker':
+      return (
+        <DocumentPickerInput
+          value={field.value}
+          onChange={field.onChange}
+          onBlur={field.onBlur}
+          placeholder={placeholder}
+          icon={icon}
+          iconSide={iconSide}
+          error={error}
+          disabled={disabled}
+          options={documentPickerOptions}
+        />
       )
 
     default:

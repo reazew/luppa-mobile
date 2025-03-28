@@ -19,7 +19,13 @@ export interface SelectFieldProps<T extends FieldValues> {
   disabled?: boolean
 }
 
-export const SelectField = <T extends FieldValues>({ field, options, placeholder, error, disabled }: SelectFieldProps<T>) => {
+export const SelectField = <T extends FieldValues>({
+  field,
+  options,
+  placeholder,
+  error,
+  disabled,
+}: SelectFieldProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
   const selectedOption = useMemo(() => options?.find((opt) => opt.value === field.value), [field.value, options])
 
@@ -40,7 +46,11 @@ export const SelectField = <T extends FieldValues>({ field, options, placeholder
             <Text className={cn('text-black-0', !selectedOption?.label && 'text-black-100')}>
               {selectedOption?.label || placeholder || 'Selecione'}
             </Text>
-            <ChevronDown size={20} color={disabled ? '#666666' : '#757575'} className={cn('transition-transform', isOpen && 'rotate-180')} />
+            <ChevronDown
+              size={20}
+              color={disabled ? '#666666' : '#757575'}
+              className={cn('transition-transform', isOpen && 'rotate-180')}
+            />
           </View>
         </Pressable>
 
