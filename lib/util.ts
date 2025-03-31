@@ -17,6 +17,12 @@ export function findByName(name: string, list: any[]) {
   return found ?? null
 }
 
+export function transformUrlsInFiles(galletyImagesUrl: string[]) {
+  return galletyImagesUrl?.map((url) => {
+    return new File([], url)
+  })
+}
+
 export const statusBarHeight = Constants.statusBarHeight
 export const bottomBarHeight = 34
 export const screenHeight = Dimensions.get('window').height

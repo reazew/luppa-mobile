@@ -67,7 +67,8 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
       if (disabled) return
 
       try {
-        const permissionResult = await ImagePicker.requestCameraPermissionsAsync()
+        const permissionResult =
+          await ImagePicker.requestCameraPermissionsAsync()
 
         if (!permissionResult.granted) {
           alert('Você precisa permitir o acesso à câmera para tirar uma foto')
@@ -108,7 +109,10 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
             style={{ width: previewSize.width, height: previewSize.height }}>
             {value ? (
               <>
-                <Image source={{ uri: value }} className="h-full w-full rounded-full" />
+                <Image
+                  source={{ uri: value }}
+                  className="h-full w-full rounded-full"
+                />
                 <Button
                   onPress={removeImage}
                   size="icon"
@@ -120,19 +124,27 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
                 </Button>
               </>
             ) : (
-              <View className="flex-1 items-center justify-center">{placeholderIcon}</View>
+              <View className="flex-1 items-center justify-center">
+                {placeholderIcon}
+              </View>
             )}
           </View>
 
           <View className="flex-1 items-center gap-4">
-            <Button onPress={pickImage} variant="outline" className="min-w-[152px]">
+            <Button
+              onPress={pickImage}
+              variant="outline"
+              className="min-w-[152px]">
               <Button.Icon>
                 <ImageIcon size={16} />
               </Button.Icon>
               <Button.Text>Escolher na galeria</Button.Text>
             </Button>
 
-            <Button onPress={takePhoto} variant="outline" className="min-w-[152px]">
+            <Button
+              onPress={takePhoto}
+              variant="outline"
+              className="min-w-[152px]">
               <Button.Icon>
                 <Camera size={16} />
               </Button.Icon>

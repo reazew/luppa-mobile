@@ -10,6 +10,8 @@ interface BaseInputProps extends Omit<TextInputProps, 'className'> {
   className?: string
   error?: boolean
   value?: string
+  multiline?: boolean
+  numberOfLines?: number
 }
 
 export interface InputProps extends BaseInputProps {
@@ -48,6 +50,8 @@ const Input = React.forwardRef<TextInput, InputProps>(
       value,
       onChangeText,
       onSubmitEditing,
+      multiline,
+      numberOfLines = 4,
       ...props
     },
     ref
@@ -69,9 +73,15 @@ const Input = React.forwardRef<TextInput, InputProps>(
           value={value}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
+          multiline={multiline}
+          numberOfLines={multiline ? numberOfLines : undefined}
+          textAlignVertical={multiline ? 'top' : 'center'}
           className={cn(
             Platform.OS === 'ios' && 'pb-[3px] leading-none',
-            'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+            'min-w-[152px] border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+            multiline
+              ? 'min-h-[120px] rounded-[16px] py-3'
+              : 'h-[40px] rounded-5xl',
             'placeholder:text-black-100',
             'focus:border-yellow-300',
             Icon && iconSide === 'left' && 'pl-10',

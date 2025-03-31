@@ -1,5 +1,6 @@
-import { CameraIcon } from 'assets/icons'
+import { GalleryIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
+import { Text } from 'components/global/text'
 import { FormControl } from 'components/ui/form'
 import { Label } from 'components/ui/label'
 import * as ImagePicker from 'expo-image-picker'
@@ -25,11 +26,14 @@ interface InputImageGalleryPickerProps {
 }
 
 const DEFAULT_PREVIEW_SIZE = {
-  width: 100,
-  height: 100,
+  width: 90,
+  height: 90,
 }
 
-export const InputImageGalleryPicker = React.forwardRef<View, InputImageGalleryPickerProps>(
+export const InputImageGalleryPicker = React.forwardRef<
+  View,
+  InputImageGalleryPickerProps
+>(
   (
     {
       value = [],
@@ -40,7 +44,7 @@ export const InputImageGalleryPicker = React.forwardRef<View, InputImageGalleryP
       className,
       label = 'Fotos',
       previewSize = DEFAULT_PREVIEW_SIZE,
-      placeholderIcon = <CameraIcon />,
+      placeholderIcon = <GalleryIcon />,
       maxImages = 6,
     },
     ref
@@ -57,7 +61,7 @@ export const InputImageGalleryPicker = React.forwardRef<View, InputImageGalleryP
         })
 
         if (!result.canceled && result.assets) {
-          const newImages = result.assets.map((asset) => asset.uri)
+          const newImages = result.assets.map((asset) => asset.uri.toString())
           onChange([...value, ...newImages].slice(0, maxImages))
           onBlur?.()
         }
@@ -70,7 +74,8 @@ export const InputImageGalleryPicker = React.forwardRef<View, InputImageGalleryP
       if (disabled || value.length >= maxImages) return
 
       try {
-        const permissionResult = await ImagePicker.requestCameraPermissionsAsync()
+        const permissionResult =
+          await ImagePicker.requestCameraPermissionsAsync()
 
         if (!permissionResult.granted) {
           alert('Você precisa permitir o acesso à câmera para tirar uma foto')
@@ -82,7 +87,9 @@ export const InputImageGalleryPicker = React.forwardRef<View, InputImageGalleryP
         })
 
         if (!result.canceled && result.assets[0]) {
-          onChange([...value, result.assets[0].uri].slice(0, maxImages))
+          onChange(
+            [...value, result.assets[0].uri.toString()].slice(0, maxImages)
+          )
           onBlur?.()
         }
       } catch (err) {
@@ -99,63 +106,76 @@ export const InputImageGalleryPicker = React.forwardRef<View, InputImageGalleryP
 
     return (
       <FormControl className={cn('relative', className)} ref={ref}>
-        <View className="items-center gap-4 rounded-3xl bg-black-700 p-6">
-          <Label className="text-base">{label}</Label>
-
-          <View className="flex-row flex-wrap justify-center gap-2">
-            {value.map((uri, index) => (
-              <View
-                key={uri}
-                className={cn(
-                  'relative rounded-lg border border-transparent bg-black-600',
-                  error && 'border-red-300',
-                  disabled && 'opacity-50'
-                )}
-                style={{ width: previewSize.width, height: previewSize.height }}>
-                <Image source={{ uri }} className="h-full w-full rounded-lg" />
-                <Button
-                  onPress={() => removeImage(index)}
-                  size="icon"
-                  variant="destructive"
-                  className="absolute right-1 top-1 rounded-full">
-                  <Button.Icon>
-                    <Trash2 size={14} />
-                  </Button.Icon>
-                </Button>
-              </View>
-            ))}
-
-            {value.length < maxImages && (
-              <View
-                className={cn(
-                  'relative rounded-lg border border-transparent bg-black-600',
-                  error && 'border-red-300',
-                  disabled && 'opacity-50'
-                )}
-                style={{ width: previewSize.width, height: previewSize.height }}>
-                <View className="flex-1 items-center justify-center">{placeholderIcon}</View>
-              </View>
-            )}
+        <View className="items-center gap-6 rounded-3xl bg-black-700 p-6">
+          <View className="flex flex-col items-center gap-2">
+            <Label className="text-base">{label}</Label>
+            <Text size="sm" className="text-black-0">
+              Selecione até {maxImages} fotos
+            </Text>
           </View>
 
-          <View className="flex-1 items-center gap-4">
-            {value.length < maxImages && (
-              <>
-                <Button onPress={pickImages} variant="outline" className="min-w-[152px]">
-                  <Button.Icon>
-                    <ImageIcon size={16} />
-                  </Button.Icon>
-                  <Button.Text>Escolher na galeria</Button.Text>
-                </Button>
+          <View className="flex flex-row flex-wrap items-center justify-center gap-2">
+            {[...Array(maxImages)].map((_, index) => (
+              <View
+                key={index}
+                className={cn(
+                  'relative rounded-2xl border border-transparent bg-black-600',
+                  error && 'border-red-300',
+                  disabled && 'opacity-50'
+                )}
+                style={{
+                  width: previewSize.width,
+                  height: previewSize.height,
+                }}>
+                {value[index] ? (
+                  <>
+                    <Image
+                      source={{ uri: String(value[index]) }}
+                      className="h-full w-full rounded-lg"
+                    />
+                    {!disabled && (
+                      <Button
+                        onPress={() => removeImage(index)}
+                        size="icon"
+                        variant="destructive"
+                        className="absolute right-1 top-1 rounded-full">
+                        <Button.Icon>
+                          <Trash2 size={14} />
+                        </Button.Icon>
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <View className="flex-1 items-center justify-center">
+                    {placeholderIcon}
+                  </View>
+                )}
+              </View>
+            ))}
+          </View>
 
-                <Button onPress={takePhoto} variant="outline" className="min-w-[152px]">
-                  <Button.Icon>
-                    <Camera size={16} />
-                  </Button.Icon>
-                  <Button.Text>Tirar agora</Button.Text>
-                </Button>
-              </>
-            )}
+          <View className="flex flex-row items-center justify-center gap-4">
+            <Button
+              onPress={pickImages}
+              variant="outline"
+              className="max-w-[150px]"
+              disabled={value.length >= maxImages}>
+              <Button.Icon>
+                <ImageIcon size={16} />
+              </Button.Icon>
+              <Button.Text>Escolher na galeria</Button.Text>
+            </Button>
+
+            <Button
+              onPress={takePhoto}
+              variant="outline"
+              className="max-w-[110px]"
+              disabled={value.length >= maxImages}>
+              <Button.Icon>
+                <Camera size={16} />
+              </Button.Icon>
+              <Button.Text>Tirar agora</Button.Text>
+            </Button>
           </View>
         </View>
       </FormControl>

@@ -13,7 +13,10 @@ import { getCityOptions, getStateOptions } from 'mock/cities'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
-import { registerCompanySchema, type RegisterCompanyInfer } from 'schemas/register'
+import {
+  registerCompanySchema,
+  type RegisterCompanyInfer,
+} from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterCompanyForm() {
@@ -24,6 +27,7 @@ export default function RegisterCompanyForm() {
   }
 
   const handleNext = () => {
+    router.push('/form-step-gallery')
     nextStep()
   }
 
@@ -51,7 +55,10 @@ export default function RegisterCompanyForm() {
     <KeyboardView>
       <ScrollView>
         <Container hasHeader className="items-center justify-between px-6">
-          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
+          <Text
+            size="huge-2"
+            weight="bold"
+            className="w-full pb-[32px] text-left">
             Informações sobre o seu negócio
           </Text>
           <Form {...form}>

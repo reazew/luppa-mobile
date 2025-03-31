@@ -42,7 +42,18 @@ export const registerLegalResponsibleSchema = z.object({
   document: z.instanceof(File).nullish(),
 })
 
+export const registerCompanyGallerySchema = z.object({
+  description: z.string().min(1),
+  galleryImagesFiles: z.array(z.instanceof(File)).nullish(),
+  galleryImagesUrls: z.array(z.string()).default([]),
+})
+
 export type RegisterClientInfer = z.infer<typeof registerClientSchema>
 export type RegisterCompanyInfer = z.infer<typeof registerCompanySchema>
-export type RegisterLegalResponsibleInfer = z.infer<typeof registerLegalResponsibleSchema>
+export type RegisterLegalResponsibleInfer = z.infer<
+  typeof registerLegalResponsibleSchema
+>
 export type clientOrCompanyInfer = z.infer<typeof clientOrCompanySchema>
+export type RegisterCompanyGalleryInfer = z.infer<
+  typeof registerCompanyGallerySchema
+>
