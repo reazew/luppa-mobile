@@ -1,6 +1,5 @@
 import { GalleryIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
-import { Text } from 'components/global/text'
 import { FormControl } from 'components/ui/form'
 import { Label } from 'components/ui/label'
 import * as ImagePicker from 'expo-image-picker'
@@ -10,8 +9,8 @@ import * as React from 'react'
 import { Image, View } from 'react-native'
 
 interface InputImageGalleryPickerProps {
-  value?: string[]
-  onChange: (value: string[]) => void
+  value?: { [key: number]: string }
+  onChange: (value: { [key: number]: string }) => void
   onBlur?: () => void
   error?: boolean
   disabled?: boolean
@@ -36,7 +35,7 @@ export const InputImageGalleryPicker = React.forwardRef<
 >(
   (
     {
-      value = [],
+      value = {},
       onChange,
       onBlur,
       error,
@@ -56,13 +55,23 @@ export const InputImageGalleryPicker = React.forwardRef<
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsMultipleSelection: true,
-          selectionLimit: maxImages - value.length,
+          selectionLimit: maxImages - Object.keys(value).length,
           quality: 0.8,
         })
 
         if (!result.canceled && result.assets) {
-          const newImages = result.assets.map((asset) => asset.uri.toString())
-          onChange([...value, ...newImages].slice(0, maxImages))
+          const availableSlots = [...Array(maxImages)]
+            .map((_, i) => i)
+            .filter((i) => !value[i])
+
+          const newImages = { ...value }
+          result.assets.forEach((asset, idx) => {
+            if (availableSlots[idx] !== undefined) {
+              newImages[availableSlots[idx]] = asset.uri.toString()
+            }
+          })
+
+          onChange(newImages)
           onBlur?.()
         }
       } catch (err) {
@@ -71,7 +80,7 @@ export const InputImageGalleryPicker = React.forwardRef<
     }
 
     const takePhoto = async () => {
-      if (disabled || value.length >= maxImages) return
+      if (disabled || Object.keys(value).length >= maxImages) return
 
       try {
         const permissionResult =
@@ -87,10 +96,17 @@ export const InputImageGalleryPicker = React.forwardRef<
         })
 
         if (!result.canceled && result.assets[0]) {
-          onChange(
-            [...value, result.assets[0].uri.toString()].slice(0, maxImages)
-          )
-          onBlur?.()
+          const firstEmptySlot = [...Array(maxImages)]
+            .map((_, i) => i)
+            .find((i) => !value[i])
+
+          if (firstEmptySlot !== undefined) {
+            onChange({
+              ...value,
+              [firstEmptySlot]: result.assets[0].uri.toString(),
+            })
+            onBlur?.()
+          }
         }
       } catch (err) {
         console.error('Error taking photo:', err)
@@ -99,7 +115,8 @@ export const InputImageGalleryPicker = React.forwardRef<
 
     const removeImage = (index: number) => {
       if (disabled) return
-      const newImages = value.filter((_, i) => i !== index)
+      const newImages = { ...value }
+      delete newImages[index]
       onChange(newImages)
       onBlur?.()
     }
@@ -107,12 +124,7 @@ export const InputImageGalleryPicker = React.forwardRef<
     return (
       <FormControl className={cn('relative', className)} ref={ref}>
         <View className="items-center gap-6 rounded-3xl bg-black-700 p-6">
-          <View className="flex flex-col items-center gap-2">
-            <Label className="text-base">{label}</Label>
-            <Text size="sm" className="text-black-0">
-              Selecione até {maxImages} fotos
-            </Text>
-          </View>
+          <Label className="text-base">{label}</Label>
 
           <View className="flex flex-row flex-wrap items-center justify-center gap-2">
             {[...Array(maxImages)].map((_, index) => (
@@ -130,7 +142,7 @@ export const InputImageGalleryPicker = React.forwardRef<
                 {value[index] ? (
                   <>
                     <Image
-                      source={{ uri: String(value[index]) }}
+                      source={{ uri: value[index] }}
                       className="h-full w-full rounded-lg"
                     />
                     {!disabled && (
@@ -158,8 +170,7 @@ export const InputImageGalleryPicker = React.forwardRef<
             <Button
               onPress={pickImages}
               variant="outline"
-              className="max-w-[150px]"
-              disabled={value.length >= maxImages}>
+              className="max-w-[165px]">
               <Button.Icon>
                 <ImageIcon size={16} />
               </Button.Icon>
@@ -169,8 +180,7 @@ export const InputImageGalleryPicker = React.forwardRef<
             <Button
               onPress={takePhoto}
               variant="outline"
-              className="max-w-[110px]"
-              disabled={value.length >= maxImages}>
+              className="max-w-[115px]">
               <Button.Icon>
                 <Camera size={16} />
               </Button.Icon>

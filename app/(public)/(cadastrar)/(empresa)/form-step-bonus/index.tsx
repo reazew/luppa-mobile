@@ -23,7 +23,6 @@ export default function RegisterCompanyForm() {
   }
 
   const handleNext = () => {
-    router.push('/form-step-bonus')
     nextStep()
   }
 
@@ -46,10 +45,22 @@ export default function RegisterCompanyForm() {
             size="huge-2"
             weight="bold"
             className="w-full pb-[32px] text-left">
-            Alguns toques finais
+            Bonificação
           </Text>
           <Form {...form}>
-            <View className="w-full flex-1 justify-start ">
+            <View className="w-full flex-1 justify-start">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="textarea"
+                    label="Quantidade mínima de pontos"
+                    placeholder="Fale sobre o que seu negócio oferece"
+                  />
+                )}
+              />
               <FormField
                 control={form.control}
                 name="description"
@@ -59,18 +70,6 @@ export default function RegisterCompanyForm() {
                     fieldType="textarea"
                     label="Descrição do seu Negócio"
                     placeholder="Fale sobre o que seu negócio oferece"
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="galleryImagesFiles"
-                render={({ field }) => (
-                  <FormItem
-                    field={field}
-                    fieldType="image-gallery-picker"
-                    label="Galeria de imagens"
-                    imagePreviewSize={{ width: 90, height: 90 }}
                   />
                 )}
               />

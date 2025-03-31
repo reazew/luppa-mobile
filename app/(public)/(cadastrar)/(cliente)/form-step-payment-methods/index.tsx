@@ -10,7 +10,7 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { router } from 'expo-router'
-import { ArrowRight, MoveLeft } from 'lucide-react-native'
+import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
 import { View } from 'react-native'
 import { useStepStore } from 'store/useStepStore'
 
@@ -62,7 +62,7 @@ export default function FormStepPaymentMethods() {
             <Button onPress={handleNext} className="max-w-[200px]">
               <Button.Text>Avançar</Button.Text>
               <Button.Icon>
-                <ArrowRight size={16} />
+                <CircleArrowRight size={16} />
               </Button.Icon>
             </Button>
           </View>

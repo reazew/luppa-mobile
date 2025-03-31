@@ -282,12 +282,16 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
 
 export const FormItem = React.forwardRef<TextInput, FormItemProps<any>>(
   (props, ref) => {
-    const { label, hideSupportiveText = false, className } = props
+    const { label, hideSupportiveText = false, className, fieldType } = props
 
     return (
       <OriginalFormItem
         className={cn('mb-4 w-full justify-start gap-2', className)}>
-        {label && <FormLabel className="leading-none">{label}</FormLabel>}
+        {label &&
+          fieldType !== 'image-gallery-picker' &&
+          fieldType !== 'image-picker' && (
+            <FormLabel className="leading-none">{label}</FormLabel>
+          )}
         <RenderInput {...props} ref={ref} />
         {!hideSupportiveText && (
           <View className="mt-0 h-4">

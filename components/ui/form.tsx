@@ -1,7 +1,14 @@
 import { Label } from 'components/ui/label'
 import { cn } from 'lib/util'
 import * as React from 'react'
-import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from 'react-hook-form'
+import {
+  Controller,
+  ControllerProps,
+  FieldPath,
+  FieldValues,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form'
 import { Text, TextProps, View, ViewProps } from 'react-native'
 
 const Form = FormProvider
@@ -13,7 +20,9 @@ type FormFieldContextValue<
   name: TName
 }
 
-const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
+const FormFieldContext = React.createContext<FormFieldContextValue>(
+  {} as FormFieldContextValue
+)
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
@@ -57,31 +66,48 @@ type FormItemContextValue = {
   id: string
 }
 
-const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue)
+const FormItemContext = React.createContext<FormItemContextValue>(
+  {} as FormItemContextValue
+)
 
 interface FormItemProps extends ViewProps {
   className?: string
 }
 
-const FormItem = React.forwardRef<View, FormItemProps>(({ className, style, ...props }, ref) => {
-  const id = React.useId()
+const FormItem = React.forwardRef<View, FormItemProps>(
+  ({ className, style, ...props }, ref) => {
+    const id = React.useId()
 
-  return (
-    <FormItemContext.Provider value={{ id }}>
-      <View ref={ref} className={cn('mb-4', className)} style={style} {...props} />
-    </FormItemContext.Provider>
-  )
-})
+    return (
+      <FormItemContext.Provider value={{ id }}>
+        <View
+          ref={ref}
+          className={cn('mb-4', className)}
+          style={style}
+          {...props}
+        />
+      </FormItemContext.Provider>
+    )
+  }
+)
 
 interface FormLabelProps extends TextProps {
   className?: string
 }
 
-const FormLabel = React.forwardRef<Text, FormLabelProps>(({ className, ...props }, ref) => {
-  const { error } = useFormField()
+const FormLabel = React.forwardRef<Text, FormLabelProps>(
+  ({ className, ...props }, ref) => {
+    const { error } = useFormField()
 
-  return <Label ref={ref} className={cn(error && 'text-red-300', className)} {...props} />
-})
+    return (
+      <Label
+        ref={ref}
+        className={cn(error && 'text-red-300', className)}
+        {...props}
+      />
+    )
+  }
+)
 
 const FormControl = React.forwardRef<View, ViewProps>(({ ...props }, ref) => {
   return <View ref={ref} style={{ flex: 1, flexGrow: 1 }} {...props} />
@@ -91,28 +117,43 @@ interface FormDescriptionProps extends TextProps {
   className?: string
 }
 
-const FormDescription = React.forwardRef<Text, FormDescriptionProps>(({ className, style, ...props }, ref) => {
-  return <Text ref={ref} className={cn('text-xs text-black-60', className)} style={style} {...props} />
-})
+const FormDescription = React.forwardRef<Text, FormDescriptionProps>(
+  ({ className, style, ...props }, ref) => {
+    return (
+      <Text
+        ref={ref}
+        className={cn('text-xs text-black-60', className)}
+        style={style}
+        {...props}
+      />
+    )
+  }
+)
 
 interface FormMessageProps extends TextProps {
   className?: string
 }
 
-const FormMessage = React.forwardRef<Text, FormMessageProps>(({ className, children, style, ...props }, ref) => {
-  const { error } = useFormField()
-  const body = error ? String(error?.message) : children
+const FormMessage = React.forwardRef<Text, FormMessageProps>(
+  ({ className, children, style, ...props }, ref) => {
+    const { error } = useFormField()
+    const body = error ? String(error?.message) : children
 
-  if (!body) {
-    return null
+    if (!body) {
+      return null
+    }
+
+    return (
+      <Text
+        ref={ref}
+        className={cn('mt-1 text-sm leading-none text-red-300', className)}
+        style={style}
+        {...props}>
+        {body}
+      </Text>
+    )
   }
-
-  return (
-    <Text ref={ref} className={cn('mt-1 text-sm leading-none text-red-300', className)} style={style} {...props}>
-      {body}
-    </Text>
-  )
-})
+)
 
 FormItem.displayName = 'FormItem'
 FormLabel.displayName = 'FormLabel'
@@ -120,4 +161,13 @@ FormControl.displayName = 'FormControl'
 FormDescription.displayName = 'FormDescription'
 FormMessage.displayName = 'FormMessage'
 
-export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField }
+export {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  useFormField,
+}

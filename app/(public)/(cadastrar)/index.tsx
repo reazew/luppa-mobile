@@ -42,7 +42,10 @@ export default function RegisterIndexScreen() {
     <KeyboardView>
       <ScrollView>
         <Container className="items-center justify-between px-6">
-          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
+          <Text
+            size="huge-2"
+            weight="bold"
+            className="w-full pb-[32px] text-left">
             Nos conte sobre você
           </Text>
           <Form {...form}>
@@ -58,13 +61,15 @@ export default function RegisterIndexScreen() {
                       label: 'Sou cliente',
                       value: 'client',
                       icon: 'client',
-                      description: 'Quero ter acesso a uma rede de serviços e benefícios exclusivos.',
+                      description:
+                        'Quero ter acesso a uma rede de serviços e benefícios exclusivos.',
                     },
                     {
                       label: 'Tenho um Negócio',
                       value: 'company',
                       icon: 'company',
-                      description: 'Quero uma plataforma segura e confiável para facilitar e impulsionar negócios',
+                      description:
+                        'Quero uma plataforma segura e confiável para facilitar e impulsionar negócios',
                     },
                   ]}
                 />
