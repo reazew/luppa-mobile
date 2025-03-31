@@ -1,11 +1,8 @@
 import { SelectField, type Option } from 'components/global/select-field'
 import { DatePicker } from 'components/ui/date-picker'
 import { DocumentPickerInput } from 'components/ui/document-picker-input'
-import {
-  FormLabel,
-  FormMessage,
-  FormItem as OriginalFormItem,
-} from 'components/ui/form'
+import { FormLabel, FormMessage, FormItem as OriginalFormItem } from 'components/ui/form'
+import { InputImageGalleryPicker } from 'components/ui/input-image-gallery-picker'
 import { InputImagePicker } from 'components/ui/input-image-picker'
 import { MaskedInput } from 'components/ui/masked-input'
 import { format } from 'date-fns'
@@ -24,6 +21,7 @@ type FormFieldType =
   | 'masked-input'
   | 'select'
   | 'image-picker'
+  | 'image-gallery-picker'
   | 'toggle-group'
   | 'birth-date'
   | 'document-picker'
@@ -82,186 +80,184 @@ interface FormItemProps<T extends FieldValues> {
   placeholderIcon?: React.ReactNode
 }
 
-const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
-  (props, ref) => {
-    const {
-      fieldType,
-      field,
-      options,
-      icon,
-      iconSide,
-      placeholder,
-      error,
-      disabled,
-      toggleType = 'single',
-      toggleOptions,
-      displayVariant = 'default',
-      mask,
-      maskType,
-      maskOptions,
-      keyboardType,
-      imagePreviewSize,
-      onSubmitEditing,
-      onValueSelect,
-      documentPickerOptions,
-      placeholderIcon,
-    } = props
-    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>((props, ref) => {
+  const {
+    fieldType,
+    field,
+    options,
+    icon,
+    iconSide,
+    placeholder,
+    error,
+    disabled,
+    toggleType = 'single',
+    toggleOptions,
+    displayVariant = 'default',
+    mask,
+    maskType,
+    maskOptions,
+    keyboardType,
+    imagePreviewSize,
+    onSubmitEditing,
+    onValueSelect,
+    documentPickerOptions,
+    placeholderIcon,
+    label,
+  } = props
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
-    switch (fieldType) {
-      case 'input':
-        return (
-          <Input
-            ref={ref}
-            placeholder={placeholder}
-            icon={icon}
-            iconSide={iconSide}
-            error={error}
-            editable={!disabled}
-            value={field.value}
-            onChangeText={field.onChange}
-            onBlur={field.onBlur}
-            onSubmitEditing={onSubmitEditing}
-          />
-        )
+  switch (fieldType) {
+    case 'input':
+      return (
+        <Input
+          ref={ref}
+          placeholder={placeholder}
+          icon={icon}
+          iconSide={iconSide}
+          error={error}
+          editable={!disabled}
+          value={field.value}
+          onChangeText={field.onChange}
+          onBlur={field.onBlur}
+          onSubmitEditing={onSubmitEditing}
+        />
+      )
 
-      // []: Verificar se o masked-input está funcionando
-      case 'masked-input':
-        return (
-          <MaskedInput
-            ref={ref}
-            placeholder={placeholder}
-            icon={icon}
-            iconSide={iconSide}
-            error={error}
-            editable={!disabled}
-            value={field.value}
-            onChangeText={field.onChange}
-            onBlur={field.onBlur}
-            mask={mask ?? ''}
-            type={maskType}
-            options={maskOptions}
-            keyboardType={keyboardType}
-          />
-        )
+    // []: Verificar se o masked-input está funcionando
+    case 'masked-input':
+      return (
+        <MaskedInput
+          ref={ref}
+          placeholder={placeholder}
+          icon={icon}
+          iconSide={iconSide}
+          error={error}
+          editable={!disabled}
+          value={field.value}
+          onChangeText={field.onChange}
+          onBlur={field.onBlur}
+          mask={mask ?? ''}
+          type={maskType}
+          options={maskOptions}
+          keyboardType={keyboardType}
+        />
+      )
 
-      case 'select':
-        return (
-          <SelectField
-            field={field}
-            options={options}
-            placeholder={placeholder}
-            error={error}
-            disabled={disabled}
-          />
-        )
+    case 'select':
+      return <SelectField field={field} options={options} placeholder={placeholder} error={error} disabled={disabled} />
 
-      case 'toggle-group':
-        return (
-          <ToggleGroup
-            type={toggleType}
-            value={field.value || ''}
-            onValueChange={(value) => {
-              field.onChange(value)
-              onValueSelect?.()
-            }}
-            displayVariant={displayVariant}>
-            {toggleOptions?.map((option) => (
-              <ToggleGroupItem
-                key={option.value}
-                value={option.value}
-                label={option.label}
-                description={option.description ?? ''}
-                icon={option.icon}
-              />
-            ))}
-          </ToggleGroup>
-        )
+    case 'toggle-group':
+      return (
+        <ToggleGroup
+          type={toggleType}
+          value={field.value || ''}
+          onValueChange={(value) => {
+            field.onChange(value)
+            onValueSelect?.()
+          }}
+          displayVariant={displayVariant}>
+          {toggleOptions?.map((option) => (
+            <ToggleGroupItem
+              key={option.value}
+              value={option.value}
+              label={option.label}
+              description={option.description ?? ''}
+              icon={option.icon}
+            />
+          ))}
+        </ToggleGroup>
+      )
 
-      case 'image-picker':
-        return (
-          <InputImagePicker
-            value={field.value}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-            error={error}
-            disabled={disabled}
-            previewSize={imagePreviewSize}
-            placeholderIcon={placeholderIcon}
-          />
-        )
+    case 'image-picker':
+      return (
+        <InputImagePicker
+          value={field.value}
+          label={label}
+          onChange={field.onChange}
+          onBlur={field.onBlur}
+          error={error}
+          disabled={disabled}
+          previewSize={imagePreviewSize}
+          placeholderIcon={placeholderIcon}
+        />
+      )
 
-      case 'birth-date':
-        return (
-          <View className="relative">
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => setIsDatePickerOpen(true)}>
-              <Input
-                pointerEvents="none"
-                className="pointer-events-none"
-                placeholder={placeholder}
-                icon={icon}
-                iconSide={iconSide}
-                error={error}
-                value={
-                  field.value ? format(new Date(field.value), 'dd/MM') : ''
-                }
-              />
-            </TouchableOpacity>
+    case 'image-gallery-picker':
+      return (
+        <InputImageGalleryPicker
+          value={field.value}
+          onChange={field.onChange}
+          onBlur={field.onBlur}
+          error={error}
+          disabled={disabled}
+          previewSize={imagePreviewSize}
+          placeholderIcon={placeholderIcon}
+        />
+      )
 
-            <View className="absolute -left-2 top-0 pt-[45px]">
-              <DatePicker
-                value={field.value ? new Date(field.value) : undefined}
-                onChange={(date) => {
-                  field.onChange(date)
-                }}
-                isOpen={isDatePickerOpen}
-                onClose={() => setIsDatePickerOpen(false)}
-              />
-            </View>
+    case 'birth-date':
+      return (
+        <View className="relative">
+          <TouchableOpacity activeOpacity={0.7} onPress={() => setIsDatePickerOpen(true)}>
+            <Input
+              pointerEvents="none"
+              className="pointer-events-none"
+              placeholder={placeholder}
+              icon={icon}
+              iconSide={iconSide}
+              error={error}
+              value={field.value ? format(new Date(field.value), 'dd/MM') : ''}
+            />
+          </TouchableOpacity>
+
+          <View className="absolute -left-2 top-0 pt-[45px]">
+            <DatePicker
+              value={field.value ? new Date(field.value) : undefined}
+              onChange={(date) => {
+                field.onChange(date)
+              }}
+              isOpen={isDatePickerOpen}
+              onClose={() => setIsDatePickerOpen(false)}
+            />
           </View>
-        )
+        </View>
+      )
 
-      case 'document-picker':
-        return (
-          <DocumentPickerInput
-            value={field.value}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-            placeholder={placeholder}
-            icon={icon}
-            iconSide={iconSide}
-            error={error}
-            disabled={disabled}
-            options={documentPickerOptions}
-          />
-        )
+    case 'document-picker':
+      return (
+        <DocumentPickerInput
+          value={field.value}
+          onChange={field.onChange}
+          onBlur={field.onBlur}
+          placeholder={placeholder}
+          icon={icon}
+          iconSide={iconSide}
+          error={error}
+          disabled={disabled}
+          options={documentPickerOptions}
+        />
+      )
 
-      default:
-        return null
-    }
+    default:
+      return null
   }
-)
+})
 
-export const FormItem = React.forwardRef<TextInput, FormItemProps<any>>(
-  (props, ref) => {
-    const { label, hideSupportiveText = false, className } = props
+export const FormItem = React.forwardRef<TextInput, FormItemProps<any>>((props, ref) => {
+  const { label, hideSupportiveText = false, className } = props
 
-    return (
-      <OriginalFormItem
-        className={cn('mb-4 w-full justify-start gap-2', className)}>
-        {label && <FormLabel className="leading-none">{label}</FormLabel>}
-        <RenderInput {...props} ref={ref} />
-        {!hideSupportiveText && (
-          <View className="mt-0 h-4">
-            <FormMessage />
-          </View>
-        )}
-      </OriginalFormItem>
-    )
-  }
-)
+  return (
+    <OriginalFormItem className={cn('mb-4 w-full justify-start gap-2', className)}>
+      {label && <FormLabel className="leading-none">{label}</FormLabel>}
+      <RenderInput {...props} ref={ref} />
+      {!hideSupportiveText && (
+        <View className="mt-0 h-4">
+          <FormMessage />
+        </View>
+      )}
+    </OriginalFormItem>
+  )
+})
 
 FormItem.displayName = 'FormItem'
 RenderInput.displayName = 'RenderInput'

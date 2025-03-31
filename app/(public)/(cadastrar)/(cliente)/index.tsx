@@ -11,10 +11,7 @@ import { ArrowRight, MoveLeft } from 'lucide-react-native'
 import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
-import {
-  registerClientSchema,
-  type RegisterClientInfer,
-} from 'schemas/register'
+import { registerClientSchema, type RegisterClientInfer } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterClientForm() {
@@ -54,10 +51,7 @@ export default function RegisterClientForm() {
     <KeyboardView>
       <ScrollView>
         <Container hasHeader className="items-center justify-between px-6">
-          <Text
-            size="huge-2"
-            weight="bold"
-            className="w-full pb-[32px] text-left">
+          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
             Informações básicas
           </Text>
           <Form {...form}>
@@ -69,6 +63,7 @@ export default function RegisterClientForm() {
                   <FormItem
                     field={field}
                     fieldType="image-picker"
+                    label="Foto de perfil"
                     imagePreviewSize={{ width: 128, height: 128 }}
                   />
                 )}
@@ -120,12 +115,7 @@ export default function RegisterClientForm() {
                 control={form.control}
                 name="birthDate"
                 render={({ field }) => (
-                  <FormItem
-                    field={field}
-                    fieldType="birth-date"
-                    label="Aniversário"
-                    placeholder="Dia/Mês"
-                  />
+                  <FormItem field={field} fieldType="birth-date" label="Aniversário" placeholder="Dia/Mês" />
                 )}
               />
             </View>

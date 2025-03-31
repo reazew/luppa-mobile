@@ -22,6 +22,7 @@ export const registerCompanySchema = z.object({
   cnpj: z.string().min(11),
   email: z.string().email(),
   phone: z.string().min(11),
+  cep: z.string().min(8),
   address: z.string().min(1),
   segment: z.enum(['Pizzaria', 'Padaria', 'Lanchonete', 'Bar', 'Outros'], {
     required_error: 'Selecione um segmento',
@@ -43,7 +44,5 @@ export const registerLegalResponsibleSchema = z.object({
 
 export type RegisterClientInfer = z.infer<typeof registerClientSchema>
 export type RegisterCompanyInfer = z.infer<typeof registerCompanySchema>
-export type RegisterLegalResponsibleInfer = z.infer<
-  typeof registerLegalResponsibleSchema
->
+export type RegisterLegalResponsibleInfer = z.infer<typeof registerLegalResponsibleSchema>
 export type clientOrCompanyInfer = z.infer<typeof clientOrCompanySchema>

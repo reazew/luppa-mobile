@@ -1,12 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ShopIcon } from 'assets/icons'
+import { Shop2Icon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { FormItem } from 'components/global/form-item'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
-import DropdownComponent from 'components/ui/dropdown-input'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { ArrowRight, MoveLeft } from 'lucide-react-native'
@@ -14,10 +13,7 @@ import { getCityOptions, getStateOptions } from 'mock/cities'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
-import {
-  registerCompanySchema,
-  type RegisterCompanyInfer,
-} from 'schemas/register'
+import { registerCompanySchema, type RegisterCompanyInfer } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterCompanyForm() {
@@ -39,6 +35,7 @@ export default function RegisterCompanyForm() {
       email: '',
       phone: '',
       address: '',
+      cep: '',
       segment: 'Pizzaria',
       city: '',
       uf: '',
@@ -54,11 +51,8 @@ export default function RegisterCompanyForm() {
     <KeyboardView>
       <ScrollView>
         <Container hasHeader className="items-center justify-between px-6">
-          <Text
-            size="huge-2"
-            weight="bold"
-            className="w-full pb-[32px] text-left">
-            Informações sobre o responsável legal
+          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
+            Informações sobre o seu negócio
           </Text>
           <Form {...form}>
             <View className="w-full flex-1 justify-start ">
@@ -69,10 +63,9 @@ export default function RegisterCompanyForm() {
                   <FormItem
                     field={field}
                     fieldType="image-picker"
-                    placeholderIcon={
-                      <ShopIcon width={64} height={64} fill="#757575" />
-                    }
+                    placeholderIcon={<Shop2Icon />}
                     imagePreviewSize={{ width: 128, height: 128 }}
+                    label="Logo do seu Negócio"
                   />
                 )}
               />
@@ -84,7 +77,7 @@ export default function RegisterCompanyForm() {
                     field={field}
                     fieldType="input"
                     label="Nome Fantasia"
-                    placeholder="Digite nome do negócio"
+                    placeholder="Nome do seu negócio"
                     onSubmitEditing={() => emailRef.current?.focus()}
                   />
                 )}
@@ -114,13 +107,7 @@ export default function RegisterCompanyForm() {
                     fieldType="select"
                     label="Segmento"
                     placeholder="Selecione o segmento"
-                    options={[
-                      { label: 'Pizzaria', value: 'Pizzaria' },
-                      { label: 'Padaria', value: 'Padaria' },
-                      { label: 'Lanchonete', value: 'Lanchonete' },
-                      { label: 'Bar', value: 'Bar' },
-                      { label: 'Outros', value: 'Outros' },
-                    ]}
+                    options={[{ label: 'Pizzaria', value: 'Pizzaria' }]}
                     ref={emailRef}
                     onSubmitEditing={() => phoneRef.current?.focus()}
                   />
@@ -170,7 +157,22 @@ export default function RegisterCompanyForm() {
                   />
                 )}
               />
-              <DropdownComponent />
+              <FormField
+                control={form.control}
+                name="cep"
+                render={({ field }) => (
+                  <FormItem
+                    field={field}
+                    fieldType="masked-input"
+                    label="CEP"
+                    placeholder="Digite o CEP"
+                    mask="99.999-999"
+                    keyboardType="phone-pad"
+                    ref={phoneRef}
+                    onSubmitEditing={() => birthDateRef.current?.focus()}
+                  />
+                )}
+              />
             </View>
           </Form>
           <View className="flex w-full flex-row items-center justify-between gap-2">

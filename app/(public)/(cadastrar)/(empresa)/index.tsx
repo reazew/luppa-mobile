@@ -11,10 +11,7 @@ import { ArrowRight, FileIcon, MoveLeft } from 'lucide-react-native'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
-import {
-  registerLegalResponsibleSchema,
-  type RegisterLegalResponsibleInfer,
-} from 'schemas/register'
+import { registerLegalResponsibleSchema, type RegisterLegalResponsibleInfer } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterLegalGuardianForm() {
@@ -49,10 +46,7 @@ export default function RegisterLegalGuardianForm() {
     <KeyboardView>
       <ScrollView>
         <Container hasHeader className="items-center justify-between px-6">
-          <Text
-            size="huge-2"
-            weight="bold"
-            className="w-full pb-[32px] text-left">
+          <Text size="huge-2" weight="bold" className="w-full pb-[32px] text-left">
             Informações sobre o responsável legal
           </Text>
           <Form {...form}>

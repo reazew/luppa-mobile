@@ -2,7 +2,7 @@ import { cn } from 'lib/util'
 import { ChevronDown } from 'lucide-react-native'
 import { useMemo, useState } from 'react'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, ScrollView, Text, View } from 'react-native'
 
 import { FormControl } from '../ui/form'
 
@@ -27,14 +27,21 @@ export const SelectField = <T extends FieldValues>({
   disabled,
 }: SelectFieldProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
-  const selectedOption = useMemo(
-    () => options?.find((opt) => opt.value === field.value),
-    [field.value, options]
-  )
+  const selectedOption = useMemo(() => options?.find((opt) => opt.value === field.value), [field.value, options])
+
+  const dynamicPadding = useMemo(() => {
+    if (!isOpen) return 0
+    const itemHeight = 30
+    const itemsCount = options?.length || 0
+    const totalHeight = Math.min(itemHeight * itemsCount + 10, 150)
+    return totalHeight
+  }, [isOpen, options?.length])
 
   return (
     <FormControl>
-      <View className="relative w-full">
+      <View
+        style={{ paddingBottom: dynamicPadding }}
+        className={cn('relative z-50 w-full transition-all duration-300', `pb-[${dynamicPadding}px]`)}>
         <Pressable
           onPress={() => !disabled && setIsOpen((prev) => !prev)}
           className={cn(
@@ -46,23 +53,21 @@ export const SelectField = <T extends FieldValues>({
             disabled && 'bg-black-500 placeholder:text-black-200'
           )}>
           <View className="flex-1 flex-row items-center justify-between">
-            <Text
-              className={cn(
-                'text-black-0',
-                !selectedOption?.label && 'text-black-100'
-              )}>
+            <Text className={cn('text-black-0', !selectedOption?.label && 'text-black-100')}>
               {selectedOption?.label || placeholder || 'Selecione'}
             </Text>
             <ChevronDown
-              size={20}
-              color={disabled ? '#666666' : '#757575'}
-              className={cn('transition-transform', isOpen && 'rotate-180')}
+              size={16}
+              color={disabled ? '#666666' : '#ffff'}
+              className="transition-all duration-300"
+              style={{
+                transform: [{ rotate: isOpen ? '180deg' : '0deg' }],
+              }}
             />
           </View>
         </Pressable>
-
         {isOpen && (
-          <View className="absolute top-full z-50 mt-1 w-full gap-2 rounded-lg border border-transparent bg-black-700 p-2">
+          <ScrollView className="absolute top-full mt-2 max-h-[150px] w-full rounded-lg border border-transparent bg-black-700 p-2">
             {options?.map((option) => (
               <Pressable
                 key={option.value}
@@ -71,15 +76,13 @@ export const SelectField = <T extends FieldValues>({
                   setIsOpen(false)
                 }}
                 className={cn(
-                  'rounded-lg p-2',
-                  field.value === option.value
-                    ? 'bg-black-600'
-                    : 'hover:bg-black-600'
+                  'rounded-lg p-2 py-3',
+                  field.value === option.value ? 'bg-black-600' : 'hover:bg-black-600'
                 )}>
                 <Text className="text-black-0">{option.label}</Text>
               </Pressable>
             ))}
-          </View>
+          </ScrollView>
         )}
       </View>
     </FormControl>

@@ -1,18 +1,7 @@
-import { cssInterop } from 'nativewind'
 import { useState } from 'react'
-import { View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 
-cssInterop(Dropdown, {
-  className: 'style',
-  placeholderStyle: 'style',
-  selectedTextStyle: 'style',
-  containerStyle: 'style',
-  itemContainerStyle: 'style',
-  itemTextStyle: 'style',
-  selectedTextProps: 'style',
-  iconStyle: 'style',
-})
 const data = [
   { label: 'Item 1', value: '1' },
   { label: 'Item 2', value: '2' },
@@ -28,22 +17,28 @@ const DropdownComponent = () => {
   const [value, setValue] = useState(null)
   const [isFocus, setIsFocus] = useState(false)
 
+  const renderLabel = () => {
+    if (value || isFocus) {
+      return <Text style={[styles.label, isFocus && { color: 'blue' }]}>Dropdown label</Text>
+    }
+    return null
+  }
+
   return (
-    <View className="relative w-full">
+    <View style={styles.container}>
+      {renderLabel()}
       <Dropdown
-        // className={cn(
-        //   'h-10 w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600',
-        //   isFocus && 'border-yellow-300'
-        // )}
-        // placeholderStyle="text-black-100"
-        // selectedTextStyle="text-black-0"
-        // containerStyle="mt-1 rounded-lg border border-transparent bg-black-700 p-2"
-        // itemContainerStyle="rounded-lg p-2 hover:bg-black-600"
-        // itemTextStyle="text-black-0"
+        style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
         data={data}
+        search
+        maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder="Selecione"
+        placeholder={!isFocus ? 'Select item' : '...'}
+        searchPlaceholder="Search..."
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
@@ -57,3 +52,43 @@ const DropdownComponent = () => {
 }
 
 export default DropdownComponent
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+})
