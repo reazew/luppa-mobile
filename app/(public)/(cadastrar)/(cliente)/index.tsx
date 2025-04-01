@@ -30,7 +30,10 @@ export default function FormStepRegisterClient() {
     router.back()
   }
 
-  const handleNext = () => {
+  const onSubmit = () => {
+    form.handleSubmit((value) => {
+      console.log(value)
+    })
     router.push('/form-step-payment-methods')
     nextStep()
   }
@@ -93,9 +96,10 @@ export default function FormStepRegisterClient() {
                 render={({ field }) => (
                   <FormItem
                     field={field}
-                    fieldType="input"
+                    fieldType="masked-input"
                     label="E-mail"
-                    placeholder="Digite seu email"
+                    placeholder="email@email.com"
+                    keyboardType="email-address"
                     ref={emailRef}
                     onSubmitEditing={() => phoneRef.current?.focus()}
                   />
@@ -137,7 +141,7 @@ export default function FormStepRegisterClient() {
                 <MoveLeft size={16} />
               </Button.Icon>
             </Button>
-            <Button onPress={handleNext} className="max-w-[200px]">
+            <Button onPress={onSubmit} className="max-w-[200px]">
               <Button.Text>Avançar</Button.Text>
               <Button.Icon>
                 <CircleArrowRight size={16} />

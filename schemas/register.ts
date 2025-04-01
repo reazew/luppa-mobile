@@ -10,7 +10,10 @@ export const registerClientSchema = z.object({
   imageFile: z.array(z.instanceof(File)).nullish(),
   imageUrl: z.string().nullish(),
   name: z.string().min(1),
-  email: z.string().email(),
+  email: z
+    .string()
+    .min(1, { message: 'Campo obrigatório' })
+    .email({ message: 'E-mail digitado invalido' }),
   phone: z.string().min(11),
   birthDate: z.string().min(1),
 })

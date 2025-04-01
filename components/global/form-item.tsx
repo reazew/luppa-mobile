@@ -245,17 +245,14 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
                 }
               />
             </TouchableOpacity>
-
-            <View className="absolute -left-2 top-0 pt-[45px]">
-              <DatePicker
-                value={field.value ? new Date(field.value) : undefined}
-                onChange={(date) => {
-                  field.onChange(date)
-                }}
-                isOpen={isDatePickerOpen}
-                onClose={() => setIsDatePickerOpen(false)}
-              />
-            </View>
+            <DatePicker
+              value={field.value ? new Date(field.value) : undefined}
+              onChange={(date) => {
+                field.onChange(date)
+              }}
+              isOpen={isDatePickerOpen}
+              onClose={() => setIsDatePickerOpen(false)}
+            />
           </View>
         )
 
