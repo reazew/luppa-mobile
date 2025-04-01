@@ -9,19 +9,19 @@ import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { CircleArrowRight } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
-import type { clientOrCompanyInfer } from 'schemas/register'
-import { clientOrCompanySchema } from 'schemas/register'
+import type { clientOrBusinessInfer } from 'schemas/register'
+import { clientOrBusinessSchema } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterIndexScreen() {
   const { nextStep } = useStepStore()
 
-  const form = useForm<clientOrCompanyInfer>({
-    resolver: zodResolver(clientOrCompanySchema),
+  const form = useForm<clientOrBusinessInfer>({
+    resolver: zodResolver(clientOrBusinessSchema),
   })
 
-  function handleNextStep(data: clientOrCompanyInfer) {
-    const result = clientOrCompanySchema.safeParse(data)
+  function handleNextStep(data: clientOrBusinessInfer) {
+    const result = clientOrBusinessSchema.safeParse(data)
 
     if (!result.success) {
       return form.setError('type', {
@@ -66,8 +66,8 @@ export default function RegisterIndexScreen() {
                     },
                     {
                       label: 'Tenho um Negócio',
-                      value: 'company',
-                      icon: 'company',
+                      value: 'business',
+                      icon: 'business',
                       description:
                         'Quero uma plataforma segura e confiável para facilitar e impulsionar negócios',
                     },

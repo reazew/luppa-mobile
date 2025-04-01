@@ -1,21 +1,15 @@
 import { GoogleLogo, Logo } from 'assets/icons'
 import { Button } from 'components/global/button'
+import { ContainerBackground } from 'components/global/container-background'
 import { Text } from 'components/global/text'
 import { router } from 'expo-router'
-import { bottomBarHeight, cn, statusBarHeight } from 'lib/util'
-import { ImageBackground, Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 export default function PublicScreen() {
   return (
-    <ImageBackground
-      source={require('../../assets/images/onboading-screen-start.png')}
-      className={cn(
-        'flex-1 px-8',
-        Platform.OS === 'ios' ? `pb-[${bottomBarHeight + 32}px]` : `pb-8`
-      )}
-      style={{
-        paddingTop: statusBarHeight,
-      }}>
+    <ContainerBackground
+      className="px-8"
+      source={require('../../assets/images/home-background.png')}>
       <View className="flex-1 items-center justify-center gap-10 pt-10">
         <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
           <Logo width={160} height={200} />
@@ -50,6 +44,6 @@ export default function PublicScreen() {
           </Button>
         </View>
       </View>
-    </ImageBackground>
+    </ContainerBackground>
   )
 }

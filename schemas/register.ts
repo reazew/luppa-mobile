@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-export const clientOrCompanySchema = z.object({
-  type: z.enum(['client', 'company'], {
+export const clientOrBusinessSchema = z.object({
+  type: z.enum(['client', 'business'], {
     required_error: 'Por favor, selecione um tipo de cadastro',
   }),
 })
@@ -15,10 +15,10 @@ export const registerClientSchema = z.object({
   birthDate: z.string().min(1),
 })
 
-export const registerCompanySchema = z.object({
+export const registerBusinessSchema = z.object({
   imageFile: z.array(z.instanceof(File)).nullish(),
   imageUrl: z.string().nullish(),
-  nameCompany: z.string().min(1),
+  nameBusiness: z.string().min(1),
   cnpj: z.string().min(11),
   email: z.string().email(),
   phone: z.string().min(11),
@@ -42,18 +42,42 @@ export const registerLegalResponsibleSchema = z.object({
   document: z.instanceof(File).nullish(),
 })
 
-export const registerCompanyGallerySchema = z.object({
+export const registerBusinessGallerySchema = z.object({
   description: z.string().min(1),
   galleryImagesFiles: z.array(z.instanceof(File)).nullish(),
   galleryImagesUrls: z.array(z.string()).default([]),
 })
 
+const statusSchema = z.object({
+  minimumPoints: z.string().min(1, {
+    message: 'A quantidade mínima de pontos é obrigatória',
+  }),
+  description: z.string().min(1, {
+    message: 'A descrição dos benefícios é obrigatória',
+  }),
+  pointsDecrement: z.string().min(1, {
+    message: 'A quantidade de pontos a ser decrementada é obrigatória',
+  }),
+})
+
+export const registerBusinessStatusSchema = z.object({
+  status: z.object({
+    diamond: statusSchema,
+    gold: statusSchema,
+    silver: statusSchema,
+  }),
+})
+
+export type Status = z.infer<typeof statusSchema>
+export type RegisterBusinessStatusInfer = z.infer<
+  typeof registerBusinessStatusSchema
+>
 export type RegisterClientInfer = z.infer<typeof registerClientSchema>
-export type RegisterCompanyInfer = z.infer<typeof registerCompanySchema>
+export type RegisterBusinessInfer = z.infer<typeof registerBusinessSchema>
 export type RegisterLegalResponsibleInfer = z.infer<
   typeof registerLegalResponsibleSchema
 >
-export type clientOrCompanyInfer = z.infer<typeof clientOrCompanySchema>
-export type RegisterCompanyGalleryInfer = z.infer<
-  typeof registerCompanyGallerySchema
+export type clientOrBusinessInfer = z.infer<typeof clientOrBusinessSchema>
+export type RegisterBusinessGalleryInfer = z.infer<
+  typeof registerBusinessGallerySchema
 >

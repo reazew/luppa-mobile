@@ -1,5 +1,6 @@
 import { GalleryIcon } from 'assets/icons'
 import { Button } from 'components/global/button'
+import { Text } from 'components/global/text'
 import { FormControl } from 'components/ui/form'
 import { Label } from 'components/ui/label'
 import * as ImagePicker from 'expo-image-picker'
@@ -124,8 +125,12 @@ export const InputImageGalleryPicker = React.forwardRef<
     return (
       <FormControl className={cn('relative', className)} ref={ref}>
         <View className="items-center gap-6 rounded-3xl bg-black-700 p-6">
-          <Label className="text-base">{label}</Label>
-
+          <View className="flex flex-col items-center gap-2">
+            <Label className="text-base">{label}</Label>
+            <Text size="sm" className="text-black-0">
+              Selecione até {maxImages} fotos
+            </Text>
+          </View>
           <View className="flex flex-row flex-wrap items-center justify-center gap-2">
             {[...Array(maxImages)].map((_, index) => (
               <View

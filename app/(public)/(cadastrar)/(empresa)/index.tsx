@@ -17,7 +17,7 @@ import {
 } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
-export default function RegisterLegalGuardianForm() {
+export default function FormStepRegisterLegalResponsible() {
   const { nextStep } = useStepStore()
 
   const handleBack = () => {
@@ -56,7 +56,7 @@ export default function RegisterLegalGuardianForm() {
             Informações sobre o responsável legal
           </Text>
           <Form {...form}>
-            <View className="w-full flex-1 justify-start ">
+            <View className="w-full flex-1 justify-start">
               <FormField
                 control={form.control}
                 name="name"

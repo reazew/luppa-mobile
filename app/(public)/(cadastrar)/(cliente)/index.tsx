@@ -17,7 +17,7 @@ import {
 } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
-export default function RegisterClientForm() {
+export default function FormStepRegisterClient() {
   const resetStep = useStepStore((state) => state.resetStep)
 
   useEffect(() => {

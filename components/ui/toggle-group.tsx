@@ -48,7 +48,9 @@ const ToggleGroupContext = React.createContext<ToggleGroupContextValue>({
   type: 'single',
 })
 
-interface ToggleGroupProps extends ViewProps, VariantProps<typeof toggleVariants> {
+interface ToggleGroupProps
+  extends ViewProps,
+    VariantProps<typeof toggleVariants> {
   type: 'single' | 'multiple'
   value?: string
   onValueChange?: (value: string) => void
@@ -57,10 +59,27 @@ interface ToggleGroupProps extends ViewProps, VariantProps<typeof toggleVariants
 }
 
 const ToggleGroup = React.forwardRef<View, ToggleGroupProps>(
-  ({ className, variant, size, children, type, value, onValueChange, displayVariant = 'default', ...props }, ref) => (
+  (
+    {
+      className,
+      variant,
+      size,
+      children,
+      type,
+      value,
+      onValueChange,
+      displayVariant = 'default',
+      ...props
+    },
+    ref
+  ) => (
     <FormControl>
-      <ToggleGroupContext.Provider value={{ variant, size, type, value, onValueChange, displayVariant }}>
-        <View ref={ref} className={cn('flex-1 flex-grow gap-[32px]', className)} {...props}>
+      <ToggleGroupContext.Provider
+        value={{ variant, size, type, value, onValueChange, displayVariant }}>
+        <View
+          ref={ref}
+          className={cn('flex-1 flex-grow gap-[32px]', className)}
+          {...props}>
           {children}
         </View>
       </ToggleGroupContext.Provider>
@@ -73,11 +92,14 @@ interface ToggleGroupItemProps extends ViewProps {
   className?: string
   label: string
   description: string
-  icon?: 'client' | 'company' | 'pix' | 'credit-card' | 'debit-card'
+  icon?: 'client' | 'business' | 'pix' | 'credit-card' | 'debit-card'
 }
 
 const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
-  ({ className, icon = '', children, value, label, description, ...props }, ref) => {
+  (
+    { className, icon = '', children, value, label, description, ...props },
+    ref
+  ) => {
     const context = React.useContext(ToggleGroupContext)
     const isSelected = context.value === value
     const variant = context.displayVariant || 'default'
@@ -85,11 +107,23 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
     const getIcon = () => {
       switch (icon) {
         case 'client':
-          return isSelected ? <ClientActiveIcon width={64} height={64} /> : <ClientIcon width={64} height={64} />
-        case 'company':
-          return isSelected ? <ShopActiveIcon width={64} height={64} /> : <ShopIcon width={64} height={64} />
+          return isSelected ? (
+            <ClientActiveIcon width={64} height={64} />
+          ) : (
+            <ClientIcon width={64} height={64} />
+          )
+        case 'business':
+          return isSelected ? (
+            <ShopActiveIcon width={64} height={64} />
+          ) : (
+            <ShopIcon width={64} height={64} />
+          )
         case 'pix':
-          return isSelected ? <PixActiveIcon width={64} height={64} /> : <PixIcon width={64} height={64} />
+          return isSelected ? (
+            <PixActiveIcon width={64} height={64} />
+          ) : (
+            <PixIcon width={64} height={64} />
+          )
         case 'credit-card':
           return isSelected ? (
             <CreditCardActiveIcon width={64} height={64} />
@@ -97,7 +131,11 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
             <CreditCardIcon width={64} height={64} />
           )
         case 'debit-card':
-          return isSelected ? <DebitCardActiveIcon width={64} height={64} /> : <DebitCardIcon width={64} height={64} />
+          return isSelected ? (
+            <DebitCardActiveIcon width={64} height={64} />
+          ) : (
+            <DebitCardIcon width={64} height={64} />
+          )
         default:
           return null
       }
@@ -123,7 +161,9 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
         {...props}>
         {variant === 'default' ? (
           <LinearGradient
-            colors={isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']}
+            colors={
+              isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']
+            }
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={{
@@ -141,13 +181,19 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
               className="items-center justify-center gap-4 rounded-4xl bg-background p-6">
               {getIcon()}
               <View className="items-center justify-center gap-4">
-                <Text size="huge-2" weight="bold" className={cn('text-black-50', isSelected && 'text-black-0')}>
+                <Text
+                  size="huge-2"
+                  weight="bold"
+                  className={cn('text-black-50', isSelected && 'text-black-0')}>
                   {label}
                 </Text>
                 <Text
                   size="lg"
                   weight="regular"
-                  className={cn('text-center text-black-50', isSelected && 'text-black-0')}>
+                  className={cn(
+                    'text-center text-black-50',
+                    isSelected && 'text-black-0'
+                  )}>
                   {description}
                 </Text>
               </View>
@@ -155,7 +201,9 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
           </LinearGradient>
         ) : variant === 'row' ? (
           <LinearGradient
-            colors={isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']}
+            colors={
+              isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']
+            }
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={{
@@ -176,13 +224,19 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
                 <Text
                   size="huge-2"
                   weight="bold"
-                  className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
+                  className={cn(
+                    'text-left text-black-50',
+                    isSelected && 'text-black-0'
+                  )}>
                   {label}
                 </Text>
                 <Text
                   size="lg"
                   weight="regular"
-                  className={cn('text-left text-black-50', isSelected && 'text-black-0')}>
+                  className={cn(
+                    'text-left text-black-50',
+                    isSelected && 'text-black-0'
+                  )}>
                   {description}
                 </Text>
               </View>
@@ -197,4 +251,9 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
 ToggleGroup.displayName = 'ToggleGroup'
 ToggleGroupItem.displayName = 'ToggleGroupItem'
 
-export { ToggleGroup, ToggleGroupItem, type ToggleGroupItemProps, type ToggleGroupProps }
+export {
+  ToggleGroup,
+  ToggleGroupItem,
+  type ToggleGroupItemProps,
+  type ToggleGroupProps,
+}

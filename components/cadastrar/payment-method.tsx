@@ -11,7 +11,13 @@ interface PaymentMethodItemProps extends ViewProps {
   icon: React.ReactNode
 }
 
-export const PaymentMethod = ({ className, icon, label, description, ...props }: PaymentMethodItemProps) => {
+export const PaymentMethod = ({
+  className,
+  icon,
+  label,
+  description,
+  ...props
+}: PaymentMethodItemProps) => {
   return (
     <Pressable
       style={() => ({
@@ -41,10 +47,22 @@ export const PaymentMethod = ({ className, icon, label, description, ...props }:
             className="flex-row items-center justify-center gap-4 rounded-4xl bg-background p-[24px]">
             {icon}
             <View className="max-w-[236px] gap-4">
-              <Text size="huge-2" weight="bold" className={cn('text-left text-black-50', pressed && 'text-black-0')}>
+              <Text
+                size="huge-2"
+                weight="bold"
+                className={cn(
+                  'text-left text-black-50',
+                  pressed && 'text-black-0'
+                )}>
                 {label}
               </Text>
-              <Text size="lg" weight="regular" className={cn('text-left text-black-50', pressed && 'text-black-0')}>
+              <Text
+                size="lg"
+                weight="regular"
+                className={cn(
+                  'text-left text-black-50',
+                  pressed && 'text-black-0'
+                )}>
                 {description}
               </Text>
             </View>

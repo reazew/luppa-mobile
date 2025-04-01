@@ -14,7 +14,7 @@ export default function RegisterClientLayout() {
         headerStyle: {
           backgroundColor: '#242424',
         },
-        header: () => <Steps currentStepIndex={currentStep} totalSteps={3} />,
+        header: () => <Steps currentStepIndex={currentStep} totalSteps={2} />,
         animation: 'none',
       }}
       screenListeners={{
@@ -23,7 +23,12 @@ export default function RegisterClientLayout() {
         },
       }}>
       <Stack.Screen name="form-step-payment-methods" />
-      <Stack.Screen name="form-step-registration-completed" />
+      <Stack.Screen
+        name="registration-client-completed"
+        options={{
+          header: () => null,
+        }}
+      />
     </Stack>
   )
 }

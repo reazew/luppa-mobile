@@ -2,37 +2,37 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { FormItem } from 'components/global/form-item'
+import { Heading } from 'components/global/heading'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
-import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import {
-  registerCompanyGallerySchema,
-  type RegisterCompanyGalleryInfer,
+  registerBusinessGallerySchema,
+  type RegisterBusinessGalleryInfer,
 } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
-export default function RegisterCompanyForm() {
+export default function FormStepGallery() {
   const { nextStep } = useStepStore()
   const handleBack = () => {
     router.back()
   }
 
   const handleNext = () => {
-    router.push('/form-step-bonus')
+    router.push('/form-step-bonus-status')
     nextStep()
   }
 
-  const form = useForm<RegisterCompanyGalleryInfer>({
-    resolver: zodResolver(registerCompanyGallerySchema),
+  const form = useForm<RegisterBusinessGalleryInfer>({
+    resolver: zodResolver(registerBusinessGallerySchema),
     defaultValues: {
       description: '',
       // galleryImagesFiles: transformUrlsInFiles(
-      //   company?.galleryImagesUrls || []
+      //   business?.galleryImagesUrls || []
       // ),
       galleryImagesUrls: [],
     },
@@ -41,13 +41,10 @@ export default function RegisterCompanyForm() {
   return (
     <KeyboardView>
       <ScrollView>
-        <Container hasHeader className="items-center justify-between px-6">
-          <Text
-            size="huge-2"
-            weight="bold"
-            className="w-full pb-[32px] text-left">
-            Alguns toques finais
-          </Text>
+        <Container
+          hasHeader
+          className="items-center justify-between gap-8 px-6">
+          <Heading>Alguns toques finais</Heading>
           <Form {...form}>
             <View className="w-full flex-1 justify-start ">
               <FormField

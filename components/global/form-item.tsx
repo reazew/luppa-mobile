@@ -53,7 +53,7 @@ interface FormItemProps<T extends FieldValues> {
     label: string
     value: string
     description: string
-    icon?: 'client' | 'company' | 'pix' | 'credit-card' | 'debit-card'
+    icon?: 'client' | 'business' | 'pix' | 'credit-card' | 'debit-card'
   }[]
   documentPickerOptions?: {
     type?: string[]

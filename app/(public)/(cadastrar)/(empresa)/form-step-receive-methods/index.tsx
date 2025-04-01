@@ -6,7 +6,9 @@ import {
 import { PaymentMethod } from 'components/cadastrar/payment-method'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
+import { Heading } from 'components/global/heading'
 import { KeyboardView } from 'components/global/keyboard-view'
+import { MessageBubble } from 'components/global/message-bubble'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { router } from 'expo-router'
@@ -14,7 +16,7 @@ import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
 import { View } from 'react-native'
 import { useStepStore } from 'store/useStepStore'
 
-export default function FormStepPaymentMethods() {
+export default function FormStepReceiveMethods() {
   const { nextStep } = useStepStore()
 
   const handleBack = () => {
@@ -22,20 +24,23 @@ export default function FormStepPaymentMethods() {
   }
 
   const handleNext = () => {
-    router.push('/registration-client-completed')
+    router.push('/registration-business-completed')
     nextStep()
   }
 
   return (
     <KeyboardView>
       <ScrollView>
-        <Container hasHeader className="items-center justify-between px-6">
-          <Text
-            size="huge-2"
-            weight="bold"
-            className="w-full pb-[32px] text-left">
-            Nos conte sobre você
-          </Text>
+        <Container
+          hasHeader
+          className="items-center justify-between gap-8 px-6">
+          <Heading>Nos conte sobre você</Heading>
+          <MessageBubble>
+            <Text size="sm" weight="regular">
+              Você precisa ter pelo menos um método de recebimento aceito em seu
+              Negócio para utilizar o luppa.
+            </Text>
+          </MessageBubble>
           <View className="w-full flex-1 gap-8">
             <PaymentMethod
               label="Pix"

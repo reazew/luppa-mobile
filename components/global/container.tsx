@@ -14,8 +14,10 @@ export const Container = ({
     <View
       style={{
         flex: 1,
-        paddingTop: hasHeader && Platform.OS === 'ios' ? 0 : statusBarHeight,
-        paddingBottom: Platform.OS === 'ios' ? bottomBarHeight + 32 : bottomBarHeight + 10,
+        paddingTop:
+          hasHeader && Platform.OS === 'ios' ? 0 : statusBarHeight + 32,
+        paddingBottom:
+          Platform.OS === 'ios' ? bottomBarHeight + 32 : bottomBarHeight + 10,
       }}
       className={cn(className)}>
       {children}

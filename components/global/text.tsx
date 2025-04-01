@@ -1,7 +1,12 @@
 import { cva, VariantProps } from 'class-variance-authority'
 import { cn } from 'lib/util'
 import React from 'react'
-import { Platform, Text as RNText } from 'react-native'
+import {
+  Platform,
+  Text as RNText,
+  type StyleProp,
+  type TextStyle,
+} from 'react-native'
 
 const textVariants = cva('text-black-0 leading-normal', {
   variants: {
@@ -10,6 +15,7 @@ const textVariants = cva('text-black-0 leading-normal', {
       sm: 'text-sm',
       md: 'text-base',
       lg: 'text-lg',
+      xl: 'text-xl',
       huge: 'text-2xl',
       'huge-2': 'text-[2rem]',
       'huge-3': 'text-4xl',
@@ -28,6 +34,7 @@ const textVariants = cva('text-black-0 leading-normal', {
 interface TextProps extends VariantProps<typeof textVariants> {
   children?: React.ReactNode
   className?: string
+  style?: StyleProp<TextStyle>
 }
 
 const Text = ({ size, weight, children, className, ...props }: TextProps) => {

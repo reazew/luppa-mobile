@@ -14,12 +14,12 @@ import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
 import {
-  registerCompanySchema,
-  type RegisterCompanyInfer,
+  registerBusinessSchema,
+  type RegisterBusinessInfer,
 } from 'schemas/register'
 import { useStepStore } from 'store/useStepStore'
 
-export default function RegisterCompanyForm() {
+export default function FormStepAboutBusiness() {
   const { nextStep } = useStepStore()
 
   const handleBack = () => {
@@ -31,10 +31,10 @@ export default function RegisterCompanyForm() {
     nextStep()
   }
 
-  const form = useForm<RegisterCompanyInfer>({
-    resolver: zodResolver(registerCompanySchema),
+  const form = useForm<RegisterBusinessInfer>({
+    resolver: zodResolver(registerBusinessSchema),
     defaultValues: {
-      nameCompany: '',
+      nameBusiness: '',
       cnpj: '',
       email: '',
       phone: '',
@@ -78,7 +78,7 @@ export default function RegisterCompanyForm() {
               />
               <FormField
                 control={form.control}
-                name="nameCompany"
+                name="nameBusiness"
                 render={({ field }) => (
                   <FormItem
                     field={field}

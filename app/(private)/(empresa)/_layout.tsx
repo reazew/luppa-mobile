@@ -1,4 +1,9 @@
-import { EllipseActiveIcon, HouseActiveIcon, StoreActiveIcon, UsersRoundActiveIcon } from 'assets/icons'
+import {
+  EllipseActiveIcon,
+  HouseActiveIcon,
+  StoreActiveIcon,
+  UsersRoundActiveIcon,
+} from 'assets/icons'
 import Constants from 'expo-constants'
 import { Tabs } from 'expo-router'
 import { House, Store, UsersRound } from 'lucide-react-native'
@@ -6,7 +11,7 @@ import { Platform, View } from 'react-native'
 
 const statusBarHeight = Constants.statusBarHeight
 
-export default function CompanyLayout() {
+export default function BusinessLayout() {
   return (
     <Tabs
       screenOptions={(props) => {
@@ -34,7 +39,11 @@ export default function CompanyLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <UsersRoundActiveIcon /> : <UsersRound color="#B0B0B0" className="flex-1" />}
+                {props.focused ? (
+                  <UsersRoundActiveIcon />
+                ) : (
+                  <UsersRound color="#B0B0B0" className="flex-1" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )
@@ -49,7 +58,11 @@ export default function CompanyLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <HouseActiveIcon /> : <House color="#B0B0B0" className="flex-1" />}
+                {props.focused ? (
+                  <HouseActiveIcon />
+                ) : (
+                  <House color="#B0B0B0" className="flex-1" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )
@@ -64,7 +77,11 @@ export default function CompanyLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <StoreActiveIcon /> : <Store color="#B0B0B0" className="flex-1" />}
+                {props.focused ? (
+                  <StoreActiveIcon />
+                ) : (
+                  <Store color="#B0B0B0" className="flex-1" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )
