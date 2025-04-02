@@ -31,7 +31,6 @@ export function DatePicker({
         onClose()
       }
     } else {
-      // iOS
       if (date) {
         const isDayChange =
           selectedDate.getFullYear() === date.getFullYear() &&

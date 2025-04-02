@@ -14,7 +14,11 @@ import { cn } from 'lib/util'
 import { type LucideIcon } from 'lucide-react-native'
 import type { RefObject } from 'react'
 import React, { useState } from 'react'
-import { ControllerRenderProps, FieldValues } from 'react-hook-form'
+import {
+  ControllerRenderProps,
+  FieldValues,
+  UseFormReturn,
+} from 'react-hook-form'
 import { TouchableOpacity, View, type TextInput } from 'react-native'
 
 import { Input } from '../ui/input'
@@ -34,6 +38,7 @@ type FormFieldType =
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T>
   fieldType: FormFieldType
+  formContext?: UseFormReturn<any>
   label?: string
   placeholder?: string
   icon?: LucideIcon
@@ -90,6 +95,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
     const {
       fieldType,
       field,
+      formContext,
       options,
       icon,
       iconSide,
@@ -112,6 +118,13 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
     } = props
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
+    const handleChange = async (value: string) => {
+      field.onChange(value)
+      if (formContext && field.name) {
+        await formContext.trigger(field.name)
+      }
+    }
+
     switch (fieldType) {
       case 'textarea':
         return (
@@ -123,7 +136,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             error={error}
             editable={!disabled}
             value={field.value}
-            onChangeText={field.onChange}
+            onChangeText={handleChange}
             onBlur={field.onBlur}
             multiline
             numberOfLines={4}
@@ -140,13 +153,13 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             error={error}
             editable={!disabled}
             value={field.value}
-            onChangeText={field.onChange}
+            onChangeText={handleChange}
             onBlur={field.onBlur}
             onSubmitEditing={onSubmitEditing}
+            keyboardType={keyboardType}
           />
         )
 
-      // []: Verificar se o masked-input está funcionando
       case 'masked-input':
         return (
           <MaskedInput
@@ -157,12 +170,13 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             error={error}
             editable={!disabled}
             value={field.value}
-            onChangeText={field.onChange}
+            onChangeText={handleChange}
             onBlur={field.onBlur}
             mask={mask ?? ''}
             type={maskType}
             options={maskOptions}
             keyboardType={keyboardType}
+            onSubmitEditing={onSubmitEditing}
           />
         )
 
@@ -241,7 +255,9 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
                 iconSide={iconSide}
                 error={error}
                 value={
-                  field.value ? format(new Date(field.value), 'dd/MM') : ''
+                  field.value
+                    ? format(new Date(field.value as string), 'dd/MM')
+                    : ''
                 }
               />
             </TouchableOpacity>

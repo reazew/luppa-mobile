@@ -20,6 +20,7 @@ interface BaseInputProps extends Omit<TextInputProps, 'className'> {
 
 export interface MaskedInputProps extends BaseInputProps {
   onChangeText?: (text: string, rawText?: string) => void
+  onSubmitEditing?: () => void
   mask: string
   type?: 'date' | 'time' | 'currency'
   keyboardType?:
@@ -69,6 +70,7 @@ const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
       error,
       value,
       onChangeText,
+      onSubmitEditing,
       mask,
       type = 'text',
       options,
@@ -85,6 +87,7 @@ const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
         )}
         <MaskedTextInput
           ref={ref}
+          onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
           value={value}
           onChangeText={(text: string) => onChangeText?.(text)}

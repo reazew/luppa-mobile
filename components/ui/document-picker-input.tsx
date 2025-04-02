@@ -25,9 +25,23 @@ interface DocumentPickerInputProps {
   }
 }
 
-export const DocumentPickerInput = React.forwardRef<View, DocumentPickerInputProps>(
+export const DocumentPickerInput = React.forwardRef<
+  View,
+  DocumentPickerInputProps
+>(
   (
-    { value, onChange, onBlur, placeholder = 'Select a file', icon, iconSide, error, disabled, className, options },
+    {
+      value,
+      onChange,
+      onBlur,
+      placeholder = 'Select a file',
+      icon,
+      iconSide,
+      error,
+      disabled,
+      className,
+      options,
+    },
     ref
   ) => {
     const pickDocument = async () => {
@@ -47,7 +61,8 @@ export const DocumentPickerInput = React.forwardRef<View, DocumentPickerInputPro
       onBlur?.()
     }
 
-    const selectedFileName = value && !value.canceled ? value.assets[0]?.name : ''
+    const selectedFileName =
+      value && !value.canceled ? value.assets[0]?.name : ''
 
     return (
       <FormControl className={cn('relative', className)}>

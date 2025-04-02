@@ -17,6 +17,20 @@ interface BaseInputProps extends Omit<TextInputProps, 'className'> {
 export interface InputProps extends BaseInputProps {
   onChangeText?: (text: string) => void
   onSubmitEditing?: () => void
+  keyboardType?:
+    | 'default'
+    | 'ascii-capable'
+    | 'decimal-pad'
+    | 'name-phone-pad'
+    | 'number-pad'
+    | 'numbers-and-punctuation'
+    | 'numeric'
+    | 'phone-pad'
+    | 'email-address'
+    | 'visible-password'
+    | 'twitter'
+    | 'url'
+    | 'web-search'
 }
 
 const IconWrapper = ({
@@ -50,6 +64,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
       value,
       onChangeText,
       onSubmitEditing,
+      keyboardType,
       multiline,
       numberOfLines = 4,
       ...props
@@ -74,6 +89,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
           multiline={multiline}
+          keyboardType={keyboardType}
           numberOfLines={multiline ? numberOfLines : undefined}
           textAlignVertical={multiline ? 'top' : 'center'}
           className={cn(
