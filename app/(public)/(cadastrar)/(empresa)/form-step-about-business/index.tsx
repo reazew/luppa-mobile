@@ -16,7 +16,7 @@ import { TextInput, View } from 'react-native'
 import {
   registerBusinessSchema,
   type RegisterBusinessInfer,
-} from 'schemas/register'
+} from 'schemas/register-business'
 import { useStepStore } from 'store/useStepStore'
 
 export default function FormStepAboutBusiness() {

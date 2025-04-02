@@ -13,7 +13,7 @@ import { View } from 'react-native'
 import {
   registerBusinessGallerySchema,
   type RegisterBusinessGalleryInfer,
-} from 'schemas/register'
+} from 'schemas/register-business'
 import { useStepStore } from 'store/useStepStore'
 
 export default function FormStepGallery() {

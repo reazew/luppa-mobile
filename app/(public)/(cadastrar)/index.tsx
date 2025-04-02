@@ -9,8 +9,8 @@ import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { CircleArrowRight } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
-import type { clientOrBusinessInfer } from 'schemas/register'
-import { clientOrBusinessSchema } from 'schemas/register'
+import type { clientOrBusinessInfer } from 'schemas/register-client'
+import { clientOrBusinessSchema } from 'schemas/register-client'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterIndexScreen() {

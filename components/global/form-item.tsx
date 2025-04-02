@@ -255,16 +255,14 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
                 iconSide={iconSide}
                 error={error}
                 value={
-                  field.value
-                    ? format(new Date(field.value as string), 'dd/MM')
-                    : ''
+                  field.value ? format(new Date(field.value), 'dd/MM') : ''
                 }
               />
             </TouchableOpacity>
             <DatePicker
               value={field.value ? new Date(field.value) : undefined}
               onChange={(date) => {
-                field.onChange(date)
+                field.onChange(date.toISOString())
               }}
               isOpen={isDatePickerOpen}
               onClose={() => setIsDatePickerOpen(false)}

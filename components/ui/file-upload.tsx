@@ -18,7 +18,9 @@ type FileUploaderContextType = {
   orientation: 'horizontal' | 'vertical'
 }
 
-const FileUploaderContext = React.createContext<FileUploaderContextType | null>(null)
+const FileUploaderContext = React.createContext<FileUploaderContextType | null>(
+  null
+)
 
 export const useFileUpload = () => {
   const context = React.useContext(FileUploaderContext)
@@ -85,23 +87,24 @@ interface FileUploaderContentProps extends ViewProps {
   className?: string
 }
 
-export const FileUploaderContent = React.forwardRef<View, FileUploaderContentProps>(
-  ({ children, className, ...props }, ref) => {
-    const { orientation } = useFileUpload()
+export const FileUploaderContent = React.forwardRef<
+  View,
+  FileUploaderContentProps
+>(({ children, className, ...props }, ref) => {
+  const { orientation } = useFileUpload()
 
-    return (
-      <View className={cn('w-full px-4', className)} {...props} ref={ref}>
-        <View
-          className={cn(
-            'gap-1 rounded-lg',
-            orientation === 'horizontal' ? 'flex-row flex-wrap' : 'flex-col'
-          )}>
-          {children}
-        </View>
+  return (
+    <View className={cn('w-full px-4', className)} {...props} ref={ref}>
+      <View
+        className={cn(
+          'gap-1 rounded-lg',
+          orientation === 'horizontal' ? 'flex-row flex-wrap' : 'flex-col'
+        )}>
+        {children}
       </View>
-    )
-  }
-)
+    </View>
+  )
+})
 
 FileUploaderContent.displayName = 'FileUploaderContent'
 
@@ -124,7 +127,9 @@ export const FileUploaderItem = React.forwardRef<View, FileUploaderItemProps>(
           className
         )}
         {...props}>
-        <Text className="flex-1 text-sm font-medium text-gray-700">{fileName}</Text>
+        <Text className="flex-1 text-sm font-medium text-gray-700">
+          {fileName}
+        </Text>
         <TouchableOpacity onPress={() => removeFile(index)} className="ml-2">
           <Trash2 size={20} className="text-gray-500" />
         </TouchableOpacity>
@@ -142,7 +147,17 @@ interface FileInputProps extends ViewProps {
 }
 
 export const FileInput = React.forwardRef<View, FileInputProps>(
-  ({ className, children, onSelect, maxFiles = 1, allowedTypes = ['*/*'], ...props }, ref) => {
+  (
+    {
+      className,
+      children,
+      onSelect,
+      maxFiles = 1,
+      allowedTypes = ['*/*'],
+      ...props
+    },
+    ref
+  ) => {
     const handleFilePick = async () => {
       try {
         const result = await DocumentPicker.getDocumentAsync({
@@ -164,7 +179,9 @@ export const FileInput = React.forwardRef<View, FileInputProps>(
     }
 
     return (
-      <TouchableOpacity onPress={handleFilePick} className={cn('w-full', className)}>
+      <TouchableOpacity
+        onPress={handleFilePick}
+        className={cn('w-full', className)}>
         <View ref={ref} {...props}>
           {children}
         </View>

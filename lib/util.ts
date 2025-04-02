@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
 import Constants from 'expo-constants'
+import * as ImagePicker from 'expo-image-picker'
 import { Dimensions } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 
@@ -17,10 +18,9 @@ export function findByName(name: string, list: any[]) {
   return found ?? null
 }
 
-export function transformUrlsInFiles(galletyImagesUrl: string[]) {
-  return galletyImagesUrl?.map((url) => {
-    return new File([], url)
-  })
+export function transformFileToUrl(file: ImagePicker.ImagePickerAsset | null) {
+  if (!file) return null
+  return file.uri
 }
 
 export const statusBarHeight = Constants.statusBarHeight

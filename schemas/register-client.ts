@@ -1,0 +1,45 @@
+import * as ImagePicker from 'expo-image-picker'
+import { z } from 'zod'
+
+export const clientOrBusinessSchema = z.object({
+  type: z.enum(['client', 'business'], {
+    required_error: 'Por favor, selecione um tipo de cadastro',
+  }),
+})
+
+export const registerClientSchema = z.object({
+  imageFile: z.array(z.custom<ImagePicker.ImagePickerAsset>()).nullish(),
+  avatarUrl: z.string().nullish(),
+  name: z
+    .string()
+    .min(1, {
+      message: 'O nome é obrigatório',
+    })
+    .min(3, {
+      message: 'O nome deve ter pelo menos 3 caracteres',
+    }),
+  email: z
+    .string()
+    .trim()
+    .min(1, { message: 'Email obrigatório' })
+    .email({ message: 'E-mail digitado inválido' }),
+  phone: z
+    .string()
+    .min(1, {
+      message: 'O telefone é obrigatório',
+    })
+    .min(11, {
+      message: 'O telefone deve ter pelo menos 11 dígitos, incluindo DDD',
+    }),
+  birthDate: z
+    .string()
+    .min(1, {
+      message: 'A data de nascimento é obrigatória',
+    })
+    .min(5, {
+      message: 'Por favor, insira uma data de nascimento válida',
+    }),
+})
+
+export type clientOrBusinessInfer = z.infer<typeof clientOrBusinessSchema>
+export type RegisterClientInfer = z.infer<typeof registerClientSchema>

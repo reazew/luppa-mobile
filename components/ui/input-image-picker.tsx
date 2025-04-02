@@ -9,8 +9,8 @@ import * as React from 'react'
 import { Image, View } from 'react-native'
 
 interface InputImagePickerProps {
-  value?: string | null
-  onChange: (value: string) => void
+  value?: ImagePicker.ImagePickerAsset[] | null
+  onChange: (value: ImagePicker.ImagePickerAsset[]) => void
   onBlur?: () => void
   error?: boolean
   disabled?: boolean
@@ -55,7 +55,7 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
         })
 
         if (!result.canceled && result.assets[0]) {
-          onChange(result.assets[0].uri)
+          onChange([result.assets[0]])
           onBlur?.()
         }
       } catch (err) {
@@ -82,7 +82,7 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
         })
 
         if (!result.canceled && result.assets[0]) {
-          onChange(result.assets[0].uri)
+          onChange([result.assets[0]])
           onBlur?.()
         }
       } catch (err) {
@@ -92,7 +92,7 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
 
     const removeImage = () => {
       if (disabled) return
-      onChange('')
+      onChange([])
       onBlur?.()
     }
 
@@ -107,10 +107,10 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
               disabled && 'opacity-50'
             )}
             style={{ width: previewSize.width, height: previewSize.height }}>
-            {value ? (
+            {value && value.length > 0 ? (
               <>
                 <Image
-                  source={{ uri: value }}
+                  source={{ uri: value[0].uri }}
                   className="h-full w-full rounded-full"
                 />
                 <Button

@@ -14,7 +14,7 @@ export default function FormStepRegisterClient() {
     resetStep()
   }, [])
 
-  const userData: ClientUser = {
+  const clientUserData: ClientUser = {
     name: '',
     email: '',
     phone: '',
@@ -33,7 +33,7 @@ export default function FormStepRegisterClient() {
             className="w-full pb-[32px] text-left">
             Informações básicas
           </Text>
-          <RegisterClientForm userData={userData} />
+          <RegisterClientForm {...clientUserData} />
         </Container>
       </ScrollView>
     </KeyboardView>

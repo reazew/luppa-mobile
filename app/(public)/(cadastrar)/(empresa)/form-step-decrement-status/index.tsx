@@ -14,7 +14,7 @@ import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
 import { cssInterop } from 'nativewind'
 import { useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
-import { type RegisterBusinessStatusInfer } from 'schemas/register'
+import { type RegisterBusinessStatusInfer } from 'schemas/register-business'
 import { useStepStore } from 'store/useStepStore'
 
 export default function FormStepDecrementStatus() {

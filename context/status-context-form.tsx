@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import {
   registerBusinessStatusSchema,
   type RegisterBusinessStatusInfer,
-} from 'schemas/register'
+} from 'schemas/register-business'
 
 export function StatusContextFormProvider({
   children,

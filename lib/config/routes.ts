@@ -5,7 +5,14 @@ import {
   UserActiveIcon,
   WalletActiveIcon,
 } from 'assets/icons/index'
-import { Bell, House, Search, User, Wallet, type LucideIcon } from 'lucide-react-native'
+import {
+  Bell,
+  House,
+  Search,
+  User,
+  Wallet,
+  type LucideIcon,
+} from 'lucide-react-native'
 import { FC } from 'react'
 import type { SvgProps } from 'react-native-svg'
 
