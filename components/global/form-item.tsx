@@ -20,7 +20,7 @@ import {
   FieldValues,
   UseFormReturn,
 } from 'react-hook-form'
-import { TouchableOpacity, View, type TextInput } from 'react-native'
+import { Platform, TouchableOpacity, View, type TextInput } from 'react-native'
 
 import { Input } from '../ui/input'
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
@@ -338,7 +338,7 @@ export const FormItem = React.forwardRef<TextInput, FormItemProps<any>>(
           )}
         <RenderInput {...props} ref={ref} />
         {!hideSupportiveText && (
-          <View className="mt-0 h-4">
+          <View className={cn(Platform.OS === 'ios' && ' h-4', 'mt-0')}>
             <FormMessage />
           </View>
         )}

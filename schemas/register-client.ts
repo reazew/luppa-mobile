@@ -11,7 +11,7 @@ export const clientOrBusinessSchema = z.object({
 
 export const registerClientSchema = z.object({
   imageFile: z.array(z.custom<ImagePicker.ImagePickerAsset>()).nullish(),
-  avatarUrl: z.string().nullish(),
+  imageUrl: z.string().nullish(),
   name: z
     .string()
     .min(1, {

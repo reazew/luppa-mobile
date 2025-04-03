@@ -1,14 +1,14 @@
 import * as DocumentPicker from 'expo-document-picker'
+import * as ImagePicker from 'expo-image-picker'
 import { cnpjValidation } from 'lib/helpers/cnpj-validation'
 import { cpfValidation } from 'lib/helpers/cpf-validation'
 import { z } from 'zod'
 
 export const registerBusinessSchema = z.object({
   imageFile: z
-    .array(z.instanceof(File))
-    .min(1, { message: 'É necessário enviar a logo da empresa' })
-    .nonempty({ message: 'É necessário enviar a logo da empresa' }),
-  logoUrl: z.string().nullish(),
+    .array(z.custom<ImagePicker.ImagePickerAsset>())
+    .min(1, { message: 'É necessário enviar a logo da empresa' }),
+  imageUrl: z.string().nullish(),
   nameBusiness: z
     .string()
     .min(1, { message: 'O nome da empresa é obrigatório' })

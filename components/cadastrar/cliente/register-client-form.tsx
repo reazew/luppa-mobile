@@ -13,9 +13,9 @@ import {
   type RegisterClientInfer,
 } from 'schemas/register-client'
 import { useStepStore } from 'store/useStepStore'
-import type { ClientUser } from 'types/client-user'
+import type { User } from 'types/user'
 
-export const RegisterClientForm = (clientUserData: ClientUser) => {
+export const RegisterClientForm = (clientUserData: User) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<RegisterClientInfer>({
@@ -25,14 +25,14 @@ export const RegisterClientForm = (clientUserData: ClientUser) => {
       email: clientUserData.email,
       phone: clientUserData.phone,
       birthDate: clientUserData.birthDate,
-      imageFile: clientUserData.avatarUrl
+      imageFile: clientUserData.imageUrl
         ? [
             {
-              uri: clientUserData.avatarUrl,
+              uri: clientUserData.imageUrl,
             } as ImagePickerAsset,
           ]
         : null,
-      avatarUrl: clientUserData.avatarUrl,
+      imageUrl: clientUserData.imageUrl,
     },
   })
 

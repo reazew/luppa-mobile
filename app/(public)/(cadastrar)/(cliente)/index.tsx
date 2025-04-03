@@ -5,7 +5,7 @@ import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { useEffect } from 'react'
 import { useStepStore } from 'store/useStepStore'
-import type { ClientUser } from 'types/client-user'
+import type { User } from 'types/user'
 
 export default function FormStepRegisterClient() {
   const resetStep = useStepStore((state) => state.resetStep)
@@ -14,13 +14,13 @@ export default function FormStepRegisterClient() {
     resetStep()
   }, [])
 
-  const clientUserData: ClientUser = {
+  const clientUserData: User = {
+    type: 'client',
     name: '',
     email: '',
     phone: '',
     birthDate: '',
-    avatarUrl: '',
-    imageFile: null,
+    imageUrl: '',
   }
 
   return (

@@ -75,9 +75,9 @@ export const SelectField = <T extends FieldValues>({
           <View className="flex-1 flex-row items-center justify-between">
             <Text
               className={cn(
-                'text-black-0',
+                'w-[calc(100%-16px)] text-black-0',
                 !selectedOption?.label && 'text-black-100',
-                loading && 'w-full flex-1 items-center justify-center'
+                loading && 'flex-1 items-center justify-center'
               )}>
               {loading ? (
                 <LoaderCircle
@@ -91,7 +91,7 @@ export const SelectField = <T extends FieldValues>({
             <ChevronDown
               size={16}
               color={disabled || loading ? '#666666' : '#ffff'}
-              className="w-10 transition-all duration-300"
+              className="transition-all duration-300"
               style={{
                 transform: [{ rotate: isOpen ? '180deg' : '0deg' }],
               }}

@@ -3,34 +3,43 @@ import { Shop2Icon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
+import type { ImagePickerAsset } from 'expo-image-picker'
 import { router } from 'expo-router'
 import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
 import { getCityOptions, getStateOptions } from 'mock/cities'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { TextInput, View } from 'react-native'
+import { View, type TextInput } from 'react-native'
 import {
   registerBusinessSchema,
   type RegisterBusinessInfer,
 } from 'schemas/register-business'
 import { useStepStore } from 'store/useStepStore'
+import type { User } from 'types/user'
 
 interface SelectFieldRef {
   setIsOpen: (open: boolean) => void
 }
 
-export const RegisterBusinessForm = () => {
+export const RegisterBusinessForm = (businessData: User) => {
   const form = useForm<RegisterBusinessInfer>({
     resolver: zodResolver(registerBusinessSchema),
     defaultValues: {
-      nameBusiness: '',
-      cnpj: '',
-      address: '',
-      cep: '',
-      segment: '',
-      city: '',
-      state: '',
-      imageFile: [],
+      imageFile: businessData.imageUrl
+        ? [
+            {
+              uri: businessData.imageUrl,
+            } as ImagePickerAsset,
+          ]
+        : [],
+      imageUrl: businessData.imageUrl,
+      nameBusiness: businessData.name,
+      cnpj: businessData.cnpj,
+      segment: businessData.segment,
+      address: businessData.address,
+      state: businessData.state,
+      city: businessData.city,
+      cep: businessData.cep,
     },
   })
 

@@ -3,10 +3,11 @@ import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
-import type { BusinessUser } from 'types/business-user'
+import type { User } from 'types/user'
 
 export default function FormStepRegisterLegalResponsible() {
-  const businessUserData: BusinessUser = {
+  const businessUserData: User = {
+    type: 'business',
     name: '',
     cpf: '',
     email: '',

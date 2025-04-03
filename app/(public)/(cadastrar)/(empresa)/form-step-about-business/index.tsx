@@ -3,8 +3,22 @@ import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
+import type { User } from 'types/user'
 
 export default function FormStepAboutBusiness() {
+  const businessData: User = {
+    type: 'business',
+    name: '',
+    cnpj: '',
+    segment: '',
+    address: '',
+    city: '',
+    state: '',
+    cep: '',
+    imageUrl: '',
+    logoUrl: '',
+  }
+
   return (
     <KeyboardView>
       <ScrollView>
@@ -15,7 +29,7 @@ export default function FormStepAboutBusiness() {
             className="w-full pb-[32px] text-left">
             Informações sobre o seu negócio
           </Text>
-          <RegisterBusinessForm />
+          <RegisterBusinessForm {...businessData} />
         </Container>
       </ScrollView>
     </KeyboardView>
