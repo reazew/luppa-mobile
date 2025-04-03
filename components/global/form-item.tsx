@@ -11,9 +11,10 @@ import { InputImagePicker } from 'components/ui/input-image-picker'
 import { MaskedInput } from 'components/ui/masked-input'
 import { format } from 'date-fns'
 import { cn } from 'lib/util'
+import { debounce } from 'lodash'
 import { type LucideIcon } from 'lucide-react-native'
 import type { RefObject } from 'react'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   ControllerRenderProps,
   FieldValues,
@@ -49,6 +50,7 @@ interface FormItemProps<T extends FieldValues> {
   className?: string
   error?: boolean
   disabled?: boolean
+  loading?: boolean
   options?: Option[]
   imagePreviewSize?: { width: number; height: number }
   maxFiles?: number
@@ -88,6 +90,7 @@ interface FormItemProps<T extends FieldValues> {
   ref?: RefObject<TextInput>
   onValueSelect?: () => void
   placeholderIcon?: React.ReactNode
+  showTakePhotoButton?: boolean
 }
 
 const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
@@ -115,11 +118,34 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
       documentPickerOptions,
       placeholderIcon,
       label,
+      loading,
+      showTakePhotoButton,
     } = props
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
-    const handleChange = async (value: string) => {
+    const debouncedValidation = useCallback(
+      debounce(async (name: string) => {
+        if (formContext && name) {
+          await formContext.trigger(name)
+        }
+      }, 300),
+      [formContext]
+    )
+
+    const handleChange = (value: string) => {
       field.onChange(value)
+      if (formContext && field.name) {
+        debouncedValidation(field.name)
+      }
+    }
+
+    useEffect(() => {
+      return () => {
+        debouncedValidation.cancel()
+      }
+    }, [debouncedValidation])
+
+    const handleEndEditing = async () => {
       if (formContext && field.name) {
         await formContext.trigger(field.name)
       }
@@ -138,6 +164,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             value={field.value}
             onChangeText={handleChange}
             onBlur={field.onBlur}
+            onEndEditing={handleEndEditing}
             multiline
             numberOfLines={4}
           />
@@ -155,6 +182,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             value={field.value}
             onChangeText={handleChange}
             onBlur={field.onBlur}
+            onEndEditing={handleEndEditing}
             onSubmitEditing={onSubmitEditing}
             keyboardType={keyboardType}
           />
@@ -172,6 +200,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             value={field.value}
             onChangeText={handleChange}
             onBlur={field.onBlur}
+            onEndEditing={handleEndEditing}
             mask={mask ?? ''}
             type={maskType}
             options={maskOptions}
@@ -180,6 +209,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
           />
         )
 
+      // [] Estudar uma possibilidade de fechar o select outSide
       case 'select':
         return (
           <SelectField
@@ -188,6 +218,8 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             placeholder={placeholder}
             error={error}
             disabled={disabled}
+            loading={loading}
+            onValueSelect={onValueSelect}
           />
         )
 
@@ -224,6 +256,7 @@ const RenderInput = React.forwardRef<TextInput, FormItemProps<any>>(
             disabled={disabled}
             previewSize={imagePreviewSize}
             placeholderIcon={placeholderIcon}
+            showTakePhotoButton={showTakePhotoButton}
           />
         )
 

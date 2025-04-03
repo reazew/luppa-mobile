@@ -19,7 +19,11 @@ const DropdownComponent = () => {
 
   const renderLabel = () => {
     if (value || isFocus) {
-      return <Text style={[styles.label, isFocus && { color: 'blue' }]}>Dropdown label</Text>
+      return (
+        <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+          Dropdown label
+        </Text>
+      )
     }
     return null
   }

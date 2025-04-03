@@ -1,9 +1,14 @@
 import * as DocumentPicker from 'expo-document-picker'
+import { cnpjValidation } from 'lib/helpers/cnpj-validation'
+import { cpfValidation } from 'lib/helpers/cpf-validation'
 import { z } from 'zod'
 
 export const registerBusinessSchema = z.object({
-  imageFile: z.array(z.instanceof(File)).nullish(),
-  imageUrl: z.string().nullish(),
+  imageFile: z
+    .array(z.instanceof(File))
+    .min(1, { message: 'É necessário enviar a logo da empresa' })
+    .nonempty({ message: 'É necessário enviar a logo da empresa' }),
+  logoUrl: z.string().nullish(),
   nameBusiness: z
     .string()
     .min(1, { message: 'O nome da empresa é obrigatório' })
@@ -11,28 +16,27 @@ export const registerBusinessSchema = z.object({
   cnpj: z
     .string()
     .min(1, { message: 'O CNPJ é obrigatório' })
-    .min(14, { message: 'O CNPJ deve ter 14 dígitos' }),
-  email: z
-    .string()
-    .trim()
-    .min(1, { message: 'Email obrigatório' })
-    .email({ message: 'E-mail digitado inválido' }),
-  phone: z.string().min(1, { message: 'O telefone é obrigatório' }).min(11, {
-    message: 'O telefone deve ter pelo menos 11 dígitos, incluindo DDD',
-  }),
+    .min(14, { message: 'O CNPJ deve ter 14 dígitos' })
+    .refine((cnpj) => cnpjValidation(cnpj), {
+      message: 'CNPJ inválido',
+    }),
+  segment: z.string().min(1, { message: 'O segmento é obrigatório' }),
+  address: z.string().min(1, { message: 'O endereço é obrigatório' }),
+  city: z.string().min(1, { message: 'A cidade é obrigatória' }).nullable(),
+  state: z.string().min(1, { message: 'O estado é obrigatório' }).nullable(),
   cep: z
     .string()
     .min(1, { message: 'O CEP é obrigatório' })
     .min(8, { message: 'O CEP deve ter 8 dígitos' }),
-  address: z.string().min(1, { message: 'O endereço é obrigatório' }),
-  segment: z.enum(['Pizzaria', 'Padaria', 'Lanchonete', 'Bar', 'Outros'], {
-    required_error: 'Selecione um segmento',
-  }),
-  city: z.string().min(1, { message: 'A cidade é obrigatória' }),
-  uf: z
+})
+
+export const registerBusinessGallerySchema = z.object({
+  description: z
     .string()
-    .min(2, { message: 'O estado é obrigatório' })
-    .max(2, { message: 'Use a sigla do estado com 2 letras' }),
+    .min(1, { message: 'A descrição é obrigatória' })
+    .min(3, { message: 'A descrição deve ter pelo menos 3 caracteres' }),
+  galleryImagesFiles: z.array(z.instanceof(File)).nullish(),
+  galleryImagesUrls: z.array(z.string()).default([]),
 })
 
 export const registerLegalResponsibleSchema = z.object({
@@ -43,7 +47,10 @@ export const registerLegalResponsibleSchema = z.object({
   cpf: z
     .string()
     .min(1, { message: 'O CPF é obrigatório' })
-    .min(14, { message: 'CPF inválido' }),
+    .min(14, { message: 'CPF inválido' })
+    .refine((cpf) => cpfValidation(cpf), {
+      message: 'CPF inválido',
+    }),
   email: z
     .string()
     .trim()
@@ -52,22 +59,12 @@ export const registerLegalResponsibleSchema = z.object({
   phone: z.string().min(1, { message: 'O telefone é obrigatório' }).min(15, {
     message: 'O telefone deve ter pelo menos 11 dígitos, incluindo DDD',
   }),
-
   file: z
     .custom<DocumentPicker.DocumentPickerResult>()
     .refine(
       (result) => result && !result.canceled && result.assets.length > 0,
       { message: 'Arquivo é obrigatório' }
     ),
-})
-
-export const registerBusinessGallerySchema = z.object({
-  description: z
-    .string()
-    .min(1, { message: 'A descrição é obrigatória' })
-    .min(3, { message: 'A descrição deve ter pelo menos 3 caracteres' }),
-  galleryImagesFiles: z.array(z.instanceof(File)).nullish(),
-  galleryImagesUrls: z.array(z.string()).default([]),
 })
 
 const statusSchema = z.object({

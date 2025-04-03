@@ -1,28 +1,36 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Shop2Icon } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
-import { CircleArrowRight, FileIcon, MoveLeft } from 'lucide-react-native'
-import { useRef } from 'react'
+import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
+import { getCityOptions, getStateOptions } from 'mock/cities'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
 import {
-  registerLegalResponsibleSchema,
-  type RegisterLegalResponsibleInfer,
+  registerBusinessSchema,
+  type RegisterBusinessInfer,
 } from 'schemas/register-business'
 import { useStepStore } from 'store/useStepStore'
-import type { BusinessUser } from 'types/business-user'
 
-export const RegisterBusinessForm = (businessUserData: BusinessUser) => {
-  const form = useForm<RegisterLegalResponsibleInfer>({
-    resolver: zodResolver(registerLegalResponsibleSchema),
+interface SelectFieldRef {
+  setIsOpen: (open: boolean) => void
+}
+
+export const RegisterBusinessForm = () => {
+  const form = useForm<RegisterBusinessInfer>({
+    resolver: zodResolver(registerBusinessSchema),
     defaultValues: {
-      name: businessUserData.name,
-      cpf: businessUserData.cpf,
-      email: businessUserData.email,
-      phone: businessUserData.phone,
-      file: undefined,
+      nameBusiness: '',
+      cnpj: '',
+      address: '',
+      cep: '',
+      segment: '',
+      city: '',
+      state: '',
+      imageFile: [],
     },
   })
 
@@ -34,94 +42,171 @@ export const RegisterBusinessForm = (businessUserData: BusinessUser) => {
 
   const onSubmit = form.handleSubmit((value) => {
     console.log(value)
-    router.push('/form-step-about-business')
+    router.push('/form-step-gallery')
     nextStep()
   })
 
-  const emailRef = useRef<TextInput>(null)
-  const phoneRef = useRef<TextInput>(null)
-  const cpfRef = useRef<TextInput>(null)
+  const cnpjRef = useRef<TextInput>(null)
+  const addressRef = useRef<TextInput>(null)
+  const cepRef = useRef<TextInput>(null)
+
+  const segmentSelectRef = useRef<SelectFieldRef>(null)
+  const ufSelectRef = useRef<SelectFieldRef>(null)
+  const citySelectRef = useRef<SelectFieldRef>(null)
+
+  const selectedUf = form.watch('state')
+  const [cities, setCities] = useState<{ label: string; value: string }[]>([])
+  const [isLoadingCities, setIsLoadingCities] = useState(false)
+
+  const handleUfChange = async (uf: string) => {
+    setIsLoadingCities(true)
+    setCities([])
+
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    const cityOptions = getCityOptions(uf)
+
+    setCities(cityOptions || [])
+    setIsLoadingCities(false)
+  }
+
+  useEffect(() => {
+    if (selectedUf) {
+      handleUfChange(selectedUf)
+    }
+  }, [selectedUf])
 
   return (
     <Form {...form}>
-      <View className="w-full flex-1 justify-start">
+      <View className="w-full flex-1 justify-start ">
         <FormField
           control={form.control}
-          name="name"
+          name="imageFile"
+          render={({ field }) => (
+            <FormItem
+              field={field}
+              fieldType="image-picker"
+              placeholderIcon={<Shop2Icon />}
+              imagePreviewSize={{ width: 128, height: 128 }}
+              label="Logo do seu Negócio"
+              showTakePhotoButton={false}
+            />
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="nameBusiness"
           render={({ field }) => (
             <FormItem
               field={field}
               fieldType="input"
-              label="Nome completo"
-              placeholder="Digite seu nome"
-              onSubmitEditing={() => cpfRef.current?.focus()}
+              label="Nome Fantasia"
+              placeholder="Nome do seu negócio"
+              onSubmitEditing={() => cnpjRef.current?.focus()}
               formContext={form}
             />
           )}
         />
         <FormField
           control={form.control}
-          name="cpf"
+          name="cnpj"
           render={({ field }) => (
             <FormItem
               field={field}
               fieldType="masked-input"
-              label="CPF"
-              placeholder="Digite seu CPF"
-              mask="999.999.999-99"
+              label="CNPJ"
+              placeholder="Digite o CNPJ"
+              mask="99.999.999/9999-99"
               keyboardType="phone-pad"
-              ref={cpfRef}
-              onSubmitEditing={() => emailRef.current?.focus()}
+              ref={cnpjRef}
+              onSubmitEditing={() => segmentSelectRef.current?.setIsOpen(true)}
               formContext={form}
             />
           )}
         />
         <FormField
           control={form.control}
-          name="email"
+          name="segment"
+          render={({ field }) => (
+            <FormItem
+              field={field}
+              fieldType="select"
+              label="Segmento"
+              placeholder="Selecione o segmento"
+              options={[
+                { label: 'Pizzaria', value: 'Pizzaria' },
+                { label: 'Hamburgueria', value: 'Hamburgueria' },
+                { label: 'Sorveteria', value: 'Sorveteria' },
+                { label: 'Padaria', value: 'Padaria' },
+                { label: 'Outros', value: 'Outros' },
+              ]}
+              ref={segmentSelectRef as any}
+              onValueSelect={() => addressRef.current?.focus()}
+            />
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="address"
           render={({ field }) => (
             <FormItem
               field={field}
               fieldType="input"
-              label="E-mail"
-              placeholder="Digite seu email"
-              keyboardType="email-address"
-              ref={emailRef}
-              onSubmitEditing={() => phoneRef.current?.focus()}
-              formContext={form}
+              label="Endereço"
+              placeholder="Rua, número, complemento"
+              ref={addressRef}
+            />
+          )}
+        />
+        <FormField
+          name="state"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem
+              field={field}
+              fieldType="select"
+              label="Estado"
+              placeholder="Selecione"
+              options={getStateOptions()}
+              className="w-full"
+              ref={ufSelectRef as any}
+            />
+          )}
+        />
+        <FormField
+          name="city"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem
+              field={field}
+              fieldType="select"
+              label="Cidade"
+              placeholder={
+                !selectedUf
+                  ? 'Selecione primeiro o estado'
+                  : 'Selecione a cidade'
+              }
+              options={cities}
+              className="w-full"
+              ref={citySelectRef as any}
+              onValueSelect={() => cepRef.current?.focus()}
+              disabled={!selectedUf || isLoadingCities}
+              loading={isLoadingCities}
             />
           )}
         />
         <FormField
           control={form.control}
-          name="phone"
+          name="cep"
           render={({ field }) => (
             <FormItem
               field={field}
               fieldType="masked-input"
-              label="Telefone"
-              placeholder="Digite seu telefone"
-              mask="(99) 99999-9999"
+              label="CEP"
+              placeholder="Digite o CEP"
+              mask="99.999-999"
               keyboardType="phone-pad"
-              ref={phoneRef}
+              ref={cepRef}
               formContext={form}
-            />
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="file"
-          render={({ field }) => (
-            <FormItem
-              field={field}
-              fieldType="document-picker"
-              label="Foto do Documento de Identificação"
-              placeholder="Selecione o documento"
-              icon={FileIcon}
-              documentPickerOptions={{
-                type: ['application/pdf'],
-                multiple: false,
-              }}
             />
           )}
         />

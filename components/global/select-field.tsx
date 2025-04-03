@@ -1,10 +1,19 @@
 import { cn } from 'lib/util'
-import { ChevronDown } from 'lucide-react-native'
+import { ChevronDown, LoaderCircle } from 'lucide-react-native'
+import { cssInterop } from 'nativewind'
 import { useMemo, useState } from 'react'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import { Pressable, ScrollView, Text, View } from 'react-native'
 
 import { FormControl } from '../ui/form'
+
+cssInterop(LoaderCircle, {
+  className: 'style',
+})
+
+cssInterop(ChevronDown, {
+  className: 'style',
+})
 
 export type Option = {
   value: string
@@ -17,6 +26,8 @@ export interface SelectFieldProps<T extends FieldValues> {
   placeholder?: string
   error?: boolean
   disabled?: boolean
+  loading?: boolean
+  onValueSelect?: () => void
 }
 
 export const SelectField = <T extends FieldValues>({
@@ -25,9 +36,15 @@ export const SelectField = <T extends FieldValues>({
   placeholder,
   error,
   disabled,
+  loading,
+  onValueSelect,
 }: SelectFieldProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
-  const selectedOption = useMemo(() => options?.find((opt) => opt.value === field.value), [field.value, options])
+
+  const selectedOption = useMemo(
+    () => options?.find((opt) => opt.value === field.value),
+    [field.value, options]
+  )
 
   const dynamicPadding = useMemo(() => {
     if (!isOpen) return 0
@@ -41,25 +58,40 @@ export const SelectField = <T extends FieldValues>({
     <FormControl>
       <View
         style={{ paddingBottom: dynamicPadding }}
-        className={cn('relative z-50 w-full transition-all duration-300', `pb-[${dynamicPadding}px]`)}>
+        className={cn(
+          'relative z-50 w-full transition-all duration-300',
+          `pb-[${dynamicPadding}px]`
+        )}>
         <Pressable
-          onPress={() => !disabled && setIsOpen((prev) => !prev)}
+          onPress={() => !disabled && !loading && setIsOpen((prev) => !prev)}
           className={cn(
             'h-10 w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
             'placeholder:text-black-100',
             'focus:border-yellow-300',
             error && 'border-red-300',
             isOpen && 'border-yellow-300',
-            disabled && 'bg-black-500 placeholder:text-black-200'
+            (disabled || loading) && 'bg-black-500 placeholder:text-black-200'
           )}>
           <View className="flex-1 flex-row items-center justify-between">
-            <Text className={cn('text-black-0', !selectedOption?.label && 'text-black-100')}>
-              {selectedOption?.label || placeholder || 'Selecione'}
+            <Text
+              className={cn(
+                'text-black-0',
+                !selectedOption?.label && 'text-black-100',
+                loading && 'w-full flex-1 items-center justify-center'
+              )}>
+              {loading ? (
+                <LoaderCircle
+                  size={16}
+                  className="w-full animate-spin text-yellow-300"
+                />
+              ) : (
+                selectedOption?.label || placeholder || 'Selecione'
+              )}
             </Text>
             <ChevronDown
               size={16}
-              color={disabled ? '#666666' : '#ffff'}
-              className="transition-all duration-300"
+              color={disabled || loading ? '#666666' : '#ffff'}
+              className="w-10 transition-all duration-300"
               style={{
                 transform: [{ rotate: isOpen ? '180deg' : '0deg' }],
               }}
@@ -67,22 +99,30 @@ export const SelectField = <T extends FieldValues>({
           </View>
         </Pressable>
         {isOpen && (
-          <ScrollView className="absolute top-full mt-2 max-h-[150px] w-full rounded-lg border border-transparent bg-black-700 p-2">
-            {options?.map((option) => (
-              <Pressable
-                key={option.value}
-                onPress={() => {
-                  field.onChange(option.value)
-                  setIsOpen(false)
-                }}
-                className={cn(
-                  'rounded-lg p-2 py-3',
-                  field.value === option.value ? 'bg-black-600' : 'hover:bg-black-600'
-                )}>
-                <Text className="text-black-0">{option.label}</Text>
-              </Pressable>
-            ))}
-          </ScrollView>
+          <View className="absolute top-full mt-2 w-full rounded-lg border border-transparent bg-black-700">
+            <ScrollView
+              className="max-h-[150px] p-2"
+              nestedScrollEnabled
+              showsVerticalScrollIndicator>
+              {options?.map((option) => (
+                <Pressable
+                  key={option.value}
+                  onPress={() => {
+                    field.onChange(option.value)
+                    setIsOpen(false)
+                    onValueSelect?.()
+                  }}
+                  className={cn(
+                    'rounded-lg p-2 py-3',
+                    field.value === option.value
+                      ? 'bg-black-600'
+                      : 'hover:bg-black-600'
+                  )}>
+                  <Text className="text-black-0">{option.label}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </View>
         )}
       </View>
     </FormControl>

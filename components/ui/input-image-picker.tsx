@@ -21,6 +21,7 @@ interface InputImagePickerProps {
     height: number
   }
   placeholderIcon?: React.ReactNode
+  showTakePhotoButton?: boolean
 }
 
 const DEFAULT_PREVIEW_SIZE = {
@@ -40,6 +41,7 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
       label = 'Foto de perfil',
       previewSize = DEFAULT_PREVIEW_SIZE,
       placeholderIcon = <CameraIcon />,
+      showTakePhotoButton = true,
     },
     ref
   ) => {
@@ -141,15 +143,17 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
               <Button.Text>Escolher na galeria</Button.Text>
             </Button>
 
-            <Button
-              onPress={takePhoto}
-              variant="outline"
-              className="min-w-[152px]">
-              <Button.Icon>
-                <Camera size={16} />
-              </Button.Icon>
-              <Button.Text>Tirar agora</Button.Text>
-            </Button>
+            {showTakePhotoButton && (
+              <Button
+                onPress={takePhoto}
+                variant="outline"
+                className="min-w-[152px]">
+                <Button.Icon>
+                  <Camera size={16} />
+                </Button.Icon>
+                <Button.Text>Tirar agora</Button.Text>
+              </Button>
+            )}
           </View>
         </View>
       </FormControl>

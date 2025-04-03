@@ -1,4 +1,4 @@
-import { RegisterBusinessForm } from 'components/cadastrar/empresa/register-business-form'
+import { RegisterLegalResponsibleForm } from 'components/cadastrar/empresa/register-legal-responsible-form'
 import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
@@ -23,7 +23,7 @@ export default function FormStepRegisterLegalResponsible() {
             className="w-full pb-[32px] text-left">
             Informações sobre o responsável legal
           </Text>
-          <RegisterBusinessForm {...businessUserData} />
+          <RegisterLegalResponsibleForm {...businessUserData} />
         </Container>
       </ScrollView>
     </KeyboardView>
