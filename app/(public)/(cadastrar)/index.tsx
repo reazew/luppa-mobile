@@ -34,9 +34,7 @@ export default function RegisterIndexScreen() {
     if (result.data.type === 'client') {
       router.navigate('/(public)/(cadastrar)/(cliente)')
     } else {
-      router.navigate(
-        '/(public)/(cadastrar)/(empresa)/form-step-about-business'
-      )
+      router.navigate('/(public)/(cadastrar)/(empresa)/form-step-gallery')
     }
   }
 

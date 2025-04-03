@@ -12,11 +12,9 @@ import {
   type RegisterLegalResponsibleInfer,
 } from 'schemas/register-business'
 import { useStepStore } from 'store/useStepStore'
-import type { BusinessUser } from 'types/business-user'
+import type { User } from 'types/user'
 
-export const RegisterLegalResponsibleForm = (
-  businessUserData: BusinessUser
-) => {
+export const RegisterLegalResponsibleForm = (businessUserData: User) => {
   const form = useForm<RegisterLegalResponsibleInfer>({
     resolver: zodResolver(registerLegalResponsibleSchema),
     defaultValues: {

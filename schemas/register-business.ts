@@ -35,7 +35,10 @@ export const registerBusinessGallerySchema = z.object({
     .string()
     .min(1, { message: 'A descrição é obrigatória' })
     .min(3, { message: 'A descrição deve ter pelo menos 3 caracteres' }),
-  galleryImagesFiles: z.array(z.instanceof(File)).nullish(),
+  galleryImagesFiles: z
+    .array(z.custom<ImagePicker.ImagePickerAsset>())
+    .min(1, { message: 'É necessário enviar pelo menos uma imagem' })
+    .max(6, { message: 'Máximo de 6 imagens permitidas' }),
   galleryImagesUrls: z.array(z.string()).default([]),
 })
 

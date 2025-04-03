@@ -10,8 +10,8 @@ import * as React from 'react'
 import { Image, View } from 'react-native'
 
 interface InputImageGalleryPickerProps {
-  value?: { [key: number]: string }
-  onChange: (value: { [key: number]: string }) => void
+  value?: ImagePicker.ImagePickerAsset[]
+  onChange: (value: ImagePicker.ImagePickerAsset[]) => void
   onBlur?: () => void
   error?: boolean
   disabled?: boolean
@@ -36,7 +36,7 @@ export const InputImageGalleryPicker = React.forwardRef<
 >(
   (
     {
-      value = {},
+      value = [],
       onChange,
       onBlur,
       error,
@@ -56,23 +56,13 @@ export const InputImageGalleryPicker = React.forwardRef<
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsMultipleSelection: true,
-          selectionLimit: maxImages - Object.keys(value).length,
+          selectionLimit: maxImages - value.length,
           quality: 0.8,
         })
 
         if (!result.canceled && result.assets) {
-          const availableSlots = [...Array(maxImages)]
-            .map((_, i) => i)
-            .filter((i) => !value[i])
-
-          const newImages = { ...value }
-          result.assets.forEach((asset, idx) => {
-            if (availableSlots[idx] !== undefined) {
-              newImages[availableSlots[idx]] = asset.uri.toString()
-            }
-          })
-
-          onChange(newImages)
+          const newImages = [...value, ...result.assets]
+          onChange(newImages.slice(0, maxImages))
           onBlur?.()
         }
       } catch (err) {
@@ -81,7 +71,7 @@ export const InputImageGalleryPicker = React.forwardRef<
     }
 
     const takePhoto = async () => {
-      if (disabled || Object.keys(value).length >= maxImages) return
+      if (disabled || value.length >= maxImages) return
 
       try {
         const permissionResult =
@@ -97,17 +87,9 @@ export const InputImageGalleryPicker = React.forwardRef<
         })
 
         if (!result.canceled && result.assets[0]) {
-          const firstEmptySlot = [...Array(maxImages)]
-            .map((_, i) => i)
-            .find((i) => !value[i])
-
-          if (firstEmptySlot !== undefined) {
-            onChange({
-              ...value,
-              [firstEmptySlot]: result.assets[0].uri.toString(),
-            })
-            onBlur?.()
-          }
+          const newImages = [...value, result.assets[0]]
+          onChange(newImages)
+          onBlur?.()
         }
       } catch (err) {
         console.error('Error taking photo:', err)
@@ -116,8 +98,8 @@ export const InputImageGalleryPicker = React.forwardRef<
 
     const removeImage = (index: number) => {
       if (disabled) return
-      const newImages = { ...value }
-      delete newImages[index]
+      const newImages = [...value]
+      newImages.splice(index, 1)
       onChange(newImages)
       onBlur?.()
     }
@@ -147,7 +129,7 @@ export const InputImageGalleryPicker = React.forwardRef<
                 {value[index] ? (
                   <>
                     <Image
-                      source={{ uri: value[index] }}
+                      source={{ uri: value[index].uri }}
                       className="h-full w-full rounded-lg"
                     />
                     {!disabled && (
@@ -175,7 +157,8 @@ export const InputImageGalleryPicker = React.forwardRef<
             <Button
               onPress={pickImages}
               variant="outline"
-              className="max-w-[165px]">
+              className="max-w-[165px]"
+              disabled={value.length >= maxImages}>
               <Button.Icon>
                 <ImageIcon size={16} />
               </Button.Icon>
@@ -185,7 +168,8 @@ export const InputImageGalleryPicker = React.forwardRef<
             <Button
               onPress={takePhoto}
               variant="outline"
-              className="max-w-[115px]">
+              className="max-w-[115px]"
+              disabled={value.length >= maxImages}>
               <Button.Icon>
                 <Camera size={16} />
               </Button.Icon>
