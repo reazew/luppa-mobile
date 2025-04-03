@@ -17,4 +17,24 @@ export type User = {
   city?: string | null
   state?: string | null
   cep?: string
+  status?: {
+    diamond: {
+      minimumPoints?: string
+      decrementPoints?: string
+      expirationTime?: string
+      description?: string
+    }
+    gold: {
+      minimumPoints?: string
+      decrementPoints?: string
+      expirationTime?: string
+      description?: string
+    }
+    silver: {
+      minimumPoints?: string
+      decrementPoints?: string
+      expirationTime?: string
+      description?: string
+    }
+  }
 }

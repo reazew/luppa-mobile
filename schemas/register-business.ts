@@ -70,30 +70,48 @@ export const registerLegalResponsibleSchema = z.object({
     ),
 })
 
-const statusSchema = z.object({
+const statusBonusSchema = z.object({
   minimumPoints: z.string().min(1, {
     message: 'A quantidade mínima de pontos é obrigatória',
   }),
   description: z.string().min(1, {
     message: 'A descrição dos benefícios é obrigatória',
   }),
-  pointsDecrement: z.string().min(1, {
-    message: 'A quantidade de pontos a ser decrementada é obrigatória',
-  }),
 })
 
-export const registerBusinessStatusSchema = z.object({
+export const registerBonusStatusSchema = z.object({
   status: z.object({
-    diamond: statusSchema,
-    gold: statusSchema,
-    silver: statusSchema,
+    diamond: statusBonusSchema,
+    gold: statusBonusSchema,
+    silver: statusBonusSchema,
   }),
 })
 
-export type Status = z.infer<typeof statusSchema>
-export type RegisterBusinessStatusInfer = z.infer<
-  typeof registerBusinessStatusSchema
+const statusDecrementSchema = z.object({
+  decrementPoints: z.string().min(1, {
+    message: 'A quantidade de pontos a ser diminuida é obrigatória',
+  }),
+  expirationTime: z
+    .string()
+    .min(1, { message: 'A tempo de expiração é obrigatório' }),
+})
+
+export const registerDecrementStatusSchema = z.object({
+  status: z.object({
+    diamond: statusDecrementSchema,
+    gold: statusDecrementSchema,
+    silver: statusDecrementSchema,
+  }),
+})
+
+export type RegisterBonusStatusInfer = z.infer<typeof registerBonusStatusSchema>
+export type StatusBonus = z.infer<typeof statusBonusSchema>
+
+export type RegisterDecrementStatusInfer = z.infer<
+  typeof registerDecrementStatusSchema
 >
+export type StatusDecrement = z.infer<typeof statusDecrementSchema>
+
 export type RegisterBusinessInfer = z.infer<typeof registerBusinessSchema>
 export type RegisterLegalResponsibleInfer = z.infer<
   typeof registerLegalResponsibleSchema
