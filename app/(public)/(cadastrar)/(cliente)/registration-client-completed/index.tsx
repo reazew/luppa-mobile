@@ -1,6 +1,7 @@
 import { Button } from 'components/global/button'
 import { ContainerBackground } from 'components/global/container-background'
 import { Text } from 'components/global/text'
+import { router } from 'expo-router'
 import { CircleArrowRight } from 'lucide-react-native'
 import { View } from 'react-native'
 
@@ -10,7 +11,7 @@ export default function RegistrationClientCompleted() {
       className="px-6"
       source={require('../../../../../assets/images/register-success.png')}>
       <View className="flex-1 items-center justify-center gap-10 pt-10">
-        <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
+        <View className="max-w-[364px] flex-1 items-center justify-end gap-8 ">
           <Text size="huge-3" weight="bold" className="text-center">
             Cadastros realizados com sucesso!
           </Text>
@@ -22,7 +23,9 @@ export default function RegistrationClientCompleted() {
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
-          <Button>
+          <Button
+            onPress={() => router.navigate('/(private)/(cliente)/inicio')}
+            className="max-w-[200px]">
             <Button.Text>Concluir</Button.Text>
             <Button.Icon>
               <CircleArrowRight size={24} />

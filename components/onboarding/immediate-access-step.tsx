@@ -4,7 +4,11 @@ import { Text } from 'components/global/text'
 import { CircleArrowRight } from 'lucide-react-native'
 import { ImageBackground, View } from 'react-native'
 
-export const ImmediateAccessStep = ({ setStepOnboarding }: { setStepOnboarding: () => void }) => {
+export const ImmediateAccessStep = ({
+  setStepOnboarding,
+}: {
+  setStepOnboarding: () => void
+}) => {
   return (
     <ImageBackground
       source={require('../../assets/images/onboading-step-2.png')}

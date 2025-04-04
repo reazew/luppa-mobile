@@ -17,15 +17,15 @@ import { View } from 'react-native'
 import { useStepStore } from 'store/useStepStore'
 
 export default function FormStepReceiveMethods() {
-  const { nextStep } = useStepStore()
+  const { setStep } = useStepStore()
 
   const handleBack = () => {
     router.back()
   }
 
   const handleNext = () => {
-    router.push('/registration-business-completed')
-    nextStep()
+    router.navigate('/registration-business-completed')
+    setStep(6)
   }
 
   return (

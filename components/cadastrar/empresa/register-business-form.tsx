@@ -43,16 +43,24 @@ export const RegisterBusinessForm = (businessData: User) => {
     },
   })
 
-  const { nextStep } = useStepStore()
+  const { setStep } = useStepStore()
+  const [loading, setLoading] = useState(false)
 
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit((value) => {
-    console.log(value)
-    router.push('/form-step-gallery')
-    nextStep()
+  const onSubmit = form.handleSubmit(async (value) => {
+    if (loading) return
+
+    setLoading(true)
+    try {
+      console.log(value)
+      router.navigate('/form-step-gallery')
+      setStep(2)
+    } catch (error) {
+      console.error(error)
+    }
   })
 
   const cnpjRef = useRef<TextInput>(null)
@@ -231,8 +239,11 @@ export const RegisterBusinessForm = (businessData: User) => {
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
-          <Button.Text>Avançar</Button.Text>
+        <Button
+          onPress={onSubmit}
+          className="w-1/2 max-w-[189px]"
+          disabled={loading}>
+          <Button.Text>{loading ? 'Enviando...' : 'Avançar'}</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

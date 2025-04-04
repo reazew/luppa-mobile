@@ -14,11 +14,14 @@ export const SecurePlatformStep = () => {
         <View className="mb-10 w-full max-w-[364px] flex-1 items-start justify-end gap-6">
           <VerifiedCheckIcon width={64} height={64} />
           <Text size="huge-2" weight="regular" className="mt-2">
-            Plataforma segura em parceria com os maiores bancos e meios de pagamento do país
+            Plataforma segura em parceria com os maiores bancos e meios de
+            pagamento do país
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
-          <Button onPress={() => router.push('/(public)/cadastrar')} className="max-w-[200px]">
+          <Button
+            onPress={() => router.push('/(public)/(cadastrar)')}
+            className="max-w-[200px]">
             <Button.Text>Cadastrar</Button.Text>
           </Button>
         </View>

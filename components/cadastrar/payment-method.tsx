@@ -51,7 +51,7 @@ export const PaymentMethod = ({
             {icon}
             <View className="flex-1 gap-4">
               <Text
-                size="huge-2"
+                size="huge"
                 weight="bold"
                 className="text-left text-black-0">
                 {label}

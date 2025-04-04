@@ -15,15 +15,15 @@ import { View } from 'react-native'
 import { useStepStore } from 'store/useStepStore'
 
 export default function FormStepPaymentMethods() {
-  const { nextStep } = useStepStore()
+  const { setStep } = useStepStore()
 
   const handleBack = () => {
     router.back()
   }
 
   const handleNext = () => {
-    router.push('/registration-client-completed')
-    nextStep()
+    router.navigate('/registration-client-completed')
+    setStep(2)
   }
 
   return (

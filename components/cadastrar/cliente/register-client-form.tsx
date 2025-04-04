@@ -35,7 +35,7 @@ export const RegisterClientForm = (clientUserData: User) => {
     },
   })
 
-  const { setCurrentStep } = useStepStore()
+  const { setStep } = useStepStore()
 
   const handleBack = () => {
     router.back()
@@ -44,7 +44,7 @@ export const RegisterClientForm = (clientUserData: User) => {
   const onSubmit = form.handleSubmit((value) => {
     console.log(value)
     router.push('/form-step-payment-methods')
-    setCurrentStep(2)
+    setStep(1)
   })
 
   const cpfRef = useRef<TextInput>(null)

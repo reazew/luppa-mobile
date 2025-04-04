@@ -21,7 +21,7 @@ export default function BusinessLayout() {
           tabBarShowLabel: false,
           tabBarInactiveTintColor: '#B0B0B0',
           tabBarStyle: {
-            backgroundColor: '#242424',
+            backgroundColor: '#1F1F1F',
             borderTopWidth: 1,
             paddingHorizontal: 8,
             paddingTop: 20,

@@ -24,7 +24,7 @@ export default function PublicScreen() {
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
-          <Button onPress={() => router.push('/(public)/(cadastrar)')}>
+          <Button onPress={() => router.navigate('/(public)/onboarding')}>
             <Button.Text>Continue com e-mail</Button.Text>
           </Button>
           <Button
@@ -39,7 +39,7 @@ export default function PublicScreen() {
           </Button>
           <Button
             variant="outline"
-            onPress={() => router.push('/(private)/(cliente)/inicio')}>
+            onPress={() => router.push('/(public)/onboarding')}>
             <Button.Text>Continue sem logar</Button.Text>
           </Button>
         </View>

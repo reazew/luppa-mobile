@@ -9,10 +9,10 @@ export default function RegisterClientLayout() {
     <Stack
       screenOptions={{
         contentStyle: {
-          backgroundColor: '#242424',
+          backgroundColor: '#1F1F1F',
         },
         headerStyle: {
-          backgroundColor: '#242424',
+          backgroundColor: '#1F1F1F',
         },
         header: () => <Steps currentStepIndex={currentStep} totalSteps={3} />,
         animation: 'none',
@@ -26,7 +26,7 @@ export default function RegisterClientLayout() {
       <Stack.Screen
         name="registration-client-completed"
         options={{
-          header: () => null,
+          headerTransparent: true,
         }}
       />
     </Stack>

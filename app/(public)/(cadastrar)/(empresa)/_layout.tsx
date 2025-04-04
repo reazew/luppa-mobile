@@ -16,10 +16,10 @@ export default function RegisterBusinessLayout() {
     <Stack
       screenOptions={{
         contentStyle: {
-          backgroundColor: '#242424',
+          backgroundColor: '#1F1F1F',
         },
         headerStyle: {
-          backgroundColor: '#242424',
+          backgroundColor: '#1F1F1F',
         },
         header: () => <Steps currentStepIndex={currentStep} totalSteps={6} />,
         animation: 'none',
@@ -38,6 +38,7 @@ export default function RegisterBusinessLayout() {
         name="registration-business-completed"
         options={{
           header: () => null,
+          gestureEnabled: false,
         }}
       />
     </Stack>

@@ -4,6 +4,7 @@ import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import {
@@ -23,15 +24,24 @@ export const RegisterGalleryForm = (businessUserData: User) => {
     },
   })
 
-  const { nextStep } = useStepStore()
+  const { setStep } = useStepStore()
+  const [loading, setLoading] = useState(false)
+
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit((value) => {
-    console.log(value)
-    router.push('/form-step-bonus-status')
-    nextStep()
+  const onSubmit = form.handleSubmit(async (value) => {
+    if (loading) return
+
+    setLoading(true)
+    try {
+      console.log(value)
+      router.navigate('/form-step-bonus-status')
+      setStep(3)
+    } catch (error) {
+      console.error(error)
+    }
   })
 
   return (
@@ -75,8 +85,11 @@ export const RegisterGalleryForm = (businessUserData: User) => {
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
-          <Button.Text>Avançar</Button.Text>
+        <Button
+          onPress={onSubmit}
+          className="w-1/2 max-w-[189px]"
+          disabled={loading}>
+          <Button.Text>{loading ? 'Enviando...' : 'Avançar'}</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

@@ -8,7 +8,7 @@ import {
   CircleArrowRight,
   FileIcon,
 } from 'lucide-react-native'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
 import {
@@ -30,16 +30,24 @@ export const RegisterLegalResponsibleForm = (businessUserData: User) => {
     },
   })
 
-  const { nextStep } = useStepStore()
+  const { setStep } = useStepStore()
+  const [loading, setLoading] = useState(false)
 
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit((value) => {
-    console.log(value)
-    router.push('/form-step-about-business')
-    nextStep()
+  const onSubmit = form.handleSubmit(async (value) => {
+    if (loading) return
+
+    setLoading(true)
+    try {
+      console.log(value)
+      router.navigate('/form-step-about-business')
+      setStep(1)
+    } catch (error) {
+      console.error(error)
+    }
   })
 
   const emailRef = useRef<TextInput>(null)
@@ -141,8 +149,11 @@ export const RegisterLegalResponsibleForm = (businessUserData: User) => {
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
-          <Button.Text>Avançar</Button.Text>
+        <Button
+          onPress={onSubmit}
+          className="w-1/2 max-w-[189px]"
+          disabled={loading}>
+          <Button.Text>{loading ? 'Enviando...' : 'Avançar'}</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

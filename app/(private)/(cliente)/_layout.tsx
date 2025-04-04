@@ -22,7 +22,7 @@ export default function ClientLayout() {
           tabBarShowLabel: false,
           tabBarInactiveTintColor: '#B0B0B0',
           tabBarStyle: {
-            backgroundColor: '#242424',
+            backgroundColor: '#1F1F1F',
             borderTopWidth: 1,
             paddingHorizontal: 8,
             paddingTop: 20,
@@ -40,7 +40,11 @@ export default function ClientLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <UserActiveIcon /> : <User color="#B0B0B0" className="flex-1" />}
+                {props.focused ? (
+                  <UserActiveIcon />
+                ) : (
+                  <User color="#B0B0B0" className="flex-1" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )
@@ -55,7 +59,11 @@ export default function ClientLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <WalletActiveIcon /> : <Wallet color="#B0B0B0" className="pb-8" />}
+                {props.focused ? (
+                  <WalletActiveIcon />
+                ) : (
+                  <Wallet color="#B0B0B0" className="pb-8" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )
@@ -70,7 +78,11 @@ export default function ClientLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <HouseActiveIcon /> : <House color="#B0B0B0" className="flex-1" />}
+                {props.focused ? (
+                  <HouseActiveIcon />
+                ) : (
+                  <House color="#B0B0B0" className="flex-1" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )
@@ -85,7 +97,11 @@ export default function ClientLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <SearchActiveIcon /> : <Search color="#B0B0B0" className="flex-1" />}
+                {props.focused ? (
+                  <SearchActiveIcon />
+                ) : (
+                  <Search color="#B0B0B0" className="flex-1" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )
@@ -100,7 +116,11 @@ export default function ClientLayout() {
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
-                {props.focused ? <BellActiveIcon /> : <Bell color="#B0B0B0" className="flex-1" />}
+                {props.focused ? (
+                  <BellActiveIcon />
+                ) : (
+                  <Bell color="#B0B0B0" className="flex-1" />
+                )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
             )

@@ -23,7 +23,7 @@ export default function RegisterIndexScreen() {
     router.back()
   }
 
-  const { setCurrentStep } = useStepStore()
+  const { setStep } = useStepStore()
 
   const onSubmit = form.handleSubmit((value) => {
     console.log(value)
@@ -39,7 +39,7 @@ export default function RegisterIndexScreen() {
     } else {
       router.navigate('/(public)/(cadastrar)/(empresa)')
     }
-    setCurrentStep(1)
+    setStep(0)
   })
 
   return (
