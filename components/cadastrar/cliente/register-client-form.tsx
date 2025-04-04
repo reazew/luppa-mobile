@@ -4,8 +4,8 @@ import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
 import type { ImagePickerAsset } from 'expo-image-picker'
 import { router } from 'expo-router'
-import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
-import { useRef, useState } from 'react'
+import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
+import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
 import {
@@ -16,12 +16,11 @@ import { useStepStore } from 'store/useStepStore'
 import type { User } from 'types/user'
 
 export const RegisterClientForm = (clientUserData: User) => {
-  const [isLoading, setIsLoading] = useState(false)
-
   const form = useForm<RegisterClientInfer>({
     resolver: zodResolver(registerClientSchema),
     defaultValues: {
       name: clientUserData.name,
+      cpf: clientUserData.cpf,
       email: clientUserData.email,
       phone: clientUserData.phone,
       birthDate: clientUserData.birthDate,
@@ -31,30 +30,24 @@ export const RegisterClientForm = (clientUserData: User) => {
               uri: clientUserData.imageUrl,
             } as ImagePickerAsset,
           ]
-        : null,
+        : undefined,
       imageUrl: clientUserData.imageUrl,
     },
   })
 
-  const { nextStep } = useStepStore()
+  const { setCurrentStep } = useStepStore()
 
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit(async (value) => {
-    if (isLoading) return
-
-    setIsLoading(true)
-    try {
-      console.log(value)
-      router.push('/form-step-payment-methods')
-      nextStep()
-    } finally {
-      setIsLoading(false)
-    }
+  const onSubmit = form.handleSubmit((value) => {
+    console.log(value)
+    router.push('/form-step-payment-methods')
+    setCurrentStep(2)
   })
 
+  const cpfRef = useRef<TextInput>(null)
   const emailRef = useRef<TextInput>(null)
   const phoneRef = useRef<TextInput>(null)
 
@@ -83,7 +76,24 @@ export const RegisterClientForm = (clientUserData: User) => {
               label="Nome"
               formContext={form}
               placeholder="Digite seu nome"
+              onSubmitEditing={() => cpfRef.current?.focus()}
+            />
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="cpf"
+          render={({ field }) => (
+            <FormItem
+              field={field}
+              fieldType="masked-input"
+              label="CPF"
+              placeholder="Digite seu CPF"
+              mask="999.999.999-99"
+              keyboardType="phone-pad"
+              ref={cpfRef}
               onSubmitEditing={() => emailRef.current?.focus()}
+              formContext={form}
             />
           )}
         />
@@ -133,16 +143,18 @@ export const RegisterClientForm = (clientUserData: User) => {
         />
       </View>
       <View className="flex w-full flex-row items-center justify-between gap-2">
-        <Button variant="ghost" size="icon" onPress={handleBack}>
-          <Button.Icon>
-            <MoveLeft size={16} />
-          </Button.Icon>
-        </Button>
         <Button
-          onPress={onSubmit}
-          className="max-w-[200px]"
-          disabled={isLoading}>
-          <Button.Text>{isLoading ? 'Processando...' : 'Avançar'}</Button.Text>
+          variant="ghost"
+          size="icon"
+          onPress={handleBack}
+          className="w-1/2 max-w-[189px]">
+          <Button.Icon>
+            <CircleArrowLeft size={16} />
+          </Button.Icon>
+          <Button.Text>Voltar</Button.Text>
+        </Button>
+        <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
+          <Button.Text>Avançar</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

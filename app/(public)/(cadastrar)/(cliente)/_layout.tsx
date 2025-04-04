@@ -14,7 +14,7 @@ export default function RegisterClientLayout() {
         headerStyle: {
           backgroundColor: '#242424',
         },
-        header: () => <Steps currentStepIndex={currentStep} totalSteps={2} />,
+        header: () => <Steps currentStepIndex={currentStep} totalSteps={3} />,
         animation: 'none',
       }}
       screenListeners={{

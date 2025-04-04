@@ -14,6 +14,7 @@ export default function FormStepRegisterLegalResponsible() {
     phone: '',
     document: null,
   }
+
   return (
     <KeyboardView>
       <ScrollView>

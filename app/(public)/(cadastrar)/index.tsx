@@ -7,36 +7,40 @@ import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
-import { CircleArrowRight } from 'lucide-react-native'
+import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
+import { View } from 'react-native'
 import type { clientOrBusinessInfer } from 'schemas/register-client'
 import { clientOrBusinessSchema } from 'schemas/register-client'
 import { useStepStore } from 'store/useStepStore'
 
 export default function RegisterIndexScreen() {
-  const { nextStep } = useStepStore()
-
   const form = useForm<clientOrBusinessInfer>({
     resolver: zodResolver(clientOrBusinessSchema),
   })
 
-  function handleNextStep(data: clientOrBusinessInfer) {
-    const result = clientOrBusinessSchema.safeParse(data)
+  const handleBack = () => {
+    router.back()
+  }
 
+  const { setCurrentStep } = useStepStore()
+
+  const onSubmit = form.handleSubmit((value) => {
+    console.log(value)
+    const result = clientOrBusinessSchema.safeParse(value)
     if (!result.success) {
       return form.setError('type', {
         type: 'required',
         message: 'Por favor, selecione um tipo de cadastro',
       })
     }
-
-    nextStep()
     if (result.data.type === 'client') {
       router.navigate('/(public)/(cadastrar)/(cliente)')
     } else {
       router.navigate('/(public)/(cadastrar)/(empresa)')
     }
-  }
+    setCurrentStep(1)
+  })
 
   return (
     <KeyboardView>
@@ -75,17 +79,24 @@ export default function RegisterIndexScreen() {
                 />
               )}
             />
+            <View className="w-full flex-row items-center justify-between gap-2">
+              <Button
+                variant="ghost"
+                onPress={handleBack}
+                className="w-1/2 max-w-[189px]">
+                <Button.Icon>
+                  <CircleArrowLeft size={16} />
+                </Button.Icon>
+                <Button.Text>Voltar</Button.Text>
+              </Button>
+              <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
+                <Button.Text>Avançar</Button.Text>
+                <Button.Icon>
+                  <CircleArrowRight size={16} />
+                </Button.Icon>
+              </Button>
+            </View>
           </Form>
-          <Button
-            onPress={() => {
-              handleNextStep(form.getValues())
-            }}
-            className="mx-auto max-w-[200px]">
-            <Button.Text>Avançar</Button.Text>
-            <Button.Icon>
-              <CircleArrowRight size={16} />
-            </Button.Icon>
-          </Button>
         </Container>
       </ScrollView>
     </KeyboardView>

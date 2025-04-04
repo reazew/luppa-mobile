@@ -108,15 +108,15 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
       switch (icon) {
         case 'client':
           return isSelected ? (
-            <ClientActiveIcon width={64} height={64} />
+            <ClientActiveIcon width={88} height={88} />
           ) : (
-            <ClientIcon width={64} height={64} />
+            <ClientIcon width={88} height={88} />
           )
         case 'business':
           return isSelected ? (
-            <ShopActiveIcon width={64} height={64} />
+            <ShopActiveIcon width={88} height={88} />
           ) : (
-            <ShopIcon width={64} height={64} />
+            <ShopIcon width={88} height={88} />
           )
         case 'pix':
           return isSelected ? (
@@ -160,45 +160,39 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
         )}
         {...props}>
         {variant === 'default' ? (
-          <LinearGradient
-            colors={
-              isSelected ? ['#FFB901', '#FC1A70'] : ['#BFBFBF', '#BFBFBF']
-            }
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+          <View
+            ref={ref}
             style={{
               flex: 1,
               borderRadius: 32,
-              padding: 1,
               minWidth: 364,
               minHeight: 250,
               height: '100%',
               width: '100%',
-            }}>
-            <View
-              ref={ref}
-              style={{ flex: 1 }}
-              className="items-center justify-center gap-4 rounded-4xl bg-background p-6">
-              {getIcon()}
-              <View className="items-center justify-center gap-4">
-                <Text
-                  size="huge-2"
-                  weight="bold"
-                  className={cn('text-black-50', isSelected && 'text-black-0')}>
-                  {label}
-                </Text>
-                <Text
-                  size="lg"
-                  weight="regular"
-                  className={cn(
-                    'text-center text-black-50',
-                    isSelected && 'text-black-0'
-                  )}>
-                  {description}
-                </Text>
-              </View>
+            }}
+            className={cn(
+              'items-center justify-center gap-4 rounded-4xl bg-black-600 p-6 transition-all duration-300 ease-out',
+              isSelected && 'bg-yellow-300'
+            )}>
+            {getIcon()}
+            <View className="items-center justify-center gap-4">
+              <Text
+                size="huge-2"
+                weight="bold"
+                className={cn('text-black-50', isSelected && 'text-black-700')}>
+                {label}
+              </Text>
+              <Text
+                size="lg"
+                weight="regular"
+                className={cn(
+                  'text-center text-black-50',
+                  isSelected && 'text-black-700'
+                )}>
+                {description}
+              </Text>
             </View>
-          </LinearGradient>
+          </View>
         ) : variant === 'row' ? (
           <LinearGradient
             colors={

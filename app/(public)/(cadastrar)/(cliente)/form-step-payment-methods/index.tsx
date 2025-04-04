@@ -10,7 +10,7 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { router } from 'expo-router'
-import { CircleArrowRight, MoveLeft } from 'lucide-react-native'
+import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
 import { View } from 'react-native'
 import { useStepStore } from 'store/useStepStore'
 
@@ -38,28 +38,34 @@ export default function FormStepPaymentMethods() {
           </Text>
           <View className="w-full flex-1 gap-8">
             <PaymentMethod
-              label="Pix"
-              description="Conecte com seu banco através da nossa ferramenta"
-              icon={<PixActiveIcon />}
-            />
-            <PaymentMethod
               label="Cartão de crédito"
               description="Conecte com seu banco através da nossa ferramenta"
               icon={<CreditCardActiveIcon />}
+              isRegistered
             />
             <PaymentMethod
               label="Cartão de débito"
               description="Conecte com seu banco através da nossa ferramenta"
               icon={<DebitCardActiveIcon />}
             />
+            <PaymentMethod
+              label="Pix"
+              description="Conecte com seu banco através da nossa ferramenta"
+              icon={<PixActiveIcon />}
+            />
           </View>
           <View className="flex w-full flex-row items-center justify-between gap-2">
-            <Button variant="ghost" size="icon" onPress={handleBack}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onPress={handleBack}
+              className="w-1/2 max-w-[189px]">
               <Button.Icon>
-                <MoveLeft size={16} />
+                <CircleArrowLeft size={16} />
               </Button.Icon>
+              <Button.Text>Voltar</Button.Text>
             </Button>
-            <Button onPress={handleNext} className="max-w-[200px]">
+            <Button onPress={handleNext} className="w-1/2 max-w-[189px]">
               <Button.Text>Avançar</Button.Text>
               <Button.Icon>
                 <CircleArrowRight size={16} />

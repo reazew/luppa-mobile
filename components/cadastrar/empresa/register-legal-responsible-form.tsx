@@ -3,7 +3,11 @@ import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
 import { router } from 'expo-router'
-import { CircleArrowRight, FileIcon, MoveLeft } from 'lucide-react-native'
+import {
+  CircleArrowLeft,
+  CircleArrowRight,
+  FileIcon,
+} from 'lucide-react-native'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
@@ -127,12 +131,17 @@ export const RegisterLegalResponsibleForm = (businessUserData: User) => {
         />
       </View>
       <View className="flex w-full flex-row items-center justify-between gap-2">
-        <Button variant="ghost" size="icon" onPress={handleBack}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onPress={handleBack}
+          className="w-1/2 max-w-[189px]">
           <Button.Icon>
-            <MoveLeft size={16} />
+            <CircleArrowLeft size={16} />
           </Button.Icon>
+          <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button onPress={onSubmit} className="max-w-[200px]">
+        <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
           <Button.Text>Avançar</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />

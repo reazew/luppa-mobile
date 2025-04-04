@@ -8,7 +8,7 @@ export default function RegistrationClientCompleted() {
   return (
     <ContainerBackground
       className="px-6"
-      source={require('../../../../../assets/images/home-background.png')}>
+      source={require('../../../../../assets/images/register-success.png')}>
       <View className="flex-1 items-center justify-center gap-10 pt-10">
         <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
           <Text size="huge-3" weight="bold" className="text-center">

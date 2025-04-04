@@ -293,8 +293,8 @@ export const ShopActiveIcon = (props: React.ComponentProps<typeof Svg>) => (
         x2={5.12244}
         y2={32.002}
         gradientUnits="userSpaceOnUse">
-        <Stop stopColor="#FC1A70" />
-        <Stop offset={1} stopColor="#FFB901" />
+        <Stop stopColor="#1C1C1C" />
+        <Stop offset={1} stopColor="#1C1C1C" />
       </LinearGradient>
     </Defs>
   </Svg>
@@ -451,8 +451,8 @@ export const ClientActiveIcon = (props: React.ComponentProps<typeof Svg>) => (
         x2={38.6667}
         y2={32.0022}
         gradientUnits="userSpaceOnUse">
-        <Stop stopColor="#FC1A70" />
-        <Stop offset={1} stopColor="#FFB901" />
+        <Stop stopColor="#1C1C1C" />
+        <Stop offset={1} stopColor="#1C1C1C" />
       </LinearGradient>
       <LinearGradient
         id="paint1_linear_2004_665"
@@ -461,8 +461,8 @@ export const ClientActiveIcon = (props: React.ComponentProps<typeof Svg>) => (
         x2={22.6667}
         y2={90.6721}
         gradientUnits="userSpaceOnUse">
-        <Stop stopColor="#FC1A70" />
-        <Stop offset={1} stopColor="#FFB901" />
+        <Stop stopColor="#1C1C1C" />
+        <Stop offset={1} stopColor="#1C1C1C" />
       </LinearGradient>
     </Defs>
   </Svg>

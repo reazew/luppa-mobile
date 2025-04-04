@@ -1,5 +1,4 @@
 import * as ImagePicker from 'expo-image-picker'
-import { cnpjValidation } from 'lib/helpers/cnpj-validation'
 import { cpfValidation } from 'lib/helpers/cpf-validation'
 import { z } from 'zod'
 
@@ -10,8 +9,8 @@ export const clientOrBusinessSchema = z.object({
 })
 
 export const registerClientSchema = z.object({
-  imageFile: z.array(z.custom<ImagePicker.ImagePickerAsset>()).nullish(),
-  imageUrl: z.string().nullish(),
+  imageFile: z.array(z.custom<ImagePicker.ImagePickerAsset>()).optional(),
+  imageUrl: z.string().optional(),
   name: z
     .string()
     .min(1, {
@@ -26,13 +25,6 @@ export const registerClientSchema = z.object({
     .min(11, { message: 'CPF inválido' })
     .refine((cpf) => cpfValidation(cpf), {
       message: 'CPF inválido',
-    }),
-  cnpj: z
-    .string()
-    .min(1, { message: 'O CNPJ é obrigatório' })
-    .min(14, { message: 'O CNPJ deve ter 14 dígitos' })
-    .refine((cnpj) => cnpjValidation(cnpj), {
-      message: 'CNPJ inválido',
     }),
   email: z
     .string()
