@@ -27,6 +27,9 @@ export default function RegisterClientLayout() {
         name="registration-client-completed"
         options={{
           headerTransparent: true,
+          contentStyle: {
+            borderColor: 'red',
+          },
         }}
       />
     </Stack>
