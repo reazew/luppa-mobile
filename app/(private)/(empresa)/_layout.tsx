@@ -1,12 +1,20 @@
 import {
   EllipseActiveIcon,
   HouseActiveIcon,
+  MegaphoneActiveIcon,
   StoreActiveIcon,
   UsersRoundActiveIcon,
+  WalletActiveIcon,
 } from 'assets/icons'
 import Constants from 'expo-constants'
 import { Tabs } from 'expo-router'
-import { House, Store, UsersRound } from 'lucide-react-native'
+import {
+  House,
+  Megaphone,
+  Store,
+  UsersRound,
+  Wallet,
+} from 'lucide-react-native'
 import { Platform, View } from 'react-native'
 
 const statusBarHeight = Constants.statusBarHeight
@@ -32,17 +40,36 @@ export default function BusinessLayout() {
         }
       }}>
       <Tabs.Screen
-        name="clientes"
+        name="campanhas"
         options={{
-          title: 'Clientes',
+          title: 'Campanhas',
           headerShown: false,
           tabBarIcon: (props) => {
             return (
               <View className="flex flex-col items-center justify-center gap-3">
                 {props.focused ? (
-                  <UsersRoundActiveIcon />
+                  <MegaphoneActiveIcon />
                 ) : (
-                  <UsersRound color="#B0B0B0" className="flex-1" />
+                  <Megaphone color="#B0B0B0" className="flex-1" />
+                )}
+                <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
+              </View>
+            )
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="pagamento"
+        options={{
+          title: 'Pagamento',
+          headerShown: false,
+          tabBarIcon: (props) => {
+            return (
+              <View className="flex flex-col items-center justify-center gap-3">
+                {props.focused ? (
+                  <WalletActiveIcon />
+                ) : (
+                  <Wallet color="#B0B0B0" className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -62,6 +89,25 @@ export default function BusinessLayout() {
                   <HouseActiveIcon />
                 ) : (
                   <House color="#B0B0B0" className="flex-1" />
+                )}
+                <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
+              </View>
+            )
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="clientes"
+        options={{
+          title: 'Clientes',
+          headerShown: false,
+          tabBarIcon: (props) => {
+            return (
+              <View className="flex flex-col items-center justify-center gap-3">
+                {props.focused ? (
+                  <UsersRoundActiveIcon />
+                ) : (
+                  <UsersRound color="#B0B0B0" className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
