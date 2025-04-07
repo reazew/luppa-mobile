@@ -10,6 +10,7 @@ import { InputImageGalleryPicker } from 'components/ui/input-image-gallery-picke
 import { InputImagePicker } from 'components/ui/input-image-picker'
 import { MaskedInput } from 'components/ui/masked-input'
 import { format } from 'date-fns'
+import type * as DocumentPicker from 'expo-document-picker'
 import * as ImagePicker from 'expo-image-picker'
 import { cn } from 'lib/util'
 import { debounce } from 'lodash'
@@ -47,13 +48,20 @@ type ImageGalleryPickerFieldValue = {
   onChange: (value: ImagePicker.ImagePickerAsset[]) => void
 }
 
+type DocumentPickerFieldValue = {
+  value: DocumentPicker.DocumentPickerResult | undefined
+  onChange: (value: DocumentPicker.DocumentPickerResult) => void
+}
+
 interface FormItemProps<T extends FieldValues> {
   field: ControllerRenderProps<T> &
     (FormFieldType extends 'image-picker'
       ? ImagePickerFieldValue
       : FormFieldType extends 'image-gallery-picker'
         ? ImageGalleryPickerFieldValue
-        : object)
+        : FormFieldType extends 'document-picker'
+          ? DocumentPickerFieldValue
+          : object)
   fieldType: FormFieldType
   formContext?: UseFormReturn<any>
   label?: string

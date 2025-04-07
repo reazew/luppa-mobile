@@ -15,38 +15,49 @@ import {
   registerLegalResponsibleSchema,
   type RegisterLegalResponsibleInfer,
 } from 'schemas/register-business'
+import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
-import type { User } from 'types/user'
 
-export const RegisterLegalResponsibleForm = (businessUserData: User) => {
+const FORM_ID = 'register-legal-responsible-form'
+
+export const RegisterLegalResponsibleForm = () => {
+  const { getForm, updateForm } = useFormStore()
+  const { setStep } = useStepStore()
+  const [loading, setLoading] = useState(false)
+
+  const savedData = getForm(FORM_ID) || {}
+
   const form = useForm<RegisterLegalResponsibleInfer>({
     resolver: zodResolver(registerLegalResponsibleSchema),
     defaultValues: {
-      name: businessUserData.name,
-      cpf: businessUserData.cpf,
-      email: businessUserData.email,
-      phone: businessUserData.phone,
-      file: undefined,
+      name: savedData.name || '',
+      cpf: savedData.cpf || '',
+      email: savedData.email || '',
+      phone: savedData.phone || '',
+      file: savedData.file,
     },
   })
-
-  const { setStep } = useStepStore()
-  const [loading, setLoading] = useState(false)
 
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit(async (value) => {
+  const onSubmit = form.handleSubmit(async (formData) => {
     if (loading) return
-
     setLoading(true)
+
     try {
-      console.log(value)
+      updateForm(FORM_ID, {
+        ...formData,
+        file: formData.file,
+      })
+
       router.navigate('/form-step-about-business')
       setStep(1)
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
   })
 
