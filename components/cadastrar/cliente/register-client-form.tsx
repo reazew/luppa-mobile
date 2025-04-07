@@ -12,37 +12,50 @@ import {
   registerClientSchema,
   type RegisterClientInfer,
 } from 'schemas/register-client'
+import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
 import type { User } from 'types/user'
 
-export const RegisterClientForm = (clientUserData: User) => {
+const FORM_ID = 'register-client-form'
+
+export const RegisterClientForm = (
+  clientUserData: User,
+  onChange: (data: Partial<User>) => void
+) => {
+  const { getForm, updateForm } = useFormStore()
+  const { setStep } = useStepStore()
+
+  // Recupera dados salvos
+  const savedData = getForm(FORM_ID) || {}
+
   const form = useForm<RegisterClientInfer>({
     resolver: zodResolver(registerClientSchema),
     defaultValues: {
-      name: clientUserData.name,
-      cpf: clientUserData.cpf,
-      email: clientUserData.email,
-      phone: clientUserData.phone,
-      birthDate: clientUserData.birthDate,
-      imageFile: clientUserData.imageUrl
+      name: savedData.name || '',
+      cpf: savedData.cpf || '',
+      email: savedData.email || '',
+      phone: savedData.phone || '',
+      birthDate: savedData.birthDate || '',
+      imageFile: savedData.imageUrl
         ? [
             {
-              uri: clientUserData.imageUrl,
+              uri: savedData.imageUrl,
             } as ImagePickerAsset,
           ]
         : undefined,
-      imageUrl: clientUserData.imageUrl,
+      imageUrl: savedData.imageUrl,
     },
   })
-
-  const { setStep } = useStepStore()
 
   const handleBack = () => {
     router.back()
   }
 
   const onSubmit = form.handleSubmit((value) => {
-    console.log(value)
+    // Salva os dados no store
+    updateForm(FORM_ID, value)
+
+    // Navega para o próximo passo
     router.push('/form-step-payment-methods')
     setStep(1)
   })
