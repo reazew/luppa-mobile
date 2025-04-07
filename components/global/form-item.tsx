@@ -10,6 +10,7 @@ import { InputImageGalleryPicker } from 'components/ui/input-image-gallery-picke
 import { InputImagePicker } from 'components/ui/input-image-picker'
 import { MaskedInput } from 'components/ui/masked-input'
 import { format } from 'date-fns'
+import * as ImagePicker from 'expo-image-picker'
 import { cn } from 'lib/util'
 import { debounce } from 'lodash'
 import { type LucideIcon } from 'lucide-react-native'
@@ -36,8 +37,23 @@ type FormFieldType =
   | 'birth-date'
   | 'document-picker'
 
+type ImagePickerFieldValue = {
+  value: ImagePicker.ImagePickerAsset[] | undefined
+  onChange: (value: ImagePicker.ImagePickerAsset[]) => void
+}
+
+type ImageGalleryPickerFieldValue = {
+  value: ImagePicker.ImagePickerAsset[] | undefined
+  onChange: (value: ImagePicker.ImagePickerAsset[]) => void
+}
+
 interface FormItemProps<T extends FieldValues> {
-  field: ControllerRenderProps<T>
+  field: ControllerRenderProps<T> &
+    (FormFieldType extends 'image-picker'
+      ? ImagePickerFieldValue
+      : FormFieldType extends 'image-gallery-picker'
+        ? ImageGalleryPickerFieldValue
+        : object)
   fieldType: FormFieldType
   formContext?: UseFormReturn<any>
   label?: string

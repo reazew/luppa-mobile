@@ -3,19 +3,8 @@ import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
-import type { User } from 'types/user'
 
 export default function FormStepRegisterClient() {
-  const clientUserData: User = {
-    type: 'client',
-    name: '',
-    cpf: '',
-    email: '',
-    phone: '',
-    birthDate: '',
-    imageUrl: undefined,
-  }
-
   return (
     <KeyboardView>
       <ScrollView>
@@ -26,7 +15,7 @@ export default function FormStepRegisterClient() {
             className="w-full pb-[32px] text-left">
             Informações básicas
           </Text>
-          <RegisterClientForm {...clientUserData} />
+          <RegisterClientForm />
         </Container>
       </ScrollView>
     </KeyboardView>

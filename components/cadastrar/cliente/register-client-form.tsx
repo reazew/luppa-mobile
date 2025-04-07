@@ -5,7 +5,7 @@ import { Form, FormField } from 'components/ui/form'
 import type { ImagePickerAsset } from 'expo-image-picker'
 import { router } from 'expo-router'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
 import {
@@ -14,18 +14,13 @@ import {
 } from 'schemas/register-client'
 import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
-import type { User } from 'types/user'
 
 const FORM_ID = 'register-client-form'
 
-export const RegisterClientForm = (
-  clientUserData: User,
-  onChange: (data: Partial<User>) => void
-) => {
+export const RegisterClientForm = () => {
   const { getForm, updateForm } = useFormStore()
   const { setStep } = useStepStore()
 
-  // Recupera dados salvos
   const savedData = getForm(FORM_ID) || {}
 
   const form = useForm<RegisterClientInfer>({
@@ -37,25 +32,32 @@ export const RegisterClientForm = (
       phone: savedData.phone || '',
       birthDate: savedData.birthDate || '',
       imageFile: savedData.imageUrl
-        ? [
-            {
-              uri: savedData.imageUrl,
-            } as ImagePickerAsset,
-          ]
+        ? [{ uri: savedData.imageUrl } as ImagePickerAsset]
         : undefined,
-      imageUrl: savedData.imageUrl,
+      imageUrl: savedData.imageUrl || '',
     },
   })
+
+  useEffect(() => {
+    const imageFile = form.watch('imageFile')?.[0]
+    if (imageFile?.uri) {
+      form.setValue('imageUrl', imageFile.uri)
+    }
+  }, [form])
 
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit((value) => {
-    // Salva os dados no store
-    updateForm(FORM_ID, value)
+  const handleSubmit = form.handleSubmit((formData) => {
+    const imageUrl = formData.imageFile?.[0]?.uri || formData.imageUrl
 
-    // Navega para o próximo passo
+    updateForm(FORM_ID, {
+      ...formData,
+      imageUrl,
+      imageFile: undefined,
+    })
+
     router.push('/form-step-payment-methods')
     setStep(1)
   })
@@ -66,7 +68,7 @@ export const RegisterClientForm = (
 
   return (
     <Form {...form}>
-      <View className="w-full flex-1 justify-start ">
+      <View className="w-full flex-1 justify-start">
         <FormField
           control={form.control}
           name="imageFile"
@@ -166,8 +168,13 @@ export const RegisterClientForm = (
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
-          <Button.Text>Avançar</Button.Text>
+        <Button
+          onPress={handleSubmit}
+          className="w-1/2 max-w-[189px]"
+          disabled={form.formState.isSubmitting}>
+          <Button.Text>
+            {form.formState.isSubmitting ? 'Enviando...' : 'Avançar'}
+          </Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>
