@@ -8,7 +8,7 @@ import {
   CircleArrowRight,
   FileIcon,
 } from 'lucide-react-native'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
 import {
@@ -23,7 +23,6 @@ const FORM_ID = 'register-legal-responsible-form'
 export const RegisterLegalResponsibleForm = () => {
   const { getForm, updateForm } = useFormStore()
   const { setStep } = useStepStore()
-  const [loading, setLoading] = useState(false)
 
   const savedData = getForm(FORM_ID) || {}
 
@@ -42,23 +41,14 @@ export const RegisterLegalResponsibleForm = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit(async (formData) => {
-    if (loading) return
-    setLoading(true)
+  const handleSubmit = form.handleSubmit((formData) => {
+    updateForm(FORM_ID, {
+      ...formData,
+      file: formData.file,
+    })
 
-    try {
-      updateForm(FORM_ID, {
-        ...formData,
-        file: formData.file,
-      })
-
-      router.navigate('/form-step-about-business')
-      setStep(1)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
+    router.navigate('/form-step-about-business')
+    setStep(1)
   })
 
   const emailRef = useRef<TextInput>(null)
@@ -160,11 +150,8 @@ export const RegisterLegalResponsibleForm = () => {
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button
-          onPress={onSubmit}
-          className="w-1/2 max-w-[189px]"
-          disabled={loading}>
-          <Button.Text>{loading ? 'Enviando...' : 'Avançar'}</Button.Text>
+        <Button onPress={handleSubmit} className="w-1/2 max-w-[189px]">
+          <Button.Text>Avançar</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

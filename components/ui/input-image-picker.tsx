@@ -100,11 +100,11 @@ export const InputImagePicker = React.forwardRef<View, InputImagePickerProps>(
 
     return (
       <FormControl className={cn('relative', className)} ref={ref}>
-        <View className="items-center gap-4 rounded-3xl bg-black-700 p-6">
+        <View className="items-center gap-4 rounded-3xl bg-black-600 p-6">
           <Label className="text-base">{label}</Label>
           <View
             className={cn(
-              'relative flex-1 rounded-full border border-transparent bg-black-600',
+              'relative flex-1 rounded-full border border-transparent bg-black-500',
               error && 'border-red-300',
               disabled && 'opacity-50'
             )}

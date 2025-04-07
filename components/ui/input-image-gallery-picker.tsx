@@ -106,7 +106,7 @@ export const InputImageGalleryPicker = React.forwardRef<
 
     return (
       <FormControl className={cn('relative', className)} ref={ref}>
-        <View className="items-center gap-6 rounded-3xl bg-black-700 p-6">
+        <View className="items-center gap-6 rounded-3xl bg-black-600 p-6">
           <View className="flex flex-col items-center gap-2">
             <Label className="text-base">{label}</Label>
             <Text size="sm" className="text-black-0">
@@ -118,7 +118,7 @@ export const InputImageGalleryPicker = React.forwardRef<
               <View
                 key={index}
                 className={cn(
-                  'relative rounded-2xl border border-transparent bg-black-600',
+                  'relative rounded-2xl border border-transparent bg-black-500',
                   error && 'border-red-300',
                   disabled && 'opacity-50'
                 )}

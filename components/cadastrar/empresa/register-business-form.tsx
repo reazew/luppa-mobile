@@ -14,53 +14,60 @@ import {
   registerBusinessSchema,
   type RegisterBusinessInfer,
 } from 'schemas/register-business'
+import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
-import type { User } from 'types/user'
+
+const FORM_ID = 'register-business-form'
 
 interface SelectFieldRef {
   setIsOpen: (open: boolean) => void
 }
 
-export const RegisterBusinessForm = (businessData: User) => {
+export const RegisterBusinessForm = () => {
+  const { getForm, updateForm } = useFormStore()
+  const { setStep } = useStepStore()
+
+  const savedData = getForm(FORM_ID) || {}
+
   const form = useForm<RegisterBusinessInfer>({
     resolver: zodResolver(registerBusinessSchema),
     defaultValues: {
-      imageFile: businessData.imageUrl
-        ? [
-            {
-              uri: businessData.imageUrl,
-            } as ImagePickerAsset,
-          ]
-        : [],
-      imageUrl: businessData.imageUrl,
-      nameBusiness: businessData.name,
-      cnpj: businessData.cnpj,
-      segment: businessData.segment,
-      address: businessData.address,
-      state: businessData.state,
-      city: businessData.city,
-      cep: businessData.cep,
+      imageFile: savedData.imageUrl
+        ? [{ uri: savedData.imageUrl } as ImagePickerAsset]
+        : undefined,
+      imageUrl: savedData.imageUrl || '',
+      nameBusiness: savedData.nameBusiness || '',
+      cnpj: savedData.cnpj || '',
+      segment: savedData.segment || '',
+      address: savedData.address || '',
+      state: savedData.state || '',
+      city: savedData.city || '',
+      cep: savedData.cep || '',
     },
   })
 
-  const { setStep } = useStepStore()
-  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    const imageFile = form.watch('imageFile')?.[0]
+    if (imageFile?.uri) {
+      form.setValue('imageUrl', imageFile.uri)
+    }
+  }, [form])
 
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit(async (value) => {
-    if (loading) return
+  const handleSubmit = form.handleSubmit((formData) => {
+    const imageUrl = formData.imageFile?.[0]?.uri || formData.imageUrl
 
-    setLoading(true)
-    try {
-      console.log(value)
-      router.navigate('/form-step-gallery')
-      setStep(2)
-    } catch (error) {
-      console.error(error)
-    }
+    updateForm(FORM_ID, {
+      ...formData,
+      imageUrl,
+      imageFile: undefined,
+    })
+
+    router.navigate('/form-step-gallery')
+    setStep(2)
   })
 
   const cnpjRef = useRef<TextInput>(null)
@@ -94,7 +101,7 @@ export const RegisterBusinessForm = (businessData: User) => {
 
   return (
     <Form {...form}>
-      <View className="w-full flex-1 justify-start ">
+      <View className="w-full flex-1 justify-start">
         <FormField
           control={form.control}
           name="imageFile"
@@ -102,10 +109,9 @@ export const RegisterBusinessForm = (businessData: User) => {
             <FormItem
               field={field}
               fieldType="image-picker"
-              placeholderIcon={<Shop2Icon />}
+              label="Logo da empresa"
               imagePreviewSize={{ width: 128, height: 128 }}
-              label="Logo do seu Negócio"
-              showTakePhotoButton={false}
+              placeholderIcon={<Shop2Icon width={32} height={32} />}
             />
           )}
         />
@@ -239,11 +245,8 @@ export const RegisterBusinessForm = (businessData: User) => {
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button
-          onPress={onSubmit}
-          className="w-1/2 max-w-[189px]"
-          disabled={loading}>
-          <Button.Text>{loading ? 'Enviando...' : 'Avançar'}</Button.Text>
+        <Button onPress={handleSubmit} className="w-1/2 max-w-[189px]">
+          <Button.Text>Avançar</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

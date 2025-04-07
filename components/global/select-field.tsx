@@ -70,6 +70,7 @@ export const SelectField = <T extends FieldValues>({
             'focus:border-yellow-300',
             error && 'border-red-300',
             isOpen && 'border-yellow-300',
+            selectedOption && 'bg-black-600',
             (disabled || loading) && 'bg-black-500 placeholder:text-black-200'
           )}>
           <View className="flex-1 flex-row items-center justify-between">

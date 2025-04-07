@@ -93,7 +93,10 @@ const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
           onChangeText={(text: string) => onChangeText?.(text)}
           className={cn(
             Platform.OS === 'ios' && 'pb-1.5 leading-none',
-            'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+            'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent px-4 text-base text-black-0',
+            value ? 'bg-black-600' : 'bg-black-700',
+            'focus:bg-black-600',
+            'disabled:bg-black-500',
             'placeholder:text-black-100',
             'focus:border-yellow-300',
             Icon && iconSide === 'left' && 'pl-10',

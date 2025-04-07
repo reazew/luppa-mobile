@@ -99,7 +99,10 @@ const Input = React.forwardRef<TextInput, InputProps>(
           textAlignVertical={multiline ? 'top' : 'center'}
           className={cn(
             Platform.OS === 'ios' && 'pb-[3px] leading-none',
-            'min-w-[152px] border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+            'min-w-[152px] border border-transparent px-4 text-base text-black-0',
+            value ? 'bg-black-600' : 'bg-black-700',
+            'focus:bg-black-600',
+            'disabled:bg-black-500',
             multiline
               ? 'min-h-[120px] rounded-[16px] py-3'
               : 'h-[40px] rounded-5xl',
