@@ -70,7 +70,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
       onChangeText,
       onSubmitEditing,
       keyboardType,
-      multiline,
+      multiline = false,
       numberOfLines = 4,
       ...props
     },
@@ -95,17 +95,17 @@ const Input = React.forwardRef<TextInput, InputProps>(
           onSubmitEditing={onSubmitEditing}
           multiline={multiline}
           keyboardType={keyboardType}
-          numberOfLines={multiline ? numberOfLines : undefined}
+          numberOfLines={multiline ? numberOfLines : 1}
           textAlignVertical={multiline ? 'top' : 'center'}
           className={cn(
             Platform.OS === 'ios' && 'pb-[3px] leading-none',
             'min-w-[152px] border border-transparent px-4 text-base text-black-0',
-            value ? 'bg-black-600' : 'bg-black-700',
-            'focus:bg-black-600',
+            value ? 'bg-black-600' : 'bg-black-600',
+            'focus:bg-black-500',
             'disabled:bg-black-500',
             multiline
               ? 'min-h-[120px] rounded-[16px] py-3'
-              : 'h-[40px] rounded-5xl',
+              : 'h-[40px] w-full flex-1 overflow-hidden text-nowrap rounded-5xl',
             'placeholder:text-black-100',
             'focus:border-yellow-300',
             Icon && iconSide === 'left' && 'pl-10',

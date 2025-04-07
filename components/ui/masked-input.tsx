@@ -94,8 +94,8 @@ const MaskedInput = React.forwardRef<TextInput, MaskedInputProps>(
           className={cn(
             Platform.OS === 'ios' && 'pb-1.5 leading-none',
             'h-[40px] w-full min-w-[152px] rounded-5xl border border-transparent px-4 text-base text-black-0',
-            value ? 'bg-black-600' : 'bg-black-700',
-            'focus:bg-black-600',
+            value ? 'bg-black-600' : 'bg-black-600',
+            'focus:bg-black-500',
             'disabled:bg-black-500',
             'placeholder:text-black-100',
             'focus:border-yellow-300',

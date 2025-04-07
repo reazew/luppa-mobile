@@ -12,28 +12,41 @@ import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import type { clientOrBusinessInfer } from 'schemas/register-client'
 import { clientOrBusinessSchema } from 'schemas/register-client'
+import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
 
+const FORM_ID = 'register-type-form'
+
 export default function RegisterIndexScreen() {
+  const { getForm, updateForm } = useFormStore()
+  const { setStep } = useStepStore()
+
+  const savedData = getForm(FORM_ID) || {}
+
   const form = useForm<clientOrBusinessInfer>({
     resolver: zodResolver(clientOrBusinessSchema),
+    defaultValues: {
+      type: savedData.type || '',
+    },
   })
 
   const handleBack = () => {
     router.back()
   }
 
-  const { setStep } = useStepStore()
-
-  const onSubmit = form.handleSubmit((value) => {
-    console.log(value)
-    const result = clientOrBusinessSchema.safeParse(value)
+  const handleSubmit = form.handleSubmit((formData) => {
+    const result = clientOrBusinessSchema.safeParse(formData)
     if (!result.success) {
       return form.setError('type', {
         type: 'required',
         message: 'Por favor, selecione um tipo de cadastro',
       })
     }
+
+    updateForm(FORM_ID, {
+      ...formData,
+    })
+
     if (result.data.type === 'client') {
       router.navigate('/(public)/(cadastrar)/(cliente)')
     } else {
@@ -89,7 +102,7 @@ export default function RegisterIndexScreen() {
                 </Button.Icon>
                 <Button.Text>Voltar</Button.Text>
               </Button>
-              <Button onPress={onSubmit} className="w-1/2 max-w-[189px]">
+              <Button onPress={handleSubmit} className="w-1/2 max-w-[189px]">
                 <Button.Text>Avançar</Button.Text>
                 <Button.Icon>
                   <CircleArrowRight size={16} />

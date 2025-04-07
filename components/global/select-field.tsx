@@ -65,12 +65,13 @@ export const SelectField = <T extends FieldValues>({
         <Pressable
           onPress={() => !disabled && !loading && setIsOpen((prev) => !prev)}
           className={cn(
-            'h-10 w-full min-w-[152px] rounded-5xl border border-transparent bg-black-700 px-4 text-base text-black-0 focus:bg-black-600 disabled:bg-black-500',
+            'h-10 w-full min-w-[152px] rounded-5xl border border-transparent bg-black-600 px-4 text-base text-black-0',
             'placeholder:text-black-100',
-            'focus:border-yellow-300',
+            'focus:border-yellow-300 focus:bg-black-500',
+            'active:bg-black-500',
+            disabled && 'bg-black-500',
             error && 'border-red-300',
-            isOpen && 'border-yellow-300',
-            selectedOption && 'bg-black-600',
+            isOpen && 'border-yellow-300 bg-black-500',
             (disabled || loading) && 'bg-black-500 placeholder:text-black-200'
           )}>
           <View className="flex-1 flex-row items-center justify-between">
@@ -100,7 +101,7 @@ export const SelectField = <T extends FieldValues>({
           </View>
         </Pressable>
         {isOpen && (
-          <View className="absolute top-full mt-2 w-full rounded-lg border border-transparent bg-black-700">
+          <View className="absolute top-full mt-2 w-full rounded-lg border border-transparent bg-black-600">
             <ScrollView
               className="max-h-[150px] p-2"
               nestedScrollEnabled
@@ -116,8 +117,8 @@ export const SelectField = <T extends FieldValues>({
                   className={cn(
                     'rounded-lg p-2 py-3',
                     field.value === option.value
-                      ? 'bg-black-600'
-                      : 'hover:bg-black-600'
+                      ? 'bg-black-500'
+                      : 'hover:bg-black-500'
                   )}>
                   <Text className="text-black-0">{option.label}</Text>
                 </Pressable>
