@@ -7,55 +7,54 @@ import { Form, FormField } from 'components/ui/form'
 import { Separator } from 'components/ui/separator'
 import { router } from 'expo-router'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import {
   registerBonusStatusSchema,
   type RegisterBonusStatusInfer,
 } from 'schemas/register-business'
+import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
-import type { User } from 'types/user'
 
-export const RegisterBonusStatus = (bonusStatusData: User) => {
+const FORM_ID = 'register-bonus-status-form'
+
+export const RegisterBonusStatus = () => {
+  const { getForm, updateForm } = useFormStore()
+  const { setStep } = useStepStore()
+
+  const savedData = getForm(FORM_ID) || {}
+
   const form = useForm<RegisterBonusStatusInfer>({
     resolver: zodResolver(registerBonusStatusSchema),
     defaultValues: {
       status: {
         diamond: {
-          minimumPoints: bonusStatusData?.status?.diamond?.minimumPoints,
-          description: bonusStatusData?.status?.diamond?.description,
+          minimumPoints: savedData.status?.diamond?.minimumPoints || '',
+          description: savedData.status?.diamond?.description || '',
         },
         gold: {
-          minimumPoints: bonusStatusData?.status?.gold?.minimumPoints,
-          description: bonusStatusData?.status?.gold?.description,
+          minimumPoints: savedData.status?.gold?.minimumPoints || '',
+          description: savedData.status?.gold?.description || '',
         },
         silver: {
-          minimumPoints: bonusStatusData?.status?.silver?.minimumPoints,
-          description: bonusStatusData?.status?.silver?.description,
+          minimumPoints: savedData.status?.silver?.minimumPoints || '',
+          description: savedData.status?.silver?.description || '',
         },
       },
     },
   })
 
-  const { setStep } = useStepStore()
-  const [loading, setLoading] = useState(false)
-
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit(async (value) => {
-    if (loading) return
+  const handleSubmit = form.handleSubmit((formData) => {
+    updateForm(FORM_ID, {
+      ...formData,
+    })
 
-    setLoading(true)
-    try {
-      console.log(value)
-      router.navigate('/form-step-decrement-status')
-      setStep(4)
-    } catch (error) {
-      console.error(error)
-    }
+    router.navigate('/form-step-decrement-status')
+    setStep(4)
   })
 
   return (
@@ -185,11 +184,8 @@ export const RegisterBonusStatus = (bonusStatusData: User) => {
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button
-          onPress={onSubmit}
-          className="w-1/2 max-w-[189px]"
-          disabled={loading}>
-          <Button.Text>{loading ? 'Enviando...' : 'Avançar'}</Button.Text>
+        <Button onPress={handleSubmit} className="w-1/2 max-w-[189px]">
+          <Button.Text>Avançar</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

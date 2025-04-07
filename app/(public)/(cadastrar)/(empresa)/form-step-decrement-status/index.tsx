@@ -5,18 +5,8 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { MessageBubble } from 'components/global/message-bubble'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
-import type { User } from 'types/user'
 
 export default function FormStepDecrementStatus() {
-  const decrementStatusData: User = {
-    type: 'business',
-    status: {
-      diamond: { decrementPoints: '', expirationTime: '' },
-      gold: { decrementPoints: '', expirationTime: '' },
-      silver: { decrementPoints: '', expirationTime: '' },
-    },
-  }
-
   return (
     <KeyboardView>
       <ScrollView>
@@ -28,7 +18,7 @@ export default function FormStepDecrementStatus() {
               cada mês sem consumo no seu Negócio.
             </Text>
           </MessageBubble>
-          <RegisterDecrementStatus {...decrementStatusData} />
+          <RegisterDecrementStatus />
         </Container>
       </ScrollView>
     </KeyboardView>

@@ -7,46 +7,54 @@ import { Form, FormField } from 'components/ui/form'
 import { Separator } from 'components/ui/separator'
 import { router } from 'expo-router'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import {
   registerDecrementStatusSchema,
   type RegisterDecrementStatusInfer,
 } from 'schemas/register-business'
+import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
-import type { User } from 'types/user'
 
-export const RegisterDecrementStatus = (decrementStatusData: User) => {
+const FORM_ID = 'register-decrement-status-form'
+
+export const RegisterDecrementStatus = () => {
+  const { getForm, updateForm } = useFormStore()
+  const { setStep } = useStepStore()
+
+  const savedData = getForm(FORM_ID) || {}
+
   const form = useForm<RegisterDecrementStatusInfer>({
     resolver: zodResolver(registerDecrementStatusSchema),
     defaultValues: {
       status: {
-        diamond: { decrementPoints: '', expirationTime: '' },
-        gold: { decrementPoints: '', expirationTime: '' },
-        silver: { decrementPoints: '', expirationTime: '' },
+        diamond: {
+          decrementPoints: savedData.status?.diamond?.decrementPoints || '',
+          expirationTime: savedData.status?.diamond?.expirationTime || '',
+        },
+        gold: {
+          decrementPoints: savedData.status?.gold?.decrementPoints || '',
+          expirationTime: savedData.status?.gold?.expirationTime || '',
+        },
+        silver: {
+          decrementPoints: savedData.status?.silver?.decrementPoints || '',
+          expirationTime: savedData.status?.silver?.expirationTime || '',
+        },
       },
     },
   })
-
-  const { setStep } = useStepStore()
-  const [loading, setLoading] = useState(false)
 
   const handleBack = () => {
     router.back()
   }
 
-  const onSubmit = form.handleSubmit(async (value) => {
-    if (loading) return
+  const handleSubmit = form.handleSubmit((formData) => {
+    updateForm(FORM_ID, {
+      ...formData,
+    })
 
-    setLoading(true)
-    try {
-      console.log(value)
-      router.navigate('/form-step-receive-methods')
-      setStep(5)
-    } catch (error) {
-      console.error(error)
-    }
+    router.navigate('/form-step-receive-methods')
+    setStep(5)
   })
 
   return (
@@ -196,11 +204,8 @@ export const RegisterDecrementStatus = (decrementStatusData: User) => {
           </Button.Icon>
           <Button.Text>Voltar</Button.Text>
         </Button>
-        <Button
-          onPress={onSubmit}
-          className="w-1/2 max-w-[189px]"
-          disabled={loading}>
-          <Button.Text>{loading ? 'Enviando...' : 'Avançar'}</Button.Text>
+        <Button onPress={handleSubmit} className="w-1/2 max-w-[189px]">
+          <Button.Text>Avançar</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>

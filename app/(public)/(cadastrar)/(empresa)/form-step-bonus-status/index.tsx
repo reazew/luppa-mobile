@@ -5,27 +5,8 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { MessageBubble } from 'components/global/message-bubble'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
-import type { User } from 'types/user'
 
 export default function FormStepBonusStatus() {
-  const bonusStatusData: User = {
-    type: 'business',
-    status: {
-      diamond: {
-        minimumPoints: '',
-        description: '',
-      },
-      gold: {
-        minimumPoints: '',
-        description: '',
-      },
-      silver: {
-        minimumPoints: '',
-        description: '',
-      },
-    },
-  }
-
   return (
     <KeyboardView>
       <ScrollView>
@@ -38,7 +19,7 @@ export default function FormStepBonusStatus() {
               Ouro e Prata.
             </Text>
           </MessageBubble>
-          <RegisterBonusStatus {...bonusStatusData} />
+          <RegisterBonusStatus />
         </Container>
       </ScrollView>
     </KeyboardView>

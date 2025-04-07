@@ -13,9 +13,11 @@ cssInterop(X, {
 })
 
 export const MessageBubble = ({
+  className,
   children,
   onClose,
 }: {
+  className?: string
   children: React.ReactNode
   onClose?: () => void
 }) => {
@@ -28,8 +30,8 @@ export const MessageBubble = ({
 
   return (
     <View
-      className={`flex-col gap-4 rounded-3xl bg-black-600 p-6 ${!isVisible ? 'hidden' : ''}`}>
-      <View className="flex-row items-center justify-between">
+      className={`w-full flex-col gap-4 rounded-3xl bg-black-600 p-6 ${!isVisible ? 'hidden' : ''} ${className}`}>
+      <View className="w-full flex-row items-center justify-between">
         <View className="flex-row items-center justify-start gap-2">
           <MessageCircleWarning size={24} className="text-yellow-300" />
           <Text size="md" weight="bold">
@@ -40,7 +42,7 @@ export const MessageBubble = ({
           <X size={24} className="text-black-0" />
         </Pressable>
       </View>
-      <View className="items-center justify-center">{children}</View>
+      <View className="w-full items-center justify-center">{children}</View>
     </View>
   )
 }
