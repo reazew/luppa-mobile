@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { RegistrationProgress } from 'components/cadastrar/registration-progress'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { FormItem } from 'components/global/form-item'
@@ -57,6 +58,7 @@ export default function RegisterIndexScreen() {
 
   return (
     <KeyboardView>
+      <RegistrationProgress />
       <ScrollView>
         <Container className="items-center justify-between px-6">
           <Text

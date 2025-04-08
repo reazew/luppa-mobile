@@ -2,6 +2,7 @@ import { GoogleLogo, Logo } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { ContainerBackground } from 'components/global/container-background'
 import { Text } from 'components/global/text'
+import ResetToken from 'components/reset-token'
 import { router } from 'expo-router'
 import { View } from 'react-native'
 
@@ -24,6 +25,7 @@ export default function PublicScreen() {
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
+          <ResetToken />
           <Button onPress={() => router.navigate('/(public)/onboarding')}>
             <Button.Text>Continue com e-mail</Button.Text>
           </Button>

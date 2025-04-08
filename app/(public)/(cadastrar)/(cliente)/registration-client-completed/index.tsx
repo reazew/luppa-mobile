@@ -4,8 +4,16 @@ import { Text } from 'components/global/text'
 import { router } from 'expo-router'
 import { CircleArrowRight } from 'lucide-react-native'
 import { View } from 'react-native'
+import { useUserStore } from 'store/useUserStore'
 
 export default function RegistrationClientCompleted() {
+  const { completeRegistration } = useUserStore()
+
+  const handleComplete = () => {
+    completeRegistration()
+    router.navigate('/(private)/(cliente)/inicio')
+  }
+
   return (
     <ContainerBackground
       className="px-6"
@@ -23,9 +31,7 @@ export default function RegistrationClientCompleted() {
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
-          <Button
-            onPress={() => router.navigate('/(private)/(cliente)/inicio')}
-            className="max-w-[200px]">
+          <Button onPress={handleComplete} className="max-w-[200px]">
             <Button.Text>Concluir</Button.Text>
             <Button.Icon>
               <CircleArrowRight size={24} />

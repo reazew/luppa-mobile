@@ -13,18 +13,23 @@ import { router } from 'expo-router'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
 import { View } from 'react-native'
 import { useStepStore } from 'store/useStepStore'
+import { useUserStore } from 'store/useUserStore'
 
 export default function FormStepPaymentMethods() {
   const { setStep } = useStepStore()
+  const { updateRegistrationStep } = useUserStore()
 
   const handleBack = () => {
     router.back()
   }
 
   const handleNext = () => {
-    router.navigate('/registration-client-completed')
+    updateRegistrationStep(2)
     setStep(2)
+    router.navigate('/registration-client-completed')
   }
+
+  console.log(useUserStore.getState())
 
   return (
     <KeyboardView>

@@ -1,4 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import {
+  createClientAction,
+  type CreateClientResponse,
+} from 'components/cadastrar/cliente/actions'
 import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
@@ -14,12 +19,14 @@ import {
 } from 'schemas/register-client'
 import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
+import { useUserStore } from 'store/useUserStore'
 
 const FORM_ID = 'register-client-form'
 
 export const RegisterClientForm = () => {
   const { getForm, updateForm } = useFormStore()
   const { setStep } = useStepStore()
+  const { setUser } = useUserStore()
 
   const savedData = getForm(FORM_ID) || {}
 
@@ -49,7 +56,31 @@ export const RegisterClientForm = () => {
     router.back()
   }
 
-  const handleSubmit = form.handleSubmit((formData) => {
+  const { mutateAsync, isPending } = useMutation<
+    CreateClientResponse,
+    Error,
+    RegisterClientInfer
+  >({
+    mutationKey: ['create-client'],
+    mutationFn: createClientAction,
+    onSuccess: (response) => {
+      setUser({
+        token: response.token,
+        type: response.type,
+        userId: response.userId,
+        isRegistrationComplete: false,
+        lastCompletedStep: 1,
+      })
+      router.push('/form-step-payment-methods')
+      setStep(1)
+    },
+    onError: (error) => {
+      console.error(error)
+      // Implementar toast ou outro feedback visual
+    },
+  })
+
+  const handleSubmit = form.handleSubmit(async (formData) => {
     const imageUrl = formData.imageFile?.[0]?.uri || formData.imageUrl
 
     updateForm(FORM_ID, {
@@ -58,8 +89,10 @@ export const RegisterClientForm = () => {
       imageFile: undefined,
     })
 
-    router.push('/form-step-payment-methods')
-    setStep(1)
+    await mutateAsync({
+      ...formData,
+      imageUrl,
+    })
   })
 
   const cpfRef = useRef<TextInput>(null)
@@ -171,10 +204,8 @@ export const RegisterClientForm = () => {
         <Button
           onPress={handleSubmit}
           className="w-1/2 max-w-[189px]"
-          disabled={form.formState.isSubmitting}>
-          <Button.Text>
-            {form.formState.isSubmitting ? 'Enviando...' : 'Avançar'}
-          </Button.Text>
+          disabled={isPending}>
+          <Button.Text>{isPending ? 'Enviando...' : 'Avançar'}</Button.Text>
           <Button.Icon>
             <CircleArrowRight size={16} />
           </Button.Icon>
