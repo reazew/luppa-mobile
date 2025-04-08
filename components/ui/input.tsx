@@ -87,7 +87,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             hasValue={!!value}
           />
         )}
-        {/* [] - Adding a workaround for input line breaks */}
+        {/* [] - Review line 107 workaround for input line break on ios */}
         <TextInput
           ref={ref}
           placeholder={placeholder}
