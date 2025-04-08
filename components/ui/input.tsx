@@ -105,7 +105,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             'disabled:bg-black-500',
             multiline
               ? 'min-h-[120px] rounded-[16px] py-3'
-              : 'h-[40px] w-full flex-1 overflow-hidden text-nowrap rounded-5xl',
+              : 'h-[40px] w-full overflow-hidden text-nowrap rounded-5xl',
             'placeholder:text-black-100',
             'focus:border-yellow-300',
             Icon && iconSide === 'left' && 'pl-10',

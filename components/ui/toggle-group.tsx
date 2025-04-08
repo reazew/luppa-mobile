@@ -7,7 +7,7 @@ import {
   DebitCardIcon,
   PixActiveIcon,
   PixIcon,
-  ShopActiveIcon,
+  ShopActiveIconToggle,
   ShopIcon,
 } from 'assets/icons'
 import { cva, type VariantProps } from 'class-variance-authority'
@@ -114,7 +114,7 @@ const ToggleGroupItem = React.forwardRef<View, ToggleGroupItemProps>(
           )
         case 'business':
           return isSelected ? (
-            <ShopActiveIcon width={88} height={88} />
+            <ShopActiveIconToggle width={88} height={88} />
           ) : (
             <ShopIcon width={88} height={88} />
           )

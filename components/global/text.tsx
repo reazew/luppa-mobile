@@ -8,7 +8,7 @@ import {
   type TextStyle,
 } from 'react-native'
 
-const textVariants = cva('text-black-0 leading-normal', {
+const textVariants = cva('text-black-0 leading-normal font-manrope', {
   variants: {
     size: {
       xs: 'text-xs',

@@ -20,7 +20,7 @@ export const SecurePlatformStep = () => {
         </View>
         <View className="w-full items-center justify-center gap-4">
           <Button
-            onPress={() => router.push('/(public)/(cadastrar)')}
+            onPress={() => router.navigate('/(public)/(cadastrar)')}
             className="max-w-[200px]">
             <Button.Text>Cadastrar</Button.Text>
           </Button>

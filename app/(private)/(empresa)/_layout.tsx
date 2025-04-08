@@ -50,7 +50,7 @@ export default function BusinessLayout() {
                 {props.focused ? (
                   <MegaphoneActiveIcon />
                 ) : (
-                  <Megaphone color="#B0B0B0" className="flex-1" />
+                  <Megaphone color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -69,7 +69,7 @@ export default function BusinessLayout() {
                 {props.focused ? (
                   <WalletActiveIcon />
                 ) : (
-                  <Wallet color="#B0B0B0" className="flex-1" />
+                  <Wallet color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -88,7 +88,7 @@ export default function BusinessLayout() {
                 {props.focused ? (
                   <HouseActiveIcon />
                 ) : (
-                  <House color="#B0B0B0" className="flex-1" />
+                  <House color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -107,7 +107,7 @@ export default function BusinessLayout() {
                 {props.focused ? (
                   <UsersRoundActiveIcon />
                 ) : (
-                  <UsersRound color="#B0B0B0" className="flex-1" />
+                  <UsersRound color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -126,7 +126,7 @@ export default function BusinessLayout() {
                 {props.focused ? (
                   <StoreActiveIcon />
                 ) : (
-                  <Store color="#B0B0B0" className="flex-1" />
+                  <Store color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>

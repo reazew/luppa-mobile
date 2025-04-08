@@ -176,7 +176,11 @@ const ButtonRoot = React.forwardRef<PressableProps, ButtonRootProps>(
           textVariants[variant as keyof typeof textVariants][
             disabled ? 'disabled' : 'enabled'
           ]
-        return <RNText className={cn(textStyle)}>{child.props.children}</RNText>
+        return (
+          <RNText className={cn(textStyle, 'font-manrope')}>
+            {child.props.children}
+          </RNText>
+        )
       }
 
       return child

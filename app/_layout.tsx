@@ -1,6 +1,15 @@
+import {
+  Manrope_400Regular,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+  useFonts,
+} from '@expo-google-fonts/manrope'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Stack } from 'expo-router'
-import 'react-native-gesture-handler'
+import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
@@ -15,17 +24,31 @@ configureReanimatedLogger({
 })
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+  })
+
+  if (!fontsLoaded) {
+    SplashScreen.preventAutoHideAsync()
+  }
+
   const auth = true
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false }}>
-        {auth ? (
-          <Stack.Screen name="(private)" options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="(public)" options={{ headerShown: false }} />
-        )}
-      </Stack>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StatusBar barStyle="light-content" />
+        <Stack screenOptions={{ headerShown: false }}>
+          {auth ? (
+            <Stack.Screen name="(private)" options={{ headerShown: false }} />
+          ) : (
+            <Stack.Screen name="(public)" options={{ headerShown: false }} />
+          )}
+        </Stack>
+      </GestureHandlerRootView>
     </QueryClientProvider>
   )
 }

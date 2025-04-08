@@ -43,7 +43,7 @@ export default function ClientLayout() {
                 {props.focused ? (
                   <UserActiveIcon />
                 ) : (
-                  <User color="#B0B0B0" className="flex-1" />
+                  <User color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -62,7 +62,7 @@ export default function ClientLayout() {
                 {props.focused ? (
                   <WalletActiveIcon />
                 ) : (
-                  <Wallet color="#B0B0B0" className="pb-8" />
+                  <Wallet color={props.color} className="pb-8" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -81,7 +81,7 @@ export default function ClientLayout() {
                 {props.focused ? (
                   <HouseActiveIcon />
                 ) : (
-                  <House color="#B0B0B0" className="flex-1" />
+                  <House color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -100,7 +100,7 @@ export default function ClientLayout() {
                 {props.focused ? (
                   <SearchActiveIcon />
                 ) : (
-                  <Search color="#B0B0B0" className="flex-1" />
+                  <Search color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
@@ -119,7 +119,7 @@ export default function ClientLayout() {
                 {props.focused ? (
                   <BellActiveIcon />
                 ) : (
-                  <Bell color="#B0B0B0" className="flex-1" />
+                  <Bell color={props.color} className="flex-1" />
                 )}
                 <EllipseActiveIcon style={{ opacity: props.focused ? 1 : 0 }} />
               </View>
