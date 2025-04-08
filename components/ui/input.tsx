@@ -87,6 +87,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             hasValue={!!value}
           />
         )}
+        {/* [] - Adding a workaround for input line breaks */}
         <TextInput
           ref={ref}
           placeholder={placeholder}
@@ -103,6 +104,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             value ? 'bg-black-600' : 'bg-black-600',
             'focus:bg-black-500',
             'disabled:bg-black-500',
+            !multiline && Platform.OS === 'ios' && 'pb-[6px]',
             multiline
               ? 'min-h-[120px] rounded-[16px] py-3'
               : 'h-[40px] w-full overflow-hidden text-nowrap rounded-5xl',
