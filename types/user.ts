@@ -1,5 +1,5 @@
 export type User = {
-  type: 'client' | 'business'
+  type: UserType
   name?: string
   email?: string
   phone?: string
@@ -38,3 +38,5 @@ export type User = {
     }
   }
 }
+
+export type UserType = 'client' | 'business'
