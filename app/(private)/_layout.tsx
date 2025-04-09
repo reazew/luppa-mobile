@@ -6,6 +6,12 @@ export default function PrivateLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        contentStyle: {
+          backgroundColor: '#1F1F1F',
+        },
+        headerStyle: {
+          backgroundColor: '#1F1F1F',
+        },
       }}>
       {role !== 'client' ? (
         <Stack.Screen name="(cliente)" options={{ headerShown: false }} />

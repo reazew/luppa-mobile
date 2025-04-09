@@ -41,7 +41,16 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <StatusBar barStyle="light-content" />
-        <Stack screenOptions={{ headerShown: false }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: '#1F1F1F',
+            },
+            headerStyle: {
+              backgroundColor: '#1F1F1F',
+            },
+          }}>
           {auth ? (
             <Stack.Screen name="(private)" options={{ headerShown: false }} />
           ) : (

@@ -30,7 +30,7 @@ export default function PublicScreen() {
             <Button.Text>Continue com e-mail</Button.Text>
           </Button>
           <Button
-            onPress={() => router.navigate('/(private)/(empresa)/inicio')}
+            onPress={() => router.navigate('/(private)/(cliente)/inicio')}
             className="bg-black-0">
             <Button.Icon>
               <GoogleLogo width={16} height={16} />

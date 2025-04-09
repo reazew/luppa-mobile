@@ -8,6 +8,12 @@ export default function RegisterLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        contentStyle: {
+          backgroundColor: '#1F1F1F',
+        },
+        headerStyle: {
+          backgroundColor: '#1F1F1F',
+        },
       }}
       screenListeners={{
         beforeRemove: () => {
