@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Logo } from 'assets/icons'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
@@ -8,12 +9,14 @@ import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
+import { loginSchema, type LoginSchemaInfer } from 'schemas/login'
 
 export default function LoginScreen() {
-  const form = useForm({
+  const form = useForm<LoginSchemaInfer>({
     defaultValues: {
       email: '',
     },
+    resolver: zodResolver(loginSchema),
   })
 
   const onSubmit = () => {
@@ -25,7 +28,7 @@ export default function LoginScreen() {
     <KeyboardView>
       <ScrollView>
         <Container className="px-8">
-          <View className="flex-1 items-center justify-center gap-10 pt-10 ">
+          <View className="flex-1 items-center justify-center pt-10 ">
             <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
               <Logo width={160} height={200} />
               <Text size="huge-3" weight="bold" className="text-center">
@@ -48,7 +51,7 @@ export default function LoginScreen() {
                       fieldType="input"
                       field={field}
                       label="E-mail"
-                      placeholder="fulano@gmail.com"
+                      placeholder="email@email.com"
                       formContext={form}
                     />
                   )}

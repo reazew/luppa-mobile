@@ -16,7 +16,7 @@ export const registerBusinessSchema = z.object({
   cnpj: z
     .string()
     .min(1, { message: 'O CNPJ é obrigatório' })
-    .length(14, { message: 'O CNPJ deve ter 14 dígitos' })
+    .length(18, { message: 'O CNPJ deve ter 14 dígitos' })
     .refine((cnpj) => cnpjValidation(cnpj), {
       message: 'CNPJ inválido',
     }),
