@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Logo } from 'assets/icons'
+import { sendVerificationCode } from 'components/auth/login/actions'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { FormItem } from 'components/global/form-item'
@@ -7,22 +9,41 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
+import { router } from 'expo-router'
 import { useForm } from 'react-hook-form'
-import { View } from 'react-native'
-import { loginSchema, type LoginSchemaInfer } from 'schemas/login'
+import { Alert, View } from 'react-native'
+import { sendCodeSchema, type SendCodeSchemaInfer } from 'schemas/login'
 
 export default function LoginScreen() {
-  const form = useForm<LoginSchemaInfer>({
+  const form = useForm<SendCodeSchemaInfer>({
     defaultValues: {
       email: '',
     },
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(sendCodeSchema),
   })
 
-  const onSubmit = () => {
-    console.log(form.getValues())
-    alert('teste')
-  }
+  const { mutateAsync, isPending } = useMutation({
+    mutationKey: ['send-verification-code'],
+    mutationFn: sendVerificationCode,
+    onSuccess: () => {
+      router.navigate({
+        pathname: '/(public)/(login)/confirm-login',
+        params: { email: form.getValues('email').toLowerCase().trim() },
+      })
+    },
+    onError: (error: any) => {
+      console.log({ error })
+      Alert.alert(
+        'Atenção',
+        error?.response?.data?.error ||
+          error?.response?.data?.message ||
+          'Erro ao realizar login, verifique o e-mail e sua conexão com a internet'
+      )
+    },
+  })
+
+  const onSubmit = (data: SendCodeSchemaInfer) =>
+    mutateAsync({ email: data.email.toLowerCase().trim() })
 
   return (
     <KeyboardView>
@@ -58,7 +79,9 @@ export default function LoginScreen() {
                 />
               </Form>
             </View>
-            <Button onPress={onSubmit}>
+            <Button
+              isLoading={isPending}
+              onPress={() => onSubmit(form.getValues())}>
               <Button.Text>Entrar</Button.Text>
             </Button>
           </View>
