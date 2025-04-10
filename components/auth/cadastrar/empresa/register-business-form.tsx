@@ -36,13 +36,13 @@ export const RegisterBusinessForm = () => {
         ? [{ uri: savedData.imageUrl } as ImagePickerAsset]
         : undefined,
       imageUrl: savedData.imageUrl || '',
-      nameBusiness: savedData.nameBusiness || '',
+      businessName: savedData.businessName || '',
       cnpj: savedData.cnpj || '',
       segment: savedData.segment || '',
       address: savedData.address || '',
       state: savedData.state || '',
       city: savedData.city || '',
-      cep: savedData.cep || '',
+      zipCode: savedData.zipCode || '',
     },
   })
 
@@ -117,7 +117,7 @@ export const RegisterBusinessForm = () => {
         />
         <FormField
           control={form.control}
-          name="nameBusiness"
+          name="businessName"
           render={({ field }) => (
             <FormItem
               field={field}
@@ -219,7 +219,7 @@ export const RegisterBusinessForm = () => {
         />
         <FormField
           control={form.control}
-          name="cep"
+          name="zipCode"
           render={({ field }) => (
             <FormItem
               field={field}

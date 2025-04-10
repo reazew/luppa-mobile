@@ -1,5 +1,10 @@
 import { Stack } from 'expo-router'
 
-export default function BusinessClientsLayout() {
-  return <Stack />
+export default function LoginLayout() {
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="confirm-login" options={{ headerShown: false }} />
+    </Stack>
+  )
 }

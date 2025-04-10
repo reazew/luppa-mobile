@@ -9,14 +9,14 @@ export const registerBusinessSchema = z.object({
     .array(z.custom<ImagePicker.ImagePickerAsset>())
     .min(1, { message: 'É necessário enviar a logo da empresa' }),
   imageUrl: z.string().nullish(),
-  nameBusiness: z
+  businessName: z
     .string()
     .min(1, { message: 'O nome da empresa é obrigatório' })
     .min(3, { message: 'O nome deve ter pelo menos 3 caracteres' }),
   cnpj: z
     .string()
     .min(1, { message: 'O CNPJ é obrigatório' })
-    .min(14, { message: 'O CNPJ deve ter 14 dígitos' })
+    .length(14, { message: 'O CNPJ deve ter 14 dígitos' })
     .refine((cnpj) => cnpjValidation(cnpj), {
       message: 'CNPJ inválido',
     }),
@@ -24,10 +24,10 @@ export const registerBusinessSchema = z.object({
   address: z.string().min(1, { message: 'O endereço é obrigatório' }),
   city: z.string().min(1, { message: 'A cidade é obrigatória' }).nullable(),
   state: z.string().min(1, { message: 'O estado é obrigatório' }).nullable(),
-  cep: z
+  zipCode: z
     .string()
     .min(1, { message: 'O CEP é obrigatório' })
-    .min(8, { message: 'O CEP deve ter 8 dígitos' }),
+    .length(8, { message: 'O CEP deve ter 8 dígitos' }),
 })
 
 export const registerBusinessGallerySchema = z.object({
@@ -50,7 +50,7 @@ export const registerLegalResponsibleSchema = z.object({
   cpf: z
     .string()
     .min(1, { message: 'O CPF é obrigatório' })
-    .min(14, { message: 'CPF inválido' })
+    .length(14, { message: 'CPF inválido' })
     .refine((cpf) => cpfValidation(cpf), {
       message: 'CPF inválido',
     }),
