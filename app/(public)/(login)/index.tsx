@@ -9,12 +9,14 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
-import { router } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { useForm } from 'react-hook-form'
 import { Alert, View } from 'react-native'
 import { sendCodeSchema, type SendCodeSchemaInfer } from 'schemas/login'
 
 export default function LoginScreen() {
+  const router = useRouter()
+
   const form = useForm<SendCodeSchemaInfer>({
     defaultValues: {
       email: '',
@@ -25,7 +27,8 @@ export default function LoginScreen() {
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ['send-verification-code'],
     mutationFn: sendVerificationCode,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data)
       router.navigate({
         pathname: '/(public)/(login)/confirm-login',
         params: { email: form.getValues('email').toLowerCase().trim() },
@@ -79,9 +82,7 @@ export default function LoginScreen() {
                 />
               </Form>
             </View>
-            <Button
-              isLoading={isPending}
-              onPress={() => onSubmit(form.getValues())}>
+            <Button isLoading={isPending} onPress={form.handleSubmit(onSubmit)}>
               <Button.Text>Entrar</Button.Text>
             </Button>
           </View>

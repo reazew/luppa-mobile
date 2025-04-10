@@ -147,7 +147,7 @@ const ButtonRoot = React.forwardRef<PressableProps, ButtonRootProps>(
       onPress,
       disabled = false,
       isLoading = false,
-      loadingIndicatorColor = '#171717',
+      loadingIndicatorColor = '#ffb901',
       children,
       className,
       ...props

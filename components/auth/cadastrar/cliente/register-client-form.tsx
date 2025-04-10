@@ -76,7 +76,6 @@ export const RegisterClientForm = () => {
     },
     onError: (error) => {
       console.error(error)
-      // Implementar toast ou outro feedback visual
     },
   })
 
