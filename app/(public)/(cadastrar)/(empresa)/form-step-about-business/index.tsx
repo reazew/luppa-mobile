@@ -1,4 +1,4 @@
-import { RegisterBusinessForm } from 'components/cadastrar/empresa/register-business-form'
+import { RegisterBusinessForm } from 'components/auth/cadastrar/empresa/register-business-form'
 import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'

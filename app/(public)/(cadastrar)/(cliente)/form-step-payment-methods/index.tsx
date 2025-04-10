@@ -3,7 +3,7 @@ import {
   DebitCardActiveIcon,
   PixActiveIcon,
 } from 'assets/icons'
-import { PaymentMethod } from 'components/cadastrar/payment-method'
+import { PaymentMethod } from 'components/auth/cadastrar/payment-method'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'

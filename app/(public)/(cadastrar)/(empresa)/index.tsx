@@ -1,4 +1,4 @@
-import { RegisterLegalResponsibleForm } from 'components/cadastrar/empresa/register-legal-responsible-form'
+import { RegisterLegalResponsibleForm } from 'components/auth/cadastrar/empresa/register-legal-responsible-form'
 import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'

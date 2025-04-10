@@ -1,4 +1,4 @@
-import { Steps } from 'components/cadastrar/steps'
+import { Steps } from 'components/auth/cadastrar/steps'
 import { Stack } from 'expo-router'
 import { useEffect } from 'react'
 import { useStepStore } from 'store/useStepStore'

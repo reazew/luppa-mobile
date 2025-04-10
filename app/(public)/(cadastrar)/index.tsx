@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RegistrationProgress } from 'components/cadastrar/registration-progress'
+import { RegistrationProgress } from 'components/auth/cadastrar/registration-progress'
 import { Button } from 'components/global/button'
 import { Container } from 'components/global/container'
 import { FormItem } from 'components/global/form-item'

@@ -10,11 +10,13 @@ interface UserState {
   userId: string | null
   isRegistrationComplete: boolean
   lastCompletedStep: number
+  hasSeenOnboarding: boolean
 
   setUser: (userData: Partial<UserState>) => void
   clearUser: () => void
   updateRegistrationStep: (step: number) => void
   completeRegistration: () => void
+  markOnboardingAsSeen: () => void
 }
 
 export const useUserStore = create<UserState>()(
@@ -25,6 +27,7 @@ export const useUserStore = create<UserState>()(
       userId: null,
       isRegistrationComplete: false,
       lastCompletedStep: 0,
+      hasSeenOnboarding: false,
 
       setUser: (userData) =>
         set((state) => ({
@@ -39,6 +42,7 @@ export const useUserStore = create<UserState>()(
           userId: null,
           isRegistrationComplete: false,
           lastCompletedStep: 0,
+          hasSeenOnboarding: false,
         }),
 
       updateRegistrationStep: (step) =>
@@ -51,6 +55,12 @@ export const useUserStore = create<UserState>()(
         set((state) => ({
           ...state,
           isRegistrationComplete: true,
+        })),
+
+      markOnboardingAsSeen: () =>
+        set((state) => ({
+          ...state,
+          hasSeenOnboarding: true,
         })),
     }),
     {

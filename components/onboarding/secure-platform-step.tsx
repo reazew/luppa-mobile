@@ -3,8 +3,16 @@ import { Button } from 'components/global/button'
 import { Text } from 'components/global/text'
 import { router } from 'expo-router'
 import { ImageBackground, View } from 'react-native'
+import { useUserStore } from 'store/useUserStore'
 
 export const SecurePlatformStep = () => {
+  const { markOnboardingAsSeen } = useUserStore()
+
+  const handleFinishOnboarding = () => {
+    markOnboardingAsSeen()
+    router.replace('/(public)')
+  }
+
   return (
     <ImageBackground
       source={require('../../assets/images/onboading-step-3.png')}
@@ -19,9 +27,7 @@ export const SecurePlatformStep = () => {
           </Text>
         </View>
         <View className="w-full items-center justify-center gap-4">
-          <Button
-            onPress={() => router.navigate('/(public)/(cadastrar)')}
-            className="max-w-[200px]">
+          <Button onPress={handleFinishOnboarding} className="max-w-[200px]">
             <Button.Text>Cadastrar</Button.Text>
           </Button>
         </View>

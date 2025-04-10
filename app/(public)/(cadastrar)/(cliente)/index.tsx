@@ -1,4 +1,4 @@
-import { RegisterClientForm } from 'components/cadastrar/cliente/register-client-form'
+import { RegisterClientForm } from 'components/auth/cadastrar/cliente/register-client-form'
 import { Container } from 'components/global/container'
 import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'

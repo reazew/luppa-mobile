@@ -24,14 +24,14 @@ configureReanimatedLogger({
 })
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
+  const [loaded] = useFonts({
     Manrope_400Regular,
     Manrope_500Medium,
     Manrope_600SemiBold,
     Manrope_700Bold,
   })
 
-  if (!fontsLoaded) {
+  if (!loaded) {
     SplashScreen.preventAutoHideAsync()
   }
 
@@ -44,6 +44,7 @@ export default function RootLayout() {
         <Stack
           screenOptions={{
             headerShown: false,
+            gestureEnabled: false,
             contentStyle: {
               backgroundColor: '#1F1F1F',
             },

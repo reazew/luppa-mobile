@@ -1,4 +1,4 @@
-import { RegisterGalleryForm } from 'components/cadastrar/empresa/register-gallery-form'
+import { RegisterGalleryForm } from 'components/auth/cadastrar/empresa/register-gallery-form'
 import { Container } from 'components/global/container'
 import { Heading } from 'components/global/heading'
 import { KeyboardView } from 'components/global/keyboard-view'

@@ -11,7 +11,7 @@ interface ContainerBackgroundProps {
 
 export const ContainerBackground = ({
   children,
-  source = require('../../assets/images/home-background.png'),
+  source = require('../../assets/images/login.png'),
   className,
 }: ContainerBackgroundProps) => {
   return (

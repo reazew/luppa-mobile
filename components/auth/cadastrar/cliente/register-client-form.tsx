@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import {
   createClientAction,
   type CreateClientResponse,
-} from 'components/cadastrar/cliente/actions'
+} from 'components/auth/cadastrar/cliente/actions'
 import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'

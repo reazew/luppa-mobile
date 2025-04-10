@@ -4,7 +4,11 @@ import { ScrollView as RNScrollView } from 'react-native'
 
 export const ScrollView = forwardRef<
   RNScrollView,
-  { children: React.ReactNode; className?: string; automaticallyAdjustKeyboardInsets?: boolean }
+  {
+    children: React.ReactNode
+    className?: string
+    automaticallyAdjustKeyboardInsets?: boolean
+  }
 >(({ children, className }, ref) => {
   return (
     <RNScrollView

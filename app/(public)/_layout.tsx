@@ -5,6 +5,7 @@ export default function PublicLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        gestureEnabled: false,
         contentStyle: {
           backgroundColor: '#1F1F1F',
         },
@@ -13,7 +14,6 @@ export default function PublicLayout() {
         },
       }}>
       <Stack.Screen name="(cadastrar)" />
-      <Stack.Screen name="onboarding" />
     </Stack>
   )
 }

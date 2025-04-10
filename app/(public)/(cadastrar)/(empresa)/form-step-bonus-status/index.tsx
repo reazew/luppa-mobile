@@ -1,4 +1,4 @@
-import { RegisterBonusStatus } from 'components/cadastrar/empresa/register-bonus-status'
+import { RegisterBonusStatus } from 'components/auth/cadastrar/empresa/register-bonus-status'
 import { Container } from 'components/global/container'
 import { Heading } from 'components/global/heading'
 import { KeyboardView } from 'components/global/keyboard-view'

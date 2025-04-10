@@ -1,4 +1,4 @@
-import { RegisterDecrementStatus } from 'components/cadastrar/empresa/register-decrement-status'
+import { RegisterDecrementStatus } from 'components/auth/cadastrar/empresa/register-decrement-status'
 import { Container } from 'components/global/container'
 import { Heading } from 'components/global/heading'
 import { KeyboardView } from 'components/global/keyboard-view'
