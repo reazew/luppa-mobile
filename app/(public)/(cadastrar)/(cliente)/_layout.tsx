@@ -22,7 +22,10 @@ export default function RegisterClientLayout() {
           previousStep()
         },
       }}>
-      <Stack.Screen name="form-step-payment-methods" />
+      <Stack.Screen
+        name="form-step-payment-methods"
+        options={{ gestureEnabled: false }}
+      />
       <Stack.Screen
         name="registration-client-completed"
         options={{
@@ -30,6 +33,7 @@ export default function RegisterClientLayout() {
           contentStyle: {
             borderColor: 'red',
           },
+          gestureEnabled: false,
         }}
       />
     </Stack>

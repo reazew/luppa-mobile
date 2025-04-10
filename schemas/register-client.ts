@@ -3,9 +3,12 @@ import { cpfValidation } from 'lib/helpers/cpf-validation'
 import { z } from 'zod'
 
 export const clientOrBusinessSchema = z.object({
-  type: z.enum(['client', 'business'], {
-    required_error: 'Por favor, selecione um tipo de cadastro',
-  }),
+  type: z
+    .string()
+    .min(1, { message: 'Por favor, selecione um tipo de cadastro' })
+    .refine((val) => ['client', 'business'].includes(val), {
+      message: 'Por favor, selecione um tipo de cadastro válido',
+    }),
 })
 
 export const registerClientSchema = z.object({
