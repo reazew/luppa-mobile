@@ -23,6 +23,7 @@ const buttonConfig = {
         pressed: '#000000',
         disabled: '#BFBFBF',
       },
+      loadingIndicatorColor: '#000000',
     },
     outline: {
       button:
@@ -36,6 +37,7 @@ const buttonConfig = {
         pressed: '#BFBFBF',
         disabled: '#737373',
       },
+      loadingIndicatorColor: '#FFFFFF',
     },
     ghost: {
       button: 'bg-transparent',
@@ -48,6 +50,7 @@ const buttonConfig = {
         pressed: '#BFBFBF',
         disabled: '#737373',
       },
+      loadingIndicatorColor: '#FFFFFF',
     },
     destructive: {
       button: 'bg-red-300 active:bg-red-500 disabled:bg-black-700',
@@ -60,6 +63,7 @@ const buttonConfig = {
         pressed: '#FFFFFF',
         disabled: '#737373',
       },
+      loadingIndicatorColor: '#FFFFFF',
     },
     destructiveGhost: {
       button: 'active:text-red-500',
@@ -72,6 +76,7 @@ const buttonConfig = {
         pressed: '#9C231D',
         disabled: '#737373',
       },
+      loadingIndicatorColor: '#FF3930',
     },
     destructiveOutline: {
       button:
@@ -85,6 +90,7 @@ const buttonConfig = {
         pressed: '#9C231D',
         disabled: '#737373',
       },
+      loadingIndicatorColor: '#FF3930',
     },
   },
   sizes: {
@@ -147,7 +153,7 @@ const ButtonRoot = React.forwardRef<PressableProps, ButtonRootProps>(
       onPress,
       disabled = false,
       isLoading = false,
-      loadingIndicatorColor = '#ffb901',
+      loadingIndicatorColor,
       children,
       className,
       ...props
@@ -159,6 +165,12 @@ const ButtonRoot = React.forwardRef<PressableProps, ButtonRootProps>(
       if (disabled) return colors.disabled
       if (pressed) return colors.pressed
       return colors.base
+    }
+
+    const getLoadingColor = () => {
+      const variantConfig =
+        buttonConfig.variants[variant as keyof typeof buttonConfig.variants]
+      return loadingIndicatorColor ?? variantConfig.loadingIndicatorColor
     }
 
     const renderChild = (child: React.ReactNode, pressed: boolean) => {
@@ -190,13 +202,13 @@ const ButtonRoot = React.forwardRef<PressableProps, ButtonRootProps>(
       <Pressable
         ref={ref as LegacyRef<View>}
         onPress={onPress}
-        disabled={disabled || isLoading}
+        disabled={disabled}
         className={cn(buttonVariants({ variant, size }), className)}
-        style={({ pressed }) => (pressed ? { opacity: 1 } : {})}
+        style={{ opacity: isLoading ? 0.8 : 1 }}
         {...props}>
         {({ pressed }) =>
           isLoading ? (
-            <ActivityIndicator color={loadingIndicatorColor} />
+            <ActivityIndicator color={getLoadingColor()} />
           ) : (
             <View className="flex-1 flex-row items-center justify-center gap-2">
               {React.Children.map(children, (child) =>

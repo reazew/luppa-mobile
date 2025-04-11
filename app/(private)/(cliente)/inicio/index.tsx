@@ -22,7 +22,7 @@ export default function ClientHomeScreen() {
           onPress: () => {
             const clearUser = useUserStore.getState().clearUser
             clearUser()
-            router.replace('/(public)/(login)')
+            router.replace('/(public)')
           },
         },
       ],
@@ -36,9 +36,11 @@ export default function ClientHomeScreen() {
           <Text size="huge" className="text-center">
             Cliente - Início
           </Text>
-          <Button onPress={handleLogout}>
-            <Button.Text>Sair</Button.Text>
-          </Button>
+          {useUserStore.getState().token && (
+            <Button onPress={handleLogout}>
+              <Button.Text>Sair</Button.Text>
+            </Button>
+          )}
         </Container>
       </ScrollView>
     </KeyboardView>

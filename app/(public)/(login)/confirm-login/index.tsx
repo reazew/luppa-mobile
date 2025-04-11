@@ -48,7 +48,6 @@ export default function ConfirmLoginScreen() {
       }
     },
     onError: (error: any) => {
-      console.log({ error })
       Alert.alert(
         'Atenção',
         error?.response?.data?.error ||
@@ -56,6 +55,7 @@ export default function ConfirmLoginScreen() {
           'Erro ao realizar login, verifique o e-mail e sua conexão com a internet'
       )
       form.reset({ code: '' })
+      return false
     },
   })
 

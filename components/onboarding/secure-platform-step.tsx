@@ -6,10 +6,10 @@ import { ImageBackground, View } from 'react-native'
 import { useUserStore } from 'store/useUserStore'
 
 export const SecurePlatformStep = () => {
-  const { markOnboardingAsSeen } = useUserStore()
+  const { onboardingSeen } = useUserStore()
 
   const handleFinishOnboarding = () => {
-    markOnboardingAsSeen()
+    onboardingSeen()
     router.replace('/(public)')
   }
 
