@@ -36,9 +36,13 @@ export default function ClientHomeScreen() {
           <Text size="huge" className="text-center">
             Cliente - Início
           </Text>
-          {useUserStore.getState().token && (
+          {useUserStore.getState().token ? (
             <Button onPress={handleLogout}>
               <Button.Text>Sair</Button.Text>
+            </Button>
+          ) : (
+            <Button onPress={() => router.replace('/(public)')}>
+              <Button.Text>Voltar e fazer login</Button.Text>
             </Button>
           )}
         </Container>

@@ -18,8 +18,6 @@ export default function PublicScreen() {
     router.navigate('/(private)/(cliente)/inicio')
   }
 
-  console.log(onboarding)
-
   return (
     <>
       {onboarding ? (
