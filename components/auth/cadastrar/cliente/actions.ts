@@ -1,19 +1,14 @@
+import { api } from 'lib/axios'
 import type { RegisterClientInfer } from 'schemas/register-client'
 
-export interface CreateClientResponse {
-  token: string
-  userId: string
-  type: 'client'
-}
-
-export async function createClientAction(
-  data: RegisterClientInfer
-): Promise<CreateClientResponse> {
-  // Futura implementação da API
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return {
-    token: 'mock-token-123',
-    userId: 'client-123',
-    type: 'client' as const,
-  }
+export async function createClient(data: RegisterClientInfer) {
+  const response = await api.post(`/user`, {
+    name: data.name,
+    cpf: data.cpf,
+    email: data.email,
+    phone: data.phone,
+    birthDate: data.birthDate,
+    imageUrl: data.imageUrl,
+  })
+  return response.data
 }

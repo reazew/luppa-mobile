@@ -10,6 +10,7 @@ import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
 import { useRouter } from 'expo-router'
+import { CircleArrowRight } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
 import { Alert, View } from 'react-native'
 import { sendCodeSchema, type SendCodeSchemaInfer } from 'schemas/login'
@@ -28,20 +29,40 @@ export default function LoginScreen() {
     mutationKey: ['send-verification-code'],
     mutationFn: sendVerificationCode,
     onSuccess: (data) => {
-      console.log(data)
+      const email = form.getValues('email').toLowerCase().trim()
       router.navigate({
         pathname: '/(public)/(login)/confirm-login',
-        params: { email: form.getValues('email').toLowerCase().trim() },
+        params: { email },
       })
     },
     onError: (error: any) => {
       console.log({ error })
-      Alert.alert(
-        'Atenção',
-        error?.response?.data?.error ||
+      if (error.status === 400) {
+        Alert.alert(
+          'Bem vindo!',
+          'E-mail não cadastrado, por favor cadastre-se',
+          [
+            { text: 'Cancelar' },
+            {
+              text: 'Cadastrar',
+              onPress: () => {
+                router.navigate({
+                  pathname: '/(public)/(cadastrar)',
+                  params: {
+                    email: form.getValues('email').toLowerCase().trim(),
+                  },
+                })
+              },
+            },
+          ]
+        )
+      } else {
+        Alert.alert(
+          'Atenção',
           error?.response?.data?.message ||
-          'Erro ao realizar login, verifique o e-mail e sua conexão com a internet'
-      )
+            'Erro ao realizar login, verifique o e-mail e sua conexão com a internet'
+        )
+      }
     },
   })
 
@@ -56,7 +77,7 @@ export default function LoginScreen() {
             <View className="max-w-[364px] flex-1 items-center justify-center gap-8 ">
               <Logo width={160} height={200} />
               <Text size="huge-3" weight="bold" className="text-center">
-                Faça login com seu e-mail
+                Continue com seu e-mail
               </Text>
               <Text
                 size="md"
@@ -75,7 +96,7 @@ export default function LoginScreen() {
                       fieldType="input"
                       field={field}
                       label="E-mail"
-                      placeholder="email@email.com"
+                      placeholder="seuemail@email.com"
                       formContext={form}
                     />
                   )}
@@ -83,7 +104,10 @@ export default function LoginScreen() {
               </Form>
             </View>
             <Button isLoading={isPending} onPress={form.handleSubmit(onSubmit)}>
-              <Button.Text>Entrar</Button.Text>
+              <Button.Icon>
+                <CircleArrowRight size={16} />
+              </Button.Icon>
+              <Button.Text>Avançar</Button.Text>
             </Button>
           </View>
         </Container>

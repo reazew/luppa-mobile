@@ -14,10 +14,6 @@ export default function PublicScreen() {
     router.navigate('/(public)/(login)')
   }
 
-  const handleEmailNavigation = () => {
-    router.navigate('/(public)/(cadastrar)')
-  }
-
   const handleSkipLogin = () => {
     router.navigate('/(private)/(cliente)/inicio')
   }
@@ -45,9 +41,6 @@ export default function PublicScreen() {
             </View>
             <View className="w-full items-center justify-center gap-4">
               <Button onPress={handleLogin}>
-                <Button.Text>Ja sou cliente Luppa</Button.Text>
-              </Button>
-              <Button onPress={handleEmailNavigation}>
                 <Button.Text>Continue com e-mail</Button.Text>
               </Button>
               <Button

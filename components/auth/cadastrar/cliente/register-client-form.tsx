@@ -1,9 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import {
-  createClientAction,
-  type CreateClientResponse,
-} from 'components/auth/cadastrar/cliente/actions'
+import { createClient } from 'components/auth/cadastrar/cliente/actions'
 import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
@@ -56,13 +53,9 @@ export const RegisterClientForm = () => {
     router.back()
   }
 
-  const { mutateAsync, isPending } = useMutation<
-    CreateClientResponse,
-    Error,
-    RegisterClientInfer
-  >({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ['create-client'],
-    mutationFn: createClientAction,
+    mutationFn: createClient,
     onSuccess: (response) => {
       setUser({
         token: response.token,
@@ -81,6 +74,11 @@ export const RegisterClientForm = () => {
 
   const handleSubmit = form.handleSubmit(async (formData) => {
     const imageUrl = formData.imageFile?.[0]?.uri || formData.imageUrl
+
+    console.log('Dados do formulário:', {
+      ...formData,
+      imageUrl,
+    })
 
     updateForm(FORM_ID, {
       ...formData,
