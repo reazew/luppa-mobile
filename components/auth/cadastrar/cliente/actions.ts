@@ -8,7 +8,9 @@ export async function createClient(data: RegisterClientInfer) {
     email: data.email,
     phone: data.phone,
     birthDate: data.birthDate,
-    imageUrl: data.imageUrl,
+    imageUrl: data.imageUrl || undefined,
+    role: data.role,
   })
+  console.log('Resposta da API:', response.data)
   return response.data
 }

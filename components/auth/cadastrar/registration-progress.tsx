@@ -18,11 +18,11 @@ type RegistrationRoutes = {
 }
 
 export const RegistrationProgress = () => {
-  const { type, lastCompletedStep } = useUserStore()
+  const { role, lastCompletedStep } = useUserStore()
   const router = useRouter()
 
   useEffect(() => {
-    if (!type || lastCompletedStep === 0) return
+    if (!role || lastCompletedStep === 0) return
 
     const routes: RegistrationRoutes = {
       client: {
@@ -40,11 +40,11 @@ export const RegistrationProgress = () => {
     }
 
     const nextRoute =
-      routes[type]?.[lastCompletedStep as keyof (typeof routes)[typeof type]]
+      routes[role]?.[lastCompletedStep as keyof (typeof routes)[typeof role]]
     if (nextRoute) {
       router.replace(nextRoute)
     }
-  }, [type, lastCompletedStep])
+  }, [role, lastCompletedStep])
 
   return null
 }

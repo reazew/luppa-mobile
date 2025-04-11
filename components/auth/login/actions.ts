@@ -8,6 +8,7 @@ export async function sendVerificationCode(data: SendCodeSchemaInfer) {
   const response = await api.post(`/login`, {
     email: data.email,
   })
+  console.log('Resposta da API:', response.data)
   return response.data
 }
 

@@ -4,7 +4,6 @@ import { createClient } from 'components/auth/cadastrar/cliente/actions'
 import { Button } from 'components/global/button'
 import { FormItem } from 'components/global/form-item'
 import { Form, FormField } from 'components/ui/form'
-import type { ImagePickerAsset } from 'expo-image-picker'
 import { router } from 'expo-router'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
 import { useEffect, useRef } from 'react'
@@ -14,31 +13,24 @@ import {
   registerClientSchema,
   type RegisterClientInfer,
 } from 'schemas/register-client'
-import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
 import { useUserStore } from 'store/useUserStore'
 
-const FORM_ID = 'register-client-form'
-
-export const RegisterClientForm = () => {
-  const { getForm, updateForm } = useFormStore()
+export const RegisterClientForm = (params: { email: string; role: string }) => {
   const { setStep } = useStepStore()
   const { setUser } = useUserStore()
-
-  const savedData = getForm(FORM_ID) || {}
 
   const form = useForm<RegisterClientInfer>({
     resolver: zodResolver(registerClientSchema),
     defaultValues: {
-      name: savedData.name || '',
-      cpf: savedData.cpf || '',
-      email: savedData.email || '',
-      phone: savedData.phone || '',
-      birthDate: savedData.birthDate || '',
-      imageFile: savedData.imageUrl
-        ? [{ uri: savedData.imageUrl } as ImagePickerAsset]
-        : undefined,
-      imageUrl: savedData.imageUrl || '',
+      name: '',
+      cpf: '',
+      email: params?.email || '',
+      phone: '',
+      birthDate: '',
+      imageFile: undefined,
+      imageUrl: '',
+      role: params?.role || '',
     },
   })
 
@@ -59,10 +51,10 @@ export const RegisterClientForm = () => {
     onSuccess: (response) => {
       setUser({
         token: response.token,
-        type: response.type,
         userId: response.userId,
         isRegistrationComplete: false,
         lastCompletedStep: 1,
+        role: response.role,
       })
       router.push('/form-step-payment-methods')
       setStep(1)
@@ -72,25 +64,10 @@ export const RegisterClientForm = () => {
     },
   })
 
-  const handleSubmit = form.handleSubmit(async (formData) => {
-    const imageUrl = formData.imageFile?.[0]?.uri || formData.imageUrl
-
-    console.log('Dados do formulário:', {
-      ...formData,
-      imageUrl,
-    })
-
-    updateForm(FORM_ID, {
-      ...formData,
-      imageUrl,
-      imageFile: undefined,
-    })
-
-    await mutateAsync({
-      ...formData,
-      imageUrl,
-    })
-  })
+  const onSubmit = (data: RegisterClientInfer) => {
+    console.log('Dados do cadastro/cliente:', data)
+    mutateAsync(data)
+  }
 
   const cpfRef = useRef<TextInput>(null)
   const emailRef = useRef<TextInput>(null)
@@ -199,7 +176,7 @@ export const RegisterClientForm = () => {
           <Button.Text>Voltar</Button.Text>
         </Button>
         <Button
-          onPress={handleSubmit}
+          onPress={form.handleSubmit(onSubmit)}
           className="w-1/2 max-w-[189px]"
           disabled={isPending}>
           <Button.Text>{isPending ? 'Enviando...' : 'Avançar'}</Button.Text>

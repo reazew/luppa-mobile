@@ -8,7 +8,7 @@ import { View } from 'react-native'
 import { useUserStore } from 'store/useUserStore'
 
 export default function PublicScreen() {
-  const { hasSeenOnboarding } = useUserStore()
+  const { seenOnboarding } = useUserStore()
 
   const handleLogin = () => {
     router.navigate('/(public)/(login)')
@@ -17,10 +17,12 @@ export default function PublicScreen() {
   const handleSkipLogin = () => {
     router.navigate('/(private)/(cliente)/inicio')
   }
+  
+  console.log(seenOnboarding)
 
   return (
     <>
-      {!hasSeenOnboarding ? (
+      {seenOnboarding ? (
         <Onboarding />
       ) : (
         <ContainerBackground

@@ -18,7 +18,6 @@ export default function ConfirmLoginScreen() {
   const { setUser } = useUserStore()
 
   const params = useLocalSearchParams()
-  console.log('PARAMS', params)
 
   const form = useForm<ValidateCodeSchemaInfer>({
     defaultValues: {
@@ -34,7 +33,7 @@ export default function ConfirmLoginScreen() {
     onSuccess: (data) => {
       setUser({
         token: data.token,
-        type: data.type,
+        role: data.role,
         userId: data.user.id,
       })
 
@@ -56,11 +55,17 @@ export default function ConfirmLoginScreen() {
           error?.response?.data?.message ||
           'Erro ao realizar login, verifique o e-mail e sua conexão com a internet'
       )
+      form.reset({ code: '' })
     },
   })
 
-  const onSubmit = (data: ValidateCodeSchemaInfer) =>
-    mutateAsync({ code: data.code })
+  const onSubmit = async (data: ValidateCodeSchemaInfer) => {
+    try {
+      await mutateAsync({ code: data.code })
+    } catch (error) {
+      console.log({ error })
+    }
+  }
 
   return (
     <KeyboardView>
@@ -87,7 +92,9 @@ export default function ConfirmLoginScreen() {
               <Button
                 isLoading={isPending}
                 onPress={form.handleSubmit(onSubmit)}>
-                <Button.Text>Confirmar código</Button.Text>
+                <Button.Text>
+                  {isPending ? 'Verificando...' : 'Confirmar código'}
+                </Button.Text>
               </Button>
             </Form>
           </View>

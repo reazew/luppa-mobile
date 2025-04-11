@@ -1,7 +1,8 @@
 import { Stack } from 'expo-router'
+import { useUserStore } from 'store/useUserStore'
 
 export default function PrivateLayout() {
-  const role = 'client'
+  const role = useUserStore((state) => state.role)
   return (
     <Stack
       screenOptions={{

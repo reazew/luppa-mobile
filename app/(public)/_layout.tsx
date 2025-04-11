@@ -13,6 +13,7 @@ export default function PublicLayout() {
         },
       }}>
       <Stack.Screen name="(cadastrar)" />
+      <Stack.Screen name="(login)" />
     </Stack>
   )
 }

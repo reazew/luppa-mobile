@@ -6,14 +6,17 @@ import {
   useFonts,
 } from '@expo-google-fonts/manrope'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
+import { useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
 } from 'react-native-reanimated'
+import { useUserStore } from 'store/useUserStore'
+
 import '../styles/global.css'
 
 const queryClient = new QueryClient()
@@ -31,11 +34,18 @@ export default function RootLayout() {
     Manrope_700Bold,
   })
 
+  const token = useUserStore((state) => state.token)
+
+  useEffect(() => {
+    if (token) {
+      router.replace('/(private)')
+    }
+  }, [token])
+
   if (!loaded) {
     SplashScreen.preventAutoHideAsync()
+    return null
   }
-
-  const auth = true
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -52,7 +62,7 @@ export default function RootLayout() {
               backgroundColor: '#1F1F1F',
             },
           }}>
-          {auth ? (
+          {token ? (
             <Stack.Screen name="(private)" options={{ headerShown: false }} />
           ) : (
             <Stack.Screen name="(public)" options={{ headerShown: false }} />

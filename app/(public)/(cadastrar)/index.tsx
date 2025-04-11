@@ -7,27 +7,28 @@ import { KeyboardView } from 'components/global/keyboard-view'
 import { ScrollView } from 'components/global/scroll-view-container'
 import { Text } from 'components/global/text'
 import { Form, FormField } from 'components/ui/form'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react-native'
 import { useForm } from 'react-hook-form'
 import { View } from 'react-native'
-import type { clientOrBusinessInfer } from 'schemas/register-client'
-import { clientOrBusinessSchema } from 'schemas/register-client'
+import type { roleInfer } from 'schemas/register-client'
+import { roleSchema } from 'schemas/register-client'
 import { useFormStore } from 'store/useFormStore'
 import { useStepStore } from 'store/useStepStore'
 
 const FORM_ID = 'register-type-form'
 
 export default function RegisterIndexScreen() {
+  const params = useLocalSearchParams()
   const { getForm, updateForm } = useFormStore()
   const { setStep } = useStepStore()
 
   const savedData = getForm(FORM_ID) || {}
 
-  const form = useForm<clientOrBusinessInfer>({
-    resolver: zodResolver(clientOrBusinessSchema),
+  const form = useForm<roleInfer>({
+    resolver: zodResolver(roleSchema),
     defaultValues: {
-      type: savedData.type || '',
+      role: savedData.role || '',
     },
   })
 
@@ -35,26 +36,29 @@ export default function RegisterIndexScreen() {
     router.back()
   }
 
-  const handleSubmit = form.handleSubmit((formData) => {
-    const result = clientOrBusinessSchema.safeParse(formData)
-    if (!result.success) {
-      return form.setError('type', {
+  const onSubmit = (data: roleInfer) => {
+    if (!data.role) {
+      return form.setError('role', {
         type: 'required',
         message: 'Por favor, selecione um tipo de cadastro',
       })
     }
 
-    updateForm(FORM_ID, {
-      ...formData,
-    })
+    updateForm(FORM_ID, data)
 
-    if (result.data.type === 'client') {
-      router.navigate('/(public)/(cadastrar)/(cliente)')
+    if (data.role === 'client') {
+      router.navigate({
+        pathname: '/(public)/(cadastrar)/(cliente)',
+        params: { email: params.email, role: data.role },
+      })
     } else {
-      router.navigate('/(public)/(cadastrar)/(empresa)')
+      router.navigate({
+        pathname: '/(public)/(cadastrar)/(empresa)',
+        params: { email: params.email },
+      })
     }
     setStep(0)
-  })
+  }
 
   return (
     <KeyboardView>
@@ -70,7 +74,7 @@ export default function RegisterIndexScreen() {
           <Form {...form}>
             <FormField
               control={form.control}
-              name="type"
+              name="role"
               render={({ field }) => (
                 <FormItem
                   field={field}
@@ -104,7 +108,9 @@ export default function RegisterIndexScreen() {
                 </Button.Icon>
                 <Button.Text>Voltar</Button.Text>
               </Button>
-              <Button onPress={handleSubmit} className="w-1/2 max-w-[189px]">
+              <Button
+                onPress={form.handleSubmit(onSubmit)}
+                className="w-1/2 max-w-[189px]">
                 <Button.Text>Avançar</Button.Text>
                 <Button.Icon>
                   <CircleArrowRight size={16} />

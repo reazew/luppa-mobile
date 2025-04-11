@@ -6,11 +6,11 @@ type UserType = 'client' | 'business' | null
 
 interface UserState {
   token: string | null
-  type: UserType
+  role: UserType
   userId: string | null
   isRegistrationComplete: boolean
   lastCompletedStep: number
-  hasSeenOnboarding: boolean
+  seenOnboarding: boolean
 
   setUser: (userData: Partial<UserState>) => void
   clearUser: () => void
@@ -23,11 +23,11 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       token: null,
-      type: null,
       userId: null,
       isRegistrationComplete: false,
       lastCompletedStep: 0,
-      hasSeenOnboarding: false,
+      seenOnboarding: true,
+      role: null,
 
       setUser: (userData) =>
         set((state) => ({
@@ -38,11 +38,11 @@ export const useUserStore = create<UserState>()(
       clearUser: () =>
         set({
           token: null,
-          type: null,
+          role: null,
           userId: null,
           isRegistrationComplete: false,
           lastCompletedStep: 0,
-          hasSeenOnboarding: false,
+          seenOnboarding: false,
         }),
 
       updateRegistrationStep: (step) =>
@@ -60,7 +60,7 @@ export const useUserStore = create<UserState>()(
       markOnboardingAsSeen: () =>
         set((state) => ({
           ...state,
-          hasSeenOnboarding: true,
+          seenOnboarding: false,
         })),
     }),
     {
