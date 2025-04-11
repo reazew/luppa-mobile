@@ -3,7 +3,6 @@ import { Button } from 'components/global/button'
 import { ContainerBackground } from 'components/global/container-background'
 import { Text } from 'components/global/text'
 import Onboarding from 'components/onboarding/onboarding-carousel'
-import ResetToken from 'components/reset-token'
 import { router } from 'expo-router'
 import { View } from 'react-native'
 import { useUserStore } from 'store/useUserStore'
@@ -45,7 +44,6 @@ export default function PublicScreen() {
               </Text>
             </View>
             <View className="w-full items-center justify-center gap-4">
-              <ResetToken />
               <Button onPress={handleLogin}>
                 <Button.Text>Ja sou cliente Luppa</Button.Text>
               </Button>

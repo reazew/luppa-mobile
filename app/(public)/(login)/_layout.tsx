@@ -6,7 +6,7 @@ export default function LoginLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen
         name="confirm-login/index"
-        options={{ headerShown: false }}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
     </Stack>
   )

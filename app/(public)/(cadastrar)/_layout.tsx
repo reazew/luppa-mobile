@@ -8,6 +8,7 @@ export default function RegisterLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        gestureEnabled: false,
         contentStyle: {
           backgroundColor: '#1F1F1F',
         },

@@ -10,7 +10,6 @@ api.interceptors.request.use(
   async (config) => {
     console.log({ url: config.url, method: config.method })
     const token = await AsyncStorage.getItem('token')
-    // console.log({ tokenAxios: token });
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }
